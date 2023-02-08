@@ -10,7 +10,6 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import styled from 'styled-components';
 
 import {useState, useEffect} from 'react'
-import { db } from '../firebase'
 
 const DataContainer = styled.div`
     flex: 1 1;
@@ -79,12 +78,7 @@ const Data = () => {
     const [files, setFiles] = useState([]);
 
     useEffect(()=>{
-        db.collection("myfiles").onSnapshot(snapshot => {
-            setFiles(snapshot.docs.map(doc=>({
-                id:doc.id,
-                data:doc.data() 
-            })))
-        })
+        // TODO get files from backend
     },[])
 
     const byteConvert = (bytes, decimals = 2) => {

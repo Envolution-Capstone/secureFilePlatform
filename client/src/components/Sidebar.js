@@ -3,13 +3,8 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Modal } from '@mui/material';
 import styled from 'styled-components'
-
 import { useState } from 'react';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import 'firebase/compat/storage'
-import { db,storage } from '../firebase';
+import { client } from '../requests/client';
 
 
 const SidebarContainer = styled.div`
@@ -101,6 +96,7 @@ const Sidebar = () => {
     const [open, setOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [file, setFile] = useState(null);
+
     const handleFile = e => {
         if (e.target.files[0]) setFile(e.target.files[0])
     }
@@ -108,20 +104,13 @@ const Sidebar = () => {
     const handleUpload = e => {
         e.preventDefault();
         setUploading(true);
-        storage.ref(`files/${file.name}`).put(file).then(snapshot => {
-            console.log(snapshot)
-            storage.ref("files").child(file.name).getDownloadURL().then(url => {
-                db.collection("myfiles").add({
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    filename: file.name,
-                    fileURL: url,
-                    size: snapshot._delegate.bytesTransferred
-                })
-                setUploading(false);
-                setFile(null);
-                setOpen(false)
-            })
+        // TODO encrypt and send file to backend
+        client.get('/file').then((response)=>{
+            console.log(response);
         })
+        .catch((error)=>{
+            console.log(error);
+        });
     }
 
     return(

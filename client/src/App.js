@@ -4,9 +4,11 @@ import Data from "./components/Data";
 
 import logo from './assets/logo.png';
 
-import { auth, provider } from "./firebase";
+import { auth, provider } from "./firebase/firebase";
 import styled from 'styled-components';
 import { useState } from "react";
+
+import { setAuthHeader } from "./requests/client";
 
 const LoginContainer = styled.div`
   background: white;
@@ -40,11 +42,14 @@ function App() {
   const [user, setUser] = useState(null);
 
   const signIn = () => {
-    auth.signInWithPopup(provider).then(({ user }) => {
-      setUser(user);
+    auth.signInWithPopup(provider).then((user) => {
+      setUser(user.credential);
+      auth.currentUser.getIdToken().then((token)=>{
+        setAuthHeader(token);
+      });
     }).catch(error => {
-      alert(error);
-    })
+      console.log(error);
+    });
   }
 
   return (
