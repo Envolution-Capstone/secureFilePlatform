@@ -43,11 +43,19 @@ function App() {
 
   const signIn = () => {
     auth.signInWithPopup(provider).then((user) => {
-      setUser(user.credential);
+      setUser(user);
       auth.currentUser.getIdToken().then((token)=>{
         setAuthHeader(token);
       });
     }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  const signOut = () => {
+    setAuthHeader(null);
+    auth.signOut()
+    .catch((error)=>{
       console.log(error);
     });
   }

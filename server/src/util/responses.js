@@ -1,4 +1,10 @@
 
+const respondSuccess = (res) => {
+  res.status(200).json({
+    'status': 'success'
+  });
+}
+
 const respondData = (res, data)=>{
   res.status(200).json({
     'status': 'success',
@@ -18,4 +24,5 @@ const respondUnAuthorized = (res)=>{
 module.exports = {
   respondUnAuthorized,
   respondData,
+  respondSuccess,
 };

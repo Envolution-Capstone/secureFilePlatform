@@ -1,21 +1,16 @@
 require('dotenv').config();
 
-const { initializeApp } = require("firebase/app");
-const { getAuth } = require("firebase/auth");
+const admin = require('firebase-admin');
+const { initializeApp } = require('firebase-admin/app');
 
-const firebaseConfig = {
-  apiKey:           process.env.APIKEY,
-  authDomain:       process.env.AUTHDOMAIN,
-  projectId:        process.env.PROJECTID,
-  storageBucket:    process.env.STORAGEBUCKET,
-  messagingSenderId:process.env.MESSAGINGSENDERID,
-  appId:            process.env.APPID,
-};
+const serviceAccount = require(`${__dirname}/../../service-account-credentials.json`);
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-
+const firebaseApp = initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://file-storage-e6537.firebaseio.com"
+});
 
 module.exports = {
-  auth,
+  firebaseApp,
 };
+

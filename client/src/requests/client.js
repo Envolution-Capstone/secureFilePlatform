@@ -6,8 +6,11 @@ const client = axios.create({
 });
 
 const setAuthHeader = (token)=>{
-  console.log(`SETTING AUTH: ${token}`);
-  client.defaults.headers.common['authtoken'] = token;
+  if (token) {
+    client.defaults.headers.common['authtoken'] = token;
+  } else {
+    delete client.defaults.headers.common['authtoken'];
+  }
 };
 
 
