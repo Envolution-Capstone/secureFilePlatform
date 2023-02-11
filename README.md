@@ -1,6 +1,6 @@
-# Material UI v4 does not support React 18 yet, so you need to do npm install --force
+## Material UI v4 does not support React 18 yet, so you need to do npm install --force
 
-## Overview:
+## Current Client Overview:
 
 **App.js:**
 It imports various components and features from other files, such as Header, Sidebar, MyDrive, and ShareWithMe. It also imports Firebase functionality from the firebase module, including authentication, real-time database storage, and storage for files. The App component uses state and effect hooks to manage the user's authentication state, and conditionally renders the application or a login prompt depending on whether the user is currently authenticated. If authenticated, the App component sets up React Router routes and renders the various components that make up the main application UI.
