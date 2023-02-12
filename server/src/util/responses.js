@@ -19,10 +19,32 @@ const respondUnAuthorized = (res)=>{
   });
 };
 
+const respondServerError = (res)=>{
+  res.status(500).json({
+    'status': 'fail',
+    'data': 'Unknown Error Occurred On Server',
+  });
+}
 
+const respondNotFound = (res)=>{
+  res.status(404).json({
+    'status': 'fail',
+    'data': 'Resource Not Found',
+  });
+}
+
+const respondBadRequest = (res)=>{
+  res.status(400).json({
+    'status': 'fail',
+    'data': 'Bad Request',
+  });
+}
 
 module.exports = {
   respondUnAuthorized,
   respondData,
   respondSuccess,
+  respondServerError,
+  respondNotFound,
+  respondBadRequest,
 };

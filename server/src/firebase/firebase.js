@@ -10,7 +10,10 @@ const firebaseApp = initializeApp({
   databaseURL: "https://file-storage-e6537.firebaseio.com"
 });
 
+const db = admin.firestore();
+
 module.exports = {
   firebaseApp,
+  db
 };
 
