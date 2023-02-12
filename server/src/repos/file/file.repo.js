@@ -30,10 +30,11 @@ class FileRepo {
   async get(userID, fileId) {
     return this.#filesRef.doc(fileId).get().then((doc)=>{
       if (doc.exists) {
-        return doc.data().fileURL;
-      } else {
-        return false;
+        if (doc.data().user == userID) {
+          return doc.data().fileURL;
+        }
       }
+      return false;
     });
   }
 
