@@ -1,19 +1,30 @@
-const { Repo } = require("../../repos/base.repo");
-const { User } = require("../../repos/user/user.model");
-
+const { UserRepo } = require("../../repos/user/user.repo");
 
 class UserService {
-  #repo;
+ 
+  #userRepo;
 
-  constructor() {
-    this.#repo = new Repo(User);
+  constructor(fb) {
+    this.#userRepo = new UserRepo(fb);
   }
 
-  createUser = async (userObj) => {
-    await this.#repo.create(userObj);
+  getUser = (userID) => {
+    return this.#userRepo.getUser(userID);
   };
-};
+
+  createUser = (userInfo) => {
+    // TODO check that userInfo is well-formed
+  };
+
+  updateUser = (userID, userUpdateInfo) => {
+    // TODO check that userUpdateInfo is well-formed
+  };
+
+  deleteUser = (userID) => {
+    return this.#userRepo.deleteUser(userID);
+  };
+}
 
 module.exports = {
-  UserService,
+  UserService
 };
