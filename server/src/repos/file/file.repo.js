@@ -1,6 +1,6 @@
+const crypto = require('crypto');
 const { Log } = require('../../logging/logging');
 const { db } = require('./../../firebase/firebase');
-
 
 class FileRepo {
   
@@ -12,34 +12,49 @@ class FileRepo {
   }
 
   async getInfo(userID) {
-    return this.#filesRef.where("user", "==", userID)
-    .onSnapshot((snapshot) => {
-      const docs = snapshot.docs.map((doc)=>{
-        const data = doc.data();
-        return {
-          id: doc.id,
-          filename: data.filename,
-          size: data.size,
-        };
+    return new Promise((resolve, reject) => { 
+      this.#filesRef.where("userid", "==", userID)
+      .onSnapshot((snapshot) => {
+        const docs = snapshot.docs.map((doc)=>{
+          const data = doc.data();
+          return {
+            id: doc.id,
+            filename: data.filename,
+            groupid: doc.groupid || null,
+          };
+        });
+        resolve(docs);
       });
-
-      return docs;
     });
   }
 
   async get(userID, fileId) {
-    return this.#filesRef.doc(fileId).get().then((doc)=>{
-      if (doc.exists) {
-        if (doc.data().user == userID) {
-          return doc.data().fileURL;
-        }
+    const doc = await this.#filesRef.doc(fileId).get();
+  
+    if (doc.exists) {
+      const data = doc.data();
+      if (data.userid == userID) {
+        return {filename: data.filename, content: data.content};
       }
-      return false;
-    });
+    }
+    return false;
   }
 
   async create(meta, file) {
-    this.#filesRef.put(file, meta);
+    const fileID = this.#filesRef.doc();
+    const data = {
+      userid: meta.userid,
+      groupid: meta.groupid,
+      filename: meta.filename,
+      content: file
+    };
+    return await fileID.set(data).then(()=>{
+      return true;
+    })
+    .catch((error)=>{
+      Log.error(`Error Creating File: ${error}`);
+      return false;
+    });
   }
 
 };

@@ -1,7 +1,7 @@
 const express = require('express');
 const { Log } = require('../logging/logging');
 const { checkAuth } = require('../middleware/authentication/checkAuth');
-const { respondData, respondSuccess, respondUnAuthorized, respondBadRequest } = require('../util/responses');
+const { respondData, respondSuccess, respondUnAuthorized, respondFile, respondBadRequest, respondServerError, respondNotFound } = require('../util/responses');
 const multer = require('multer');
 
 const moduleStore = multer.memoryStorage();
@@ -17,7 +17,7 @@ const uploadFile = (req) => {
       if (error) {
         reject(error);
       }
-      resolve("");
+      resolve(true);
     });
   });
 };
@@ -67,7 +67,7 @@ const makeFileRoutes = (fileService) => {
     fileService.getInfo(req.userid)
     .then((file)=>{
       if (file) {
-        respondData(res, file);
+        respondFile(res, file);
       } else {
         respondNotFound(res);
       }
