@@ -120,6 +120,7 @@ const UploadingPara = styled.p`
 `;
 const Sidebar = ({ user }) => {
   const [open, setOpen] = useState(false);
+  const [encryptionKey, setEncryptionKey] = useState('');
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState(null);
 
@@ -130,6 +131,7 @@ const Sidebar = ({ user }) => {
   const handleUpload = (e) => {
     e.preventDefault();
     setUploading(true);
+    console.log(encryptionKey);
     storage
       .ref(`files/${file.name}`)
       .put(file)
@@ -149,6 +151,7 @@ const Sidebar = ({ user }) => {
             });
             setUploading(false);
             setFile(null);
+            setEncryptionKey('');
             setOpen(false);
           });
       });
@@ -159,10 +162,14 @@ const Sidebar = ({ user }) => {
       <Modal open={open} onClose={() => setOpen(false)}>
         <ModalPopup>
           <form>
-            <ModalHeading>
+          <ModalHeading>
               <h3>Select file(s) to upload</h3>
             </ModalHeading>
+          
+           
             <ModalBody>
+            <h3>Encryption key</h3>
+            <input type="text" id="encryptionKey" name="encryptionKey" onChange={event => setEncryptionKey(event.target.value)}  value={encryptionKey}/>
               {uploading ? (
                 <UploadingPara>Uploading...</UploadingPara>
               ) : (
@@ -173,7 +180,8 @@ const Sidebar = ({ user }) => {
                     onChange={handleFile}
                   />
                   <input
-                    type="submit"
+                  disabled={encryptionKey.length < 8 || encryptionKey.length > 16 }
+                  type="submit"
                     className="modal_submitFile"
                     onClick={handleUpload}
                   />
