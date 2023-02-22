@@ -30,7 +30,6 @@ class FileService {
   }
 
   checkReq(req) {
-    console.log(req);
     if (req.userid && (req.body.groupid || req.body.groupid === null ) && req.body.filename && req.files.file[0].buffer) {
       return true;
     }

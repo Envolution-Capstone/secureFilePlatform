@@ -9,7 +9,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage'
-import { setAuthHeader } from "../requests/client";
+import { BackendRequest, setAuthHeader } from "../requests/client";
 import { NavLink } from "react-router-dom";
 import { auth } from "../firebase/firebase";
 
@@ -136,33 +136,18 @@ const Sidebar = ({ user }) => {
     console.log(encryptionKey);
 
 //work on bcrypt
-
     const data = new FormData() 
     data.append('file',file);
     data.append('filename',file.name);
     data.append('groupid',null);
+    
+    BackendRequest('POST', '/file', data)   
 
-  
-    
-    auth.currentUser.getIdToken().then(
-      token => {
-        setAuthHeader(token) 
-        client.post("/file", data, { 
-          // receive two    parameter endpoint url ,form data
-      })
-      .then(res => { // then print response status
-        console.log(res.statusText)
-     })
-      }
-     )
-   
- 
-    
-            setUploading(false);
-            setFile(null);
-            setEncryptionKey('');
-            setOpen(false);
-          }
+    setUploading(false);
+    setFile(null);
+    setEncryptionKey('');
+    setOpen(false);
+  }
   
 
 
