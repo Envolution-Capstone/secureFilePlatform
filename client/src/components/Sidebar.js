@@ -12,6 +12,7 @@ import 'firebase/compat/storage'
 import { db, storage } from "../firebase/firebase";
 import { NavLink } from "react-router-dom";
 
+import axios from 'axios';
 const SidebarContainer = styled.div`
   margin-top: 10px;
 `;
@@ -132,30 +133,46 @@ const Sidebar = ({ user }) => {
     e.preventDefault();
     setUploading(true);
     console.log(encryptionKey);
-    storage
-      .ref(`files/${file.name}`)
-      .put(file)
-      .then((snapshot) => {
-        console.log(snapshot);
-        storage
-          .ref("files")
-          .child(file.name)
-          .getDownloadURL()
-          .then((url) => {
-            db.collection("myfiles").add({
-              user: user.uid,
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              filename: file.name,
-              fileURL: url,
-              size: snapshot._delegate.bytesTransferred,
-            });
+    // storage
+    //   .ref(`files/${file.name}`)
+    //   .put(file)
+    //   .then((snapshot) => {
+    //     console.log(snapshot);
+    //     storage
+    //       .ref("files")
+    //       .child(file.name)
+    //       .getDownloadURL()
+    //       .then((url) => {
+    //         db.collection("myfiles").add({
+    //           user: user.uid,
+    //           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //           filename: file.name,
+    //           fileURL: url,
+    //           size: snapshot._delegate.bytesTransferred,
+    //         });
+
+    const data = new FormData() 
+    data.append('file',file)
+    let test = data.get('file');
+    console.log(test.name);
+    console.log(test.type);
+    console.log(test.size);
+    
+    data.append('file', this.state.selectedFile)
+    axios.post("http://localhost:8000/upload", data, { 
+       // receive two    parameter endpoint url ,form data
+   })
+ .then(res => { // then print response status
+     console.log(res.statusText)
+  })
+    
             setUploading(false);
             setFile(null);
             setEncryptionKey('');
             setOpen(false);
-          });
-      });
-  };
+          }
+  
+
 
   return (
     <>
