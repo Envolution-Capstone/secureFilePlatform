@@ -42,7 +42,7 @@ const makeFileRoutes = (fileService) => {
           }
         })
         .catch((error)=>{
-          Log.error(`GET /files : ${error}`);
+          Log.error(`GET /file : ${error}`);
           respondServerError(res);
         });
     });
@@ -58,7 +58,7 @@ const makeFileRoutes = (fileService) => {
       }
     })
     .catch((error)=>{
-      Log.error(`GET /files : ${error}`);
+      Log.error(`GET /file : ${error}`);
       respondServerError(res);
     });
   });
@@ -73,7 +73,7 @@ const makeFileRoutes = (fileService) => {
       }
     })
     .catch((error)=>{
-      Log.error(`GET /files : ${error}`);
+      Log.error(`GET /file : ${error}`);
       respondServerError(res);
     });
   });

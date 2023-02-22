@@ -11,6 +11,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage'
 import logo from './assets/logo.png';
+import { setAuthHeader } from "./requests/client";
 
 const LoginContainer = styled.div`
   background: white;
@@ -45,6 +46,7 @@ function App() {
     auth
       .signInWithPopup(provider)
       .then(({ user }) => {
+         auth.currentUser.getIdToken().then(token => setAuthHeader(token) )
         db.collection("users")
           .doc(user?.uid)
           .set({
@@ -54,7 +56,9 @@ function App() {
             photoURL: user?.photoURL,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           })
+          
           .then((res) => {
+
             localStorage.setItem("user", JSON.stringify(user));
             setUser(user);
           })

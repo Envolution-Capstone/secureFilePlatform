@@ -18,7 +18,7 @@ class FileService {
   async create(req) {
     const meta = {
       userid: req.userid,
-      groupid: req.groupid,
+      groupid: req.body.groupid,
       filename: req.body.filename,
     };
 
@@ -30,7 +30,8 @@ class FileService {
   }
 
   checkReq(req) {
-    if (req.userid && (req.groupid || req.groupid === null ) && req.body.filename && req.files.file[0].buffer) {
+    console.log(req);
+    if (req.userid && (req.body.groupid || req.body.groupid === null ) && req.body.filename && req.files.file[0].buffer) {
       return true;
     }
     return false;
