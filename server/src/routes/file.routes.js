@@ -42,7 +42,7 @@ const makeFileRoutes = (fileService) => {
           }
         })
         .catch((error)=>{
-          Log.error(`GET /file : ${error}`);
+          Log.error(`POST /file : ${error}`);
           respondServerError(res);
         });
     });
@@ -64,7 +64,7 @@ const makeFileRoutes = (fileService) => {
   });
 
   FileRoutes.get('/:id', (req, res)=>{
-    fileService.getInfo(req.userid)
+    fileService.get(req.userid, req.params.id)
     .then((file)=>{
       if (file) {
         respondFile(res, file);
@@ -73,7 +73,7 @@ const makeFileRoutes = (fileService) => {
       }
     })
     .catch((error)=>{
-      Log.error(`GET /file : ${error}`);
+      Log.error(`GET /file/:id : ${error}`);
       respondServerError(res);
     });
   });

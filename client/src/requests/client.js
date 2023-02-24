@@ -1,6 +1,5 @@
 
 import axios from 'axios';
-import { auth } from "../firebase/firebase";
 
 const client = axios.create({
   baseURL: 'http://localhost:9000',
@@ -15,16 +14,18 @@ const setAuthHeader = (token)=>{
   }
 };
 
-const BackendRequest = async (type, route, data)=>{
-  const token = await auth.currentUser.getIdToken();
-  setAuthHeader(token);
+const BackendRequest = async (user, type, route, data)=>{
+  if (user.stsTokenManager?.accessToken) {
+    setAuthHeader(user.stsTokenManager.accessToken);
+  }
+
   switch(type) {
     case "GET":
       return await client.get(route);
     case "POST":
       return await client.post(route, data);
     case "PUT":
-      return await client.post(route, data);
+      return await client.put(route, data);
     case "DELETE":
       return await client.delete(route, data);
     default:

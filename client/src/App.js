@@ -43,10 +43,10 @@ const LoginContainer = styled.div`
 function App() {
   const [user, setUser] = useState(null);
   const signIn = () => {
-    auth
+    firebase.auth()
       .signInWithPopup(provider)
       .then(({ user }) => {
-         auth.currentUser.getIdToken().then(token => setAuthHeader(token) )
+         firebase.auth().currentUser.getIdToken().then(token => setAuthHeader(token) )
         db.collection("users")
           .doc(user?.uid)
           .set({
@@ -56,9 +56,7 @@ function App() {
             photoURL: user?.photoURL,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           })
-          
           .then((res) => {
-
             localStorage.setItem("user", JSON.stringify(user));
             setUser(user);
           })
@@ -72,6 +70,7 @@ function App() {
     const user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
   }, []);
+
   return (
     <>
       {user ? (

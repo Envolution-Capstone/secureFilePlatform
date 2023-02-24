@@ -20,6 +20,7 @@ class FileService {
       userid: req.userid,
       groupid: req.body.groupid,
       filename: req.body.filename,
+      size: req.files.file[0].size
     };
 
     if (!this.checkReq(req)) {

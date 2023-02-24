@@ -1,18 +1,24 @@
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage'
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import { db } from "../firebase/firebase";
+import DescriptionIcon from '@material-ui/icons/Description';
+import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import { BackendRequest } from '../requests/client';
+
+import { client } from '../requests/client';
 
 const DataGrid = styled.div`
   display: flex;
   align-items: center;
   margin-top: 30px;
   margin-bottom: 30px;
+  width: 100%;
 `;
 const DataListRow = styled.div`
   display: flex;
@@ -54,19 +60,37 @@ const DataFile = styled.div`
   }
 `;
 
-const DocumentTable = ({ user }) => {
+const DocumentTable = ({user, route}) => {
   const [files, setFiles] = useState([]);
 
-  useEffect(() => {
-    db.collection("myfiles").onSnapshot((snapshot) => {
-      setFiles(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }))
-      );
-    });
+  useEffect(()=>{
+    const req = async () => {
+      console.log('Requesting Files');
+      const response = await BackendRequest(user, 'GET', route);
+      console.log(response.data.data);
+      setFiles(response.data.data);
+    };
+    req();
   }, []);
+
+  const getFileIcon = (fileType) => {
+    switch (fileType) {
+      case "txt":
+        return <DescriptionIcon />;
+      case "JPEG":
+      case "jpeg":
+      case "PNG":
+      case "png":
+        return <InsertPhotoIcon />;
+      case "pdf":
+        return <PictureAsPdfIcon />;
+      case "doc":
+      case "docx":
+        return <InsertDriveFileIcon />;
+      default:
+        return <InsertDriveFileIcon />;
+    }
+  };
 
   const byteConvert = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
@@ -77,13 +101,28 @@ const DocumentTable = ({ user }) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
 
+  const downloadFile = (fileid, filename)=>{
+    client.get(`/file/${fileid}`, {
+      responseType: 'blob'
+    })
+    .then((response)=>{
+      console.log(response);
+      const url = URL.createObjectURL(response.data);
+      const alink = document.createElement('a');
+      alink.href = url;
+      alink.setAttribute('download', filename);
+      alink.click();
+      document.removeChild(alink);
+    });
+  }
+
   return (
     <div>
       <DataGrid>
         {files.map((file) => (
           <DataFile key={file.id}>
-            <InsertDriveFileIcon />
-            <p>{file.data.filename}</p>
+            <InsertDriveFileIcon onClick={()=>downloadFile(file.id, file.filename)}/>
+            <p>{file.filename}</p>
           </DataFile>
         ))}
       </DataGrid>
@@ -105,28 +144,14 @@ const DocumentTable = ({ user }) => {
           </p>
         </DataListRow>
         {files.map((file) => (
-          <DataListRow key={file.id}>
-            <a href={file.data.fileURL}>
+          <DataListRow key={file.id} onClick={()=>downloadFile(file.id, file.filename)}>
+            <a>
               <p>
-                <InsertDriveFileIcon /> {file.data.filename}
+                <InsertDriveFileIcon /> {file.filename}
               </p>
             </a>
-            <p>
-              <img
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  marginRight: "6px",
-                }}
-                src={user?.photoURL}
-                alt="avater"
-              />{" "}
-              <p>{user?.displayName}</p>
-            </p>
-            <p>{new Date(file.data.timestamp?.seconds * 1000).toUTCString()}</p>
-            <p>{byteConvert(file.data.size)}</p>
+            <p>{new Date(file.timestamp?.seconds * 1000).toUTCString()}</p>
+            <p>{byteConvert(file.size)}</p>
           </DataListRow>
         ))}
       </div>
