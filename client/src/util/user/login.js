@@ -6,16 +6,16 @@ const signIn = async () => {
   const user = await auth.signInWithPopup(provider);
   auth.currentUser.getIdToken().then(token => setAuthHeader(token))
   db.collection("users")
-    .doc(user?.uid)
+    .doc(user?.user.uid)
     .set({
-      uid: user?.uid,
-      name: user?.displayName,
-      email: user?.email,
-      photoURL: user?.photoURL,
+      uid: user?.user.uid,
+      name: user?.user.displayName,
+      email: user?.user.email,
+      photoURL: user?.user.photoURL,
     })
     .catch((err) => console.log(err));
 
-  return user;
+  return user.user;
 };
 
 export {
