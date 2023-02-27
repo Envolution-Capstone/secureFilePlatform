@@ -141,7 +141,7 @@ const Sidebar = ({ user }) => {
     data.append('filename',file.name);
     data.append('groupid',null);
     
-    BackendRequest(user, 'POST', '/file', data)   
+    BackendRequest('POST', '/file', data)   
 
     setUploading(false);
     setFile(null);

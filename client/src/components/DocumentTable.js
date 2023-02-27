@@ -60,15 +60,16 @@ const DataFile = styled.div`
   }
 `;
 
-const DocumentTable = ({user, route}) => {
+const DocumentTable = ({route}) => {
   const [files, setFiles] = useState([]);
 
   useEffect(()=>{
     const req = async () => {
-      console.log('Requesting Files');
-      const response = await BackendRequest(user, 'GET', route);
-      console.log(response.data.data);
-      setFiles(response.data.data);
+      setTimeout(async ()=>{
+        const response = await BackendRequest('GET', route);
+        setFiles(response.data.data);
+      }, 300);
+      
     };
     req();
   }, []);
