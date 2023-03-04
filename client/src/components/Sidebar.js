@@ -9,9 +9,11 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage'
-import { db, storage } from "../firebase/firebase";
+import { BackendRequest, setAuthHeader } from "../requests/client";
 import { NavLink } from "react-router-dom";
+import { auth } from "../firebase/firebase";
 
+import { client } from "../requests/client";
 const SidebarContainer = styled.div`
   margin-top: 10px;
 `;
@@ -120,6 +122,7 @@ const UploadingPara = styled.p`
 `;
 const Sidebar = ({ user }) => {
   const [open, setOpen] = useState(false);
+  const [encryptionKey, setEncryptionKey] = useState('');
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState(null);
 
@@ -130,39 +133,37 @@ const Sidebar = ({ user }) => {
   const handleUpload = (e) => {
     e.preventDefault();
     setUploading(true);
-    storage
-      .ref(`files/${file.name}`)
-      .put(file)
-      .then((snapshot) => {
-        console.log(snapshot);
-        storage
-          .ref("files")
-          .child(file.name)
-          .getDownloadURL()
-          .then((url) => {
-            db.collection("myfiles").add({
-              user: user.uid,
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              filename: file.name,
-              fileURL: url,
-              size: snapshot._delegate.bytesTransferred,
-            });
-            setUploading(false);
-            setFile(null);
-            setOpen(false);
-          });
-      });
-  };
+    console.log(encryptionKey);
+
+//work on bcrypt
+    const data = new FormData() 
+    data.append('file',file);
+    data.append('filename',file.name);
+    data.append('groupid',null);
+    
+    BackendRequest('POST', '/file', data)   
+
+    setUploading(false);
+    setFile(null);
+    setEncryptionKey('');
+    setOpen(false);
+  }
+  
+
 
   return (
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
         <ModalPopup>
           <form>
-            <ModalHeading>
+          <ModalHeading>
               <h3>Select file(s) to upload</h3>
             </ModalHeading>
+          
+           
             <ModalBody>
+            <h3>Encryption key</h3>
+            <input type="text" id="encryptionKey" name="encryptionKey" onChange={event => setEncryptionKey(event.target.value)}  value={encryptionKey}/>
               {uploading ? (
                 <UploadingPara>Uploading...</UploadingPara>
               ) : (
@@ -173,7 +174,8 @@ const Sidebar = ({ user }) => {
                     onChange={handleFile}
                   />
                   <input
-                    type="submit"
+                  disabled={encryptionKey.length < 8 || encryptionKey.length > 16 }
+                  type="submit"
                     className="modal_submitFile"
                     onClick={handleUpload}
                   />

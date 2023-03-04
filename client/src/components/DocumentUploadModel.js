@@ -103,22 +103,28 @@ const DocumentUploadModel = ({
         <form>
           <ModalHeading>
             <h3>Select file you want to upload</h3>
+            
           </ModalHeading>
           <ModalBody>
             {uploading ? (
               <UploadingPara>Uploading...</UploadingPara>
             ) : (
               <>
+              
+              
                 <input
                   type="file"
                   className="modal_selectFile"
                   onChange={handleFile}
                 />
+                 
                 <input
                   type="submit"
                   className="modal_submitFile"
                   onClick={handleUpload}
                 />
+
+               
               </>
             )}
           </ModalBody>

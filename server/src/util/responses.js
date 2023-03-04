@@ -8,9 +8,17 @@ const respondSuccess = (res) => {
 const respondData = (res, data)=>{
   res.status(200).json({
     'status': 'success',
-    data
+    'data': data
   });
 };
+
+const respondFile = (res, file) => {
+  res.writeHead(200, {
+    'Content-disposition': 'attachment;filename=' + file.filename,
+    'Content-Length': file.content.length
+  });
+  res.end(file.content, 'binary');
+}
 
 const respondUnAuthorized = (res)=>{
   res.status(403).json({
@@ -21,7 +29,7 @@ const respondUnAuthorized = (res)=>{
 
 const respondServerError = (res)=>{
   res.status(500).json({
-    'status': 'fail',
+    'status': 'error',
     'data': 'Unknown Error Occurred On Server',
   });
 }
@@ -43,6 +51,7 @@ const respondBadRequest = (res)=>{
 module.exports = {
   respondUnAuthorized,
   respondData,
+  respondFile,
   respondSuccess,
   respondServerError,
   respondNotFound,

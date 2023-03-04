@@ -1,16 +1,15 @@
 import MyDrive from "./pages/MyDrive";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { auth, db, provider } from "./firebase/firebase";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import ShareWithMe from "./pages/ShareWithMe";
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage'
 import logo from './assets/logo.png';
+import { signIn } from "./util/user/login";
 
 const LoginContainer = styled.div`
   background: white;
@@ -41,33 +40,12 @@ const LoginContainer = styled.div`
 `;
 function App() {
   const [user, setUser] = useState(null);
-  const signIn = () => {
-    auth
-      .signInWithPopup(provider)
-      .then(({ user }) => {
-        db.collection("users")
-          .doc(user?.uid)
-          .set({
-            uid: user?.uid,
-            name: user?.displayName,
-            email: user?.email,
-            photoURL: user?.photoURL,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          })
-          .then((res) => {
-            localStorage.setItem("user", JSON.stringify(user));
-            setUser(user);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
   }, []);
+
   return (
     <>
       {user ? (
@@ -96,7 +74,7 @@ function App() {
       ) : (
         <LoginContainer>
           <img src={logo} alt="logo"/>
-          <button onClick={signIn}>Login to Envolution</button>
+          <button onClick={()=>{signIn().then((user)=>{ setUser(user); })}}>Login to Envolution</button>
         </LoginContainer>
       )}
     </>

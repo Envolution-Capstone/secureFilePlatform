@@ -8,20 +8,33 @@ class FileService {
   }
 
   async getInfo(userID) {
-    this.#repo.getInfo(userID);
+    return await this.#repo.getInfo(userID);
   }
 
   async get(userID, fileId) {
-    return this.#repo.get(userID, fileId);
+    return await this.#repo.get(userID, fileId);
   }
 
   async create(req) {
     const meta = {
-      user: req.userid,
+      userid: req.userid,
+      groupid: req.body.groupid,
       filename: req.body.filename,
+      size: req.files.file[0].size
     };
 
-    return this.#repo.create(meta, req.file);
+    if (!this.checkReq(req)) {
+      return false;
+    }
+
+    return await this.#repo.create(meta, req.files.file[0].buffer);
+  }
+
+  checkReq(req) {
+    if (req.userid && (req.body.groupid || req.body.groupid === null ) && req.body.filename && req.files.file[0].buffer) {
+      return true;
+    }
+    return false;
   }
 }
 
