@@ -4,6 +4,8 @@ import { Modal } from "@material-ui/core";
 import { uploadFile } from "../../util/files/fileUpload";
 import { ModalPopup, ModalBody, UploadingPara, ModalHeading } from "../../styles/DocumentUploadModal.styles";
 
+import { SideBySide } from "../../styles/App.styles";
+
 const DocumentUploadModal = ({ Open, onFinished }) => {
   const [uploading, setUploading] = useState(false);
   const [encryptKey, setEncryptKey] = useState(null);
@@ -36,8 +38,11 @@ const DocumentUploadModal = ({ Open, onFinished }) => {
               <UploadingPara>Uploading...</UploadingPara>
             ) : (
               <>
-                <input type="text" className="encrypt_key" onChange={(e)=>{setEncryptKey(e.target.value)}} />
-                <input type="file" className="modal_selectFile" onChange={handleFile} />
+                <p>Encryption Key</p>
+                <SideBySide>
+                  <input type="text" className="encrypt_key" onChange={(e)=>{setEncryptKey(e.target.value)}} />
+                  <input type="file" className="modal_selectFile" onChange={handleFile} />
+                </SideBySide>
                 <input type="submit" className="modal_submitFile" onClick={handleUpload}/>
               </>
             )}

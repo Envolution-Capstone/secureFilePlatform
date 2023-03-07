@@ -3,7 +3,7 @@ import styled from "styled-components";
 const ModalPopup = styled.div`
   top: 50%;
   background-color: #fff;
-  width: 500px;
+  width: 25%;
   margin: 0px auto;
   position: relative;
   transform: translateY(-50%);
