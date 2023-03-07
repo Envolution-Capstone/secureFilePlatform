@@ -1,17 +1,15 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import 'firebase/compat/storage'
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
-import GroupModel from "../components/GroupModel";
-import DocumentUploadModel from "../components/DocumentUploadModel";
-import DocumentTable from "../components/DocumentTable";
+import GroupModal from "../components/Groups/GroupModal";
+import DocumentUploadModal from "../components/Documents/DocumentUploadModal";
+import DocumentTable from "../components/Documents/DocumentTable";
 import { db } from "../firebase/firebase";
-import UpdateGroupModel from "../components/UpdateGroupModel";
+import UpdateGroupModal from "../components/Groups/UpdateGroupModal";
 import AddIcon from '@material-ui/icons/Add';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+
+import { SidebarBtn } from '../styles/Sidebar.styles';
 
 const DataContainer = styled.div`
   flex: 1 1;
@@ -47,32 +45,13 @@ const DataHeader = styled.div`
     margin: 0px 10px;
   }
 `;
-
-const SidebarBtn = styled.div`
-  button {
-    background: transparent;
-    border: 1px solid lightgray;
-    display: flex;
-    align-items: center;
-    border-radius: 40px;
-    padding: 5px 10px;
-    box-shadow: 2px 2px 2px #ccc;
-    margin-left: 20px;
-    span {
-      font-size: 16px;
-      margin-right: 20px;
-      margin-left: 10px;
-    }
-  }
-`;
-
 const ShareWithMe = ({ user }) => {
   const [listOfUsers, setListOfUsers] = useState([]);
   const [group, setGroup] = useState("");
   const [listOfGroups, setListOfGroups] = useState([]);
-  const [openCreateGroupModel, setOpenCreateGroupModel] = useState(false);
+  const [openCreateGroupModal, setOpenCreateGroupModal] = useState(false);
   const [openDocumentUploadModel, setOpenDocumentUploadModel] = useState(false);
-  const [openUpdateGroupModel, setOpenUpdateGroupModel] = useState(false);
+  const [openUpdateGroupModal, setOpenUpdateGroupModal] = useState(false);
 
   const handleChange = (event) => {
     setGroup(event.target.value);
@@ -122,7 +101,7 @@ const ShareWithMe = ({ user }) => {
               label="Group"
               onChange={handleChange}
             >
-              <MenuItem onClick={() => setOpenCreateGroupModel(true)} value="">
+              <MenuItem onClick={() => setOpenCreateGroupModal(true)} value="">
                 <em>Create Group</em>
               </MenuItem>
               {listOfGroups?.map(({ id, data }) => (
@@ -133,9 +112,9 @@ const ShareWithMe = ({ user }) => {
             </Select>
           </FormControl>
           {/* Model  */}
-          <GroupModel
-            openCreateGroupModel={openCreateGroupModel}
-            setOpenCreateGroupModel={setOpenCreateGroupModel}
+          <GroupModal
+            openCreateGroupModal={openCreateGroupModal}
+            setOpenCreateGroupModal={setOpenCreateGroupModal}
             listOfUsers={listOfUsers}
             user={user}
           />
@@ -143,16 +122,16 @@ const ShareWithMe = ({ user }) => {
         <div className="headerRight">
           {group.admin === user.uid && (
             <>
-              <SidebarBtn onClick={() => setOpenUpdateGroupModel(true)}>
+              <SidebarBtn onClick={() => setOpenUpdateGroupModal(true)}>
                 <button>
                   <PersonAddIcon />
                   <span>Add Member</span>
                 </button>
               </SidebarBtn>
               {/* // update group  */}
-              <UpdateGroupModel
-                openUpdateGroupModel={openUpdateGroupModel}
-                setOpenUpdateGroupModel={setOpenUpdateGroupModel}
+              <UpdateGroupModal
+                openUpdateGroupModal={openUpdateGroupModal}
+                setOpenUpdateGroupModal={setOpenUpdateGroupModal}
                 listOfUsers={listOfUsers}
                 user={user}
                 group={group}
@@ -165,7 +144,7 @@ const ShareWithMe = ({ user }) => {
               <span>Contribute</span>
             </button>
           </SidebarBtn>
-          <DocumentUploadModel
+          <DocumentUploadModal
             openDocumentUploadModel={openDocumentUploadModel}
             setOpenDocumentUploadModel={setOpenDocumentUploadModel}
           />

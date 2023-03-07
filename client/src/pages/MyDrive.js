@@ -6,7 +6,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage'
 
-import DocumentTable from "../components/DocumentTable";
+import DocumentTable from "../components/Documents/DocumentTable";
 
 const DataContainer = styled.div`
   flex: 1 1;

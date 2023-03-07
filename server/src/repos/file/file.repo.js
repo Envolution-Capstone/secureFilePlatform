@@ -17,11 +17,14 @@ class FileRepo {
       .onSnapshot((snapshot) => {
         const docs = snapshot.docs.map((doc)=>{
           const data = doc.data();
-          return {
+          const temp = {
             id: doc.id,
             filename: data.filename,
+            size: data.size,
+            timestamp: data.timestamp,
             groupid: doc.groupid || null,
           };
+          return temp;
         });
         resolve(docs);
       });
@@ -46,6 +49,8 @@ class FileRepo {
       userid: meta.userid,
       groupid: meta.groupid,
       filename: meta.filename,
+      size: meta.size,
+      timestamp: meta.timestamp,
       content: file
     };
     return await fileID.set(data).then(()=>{
@@ -56,7 +61,6 @@ class FileRepo {
       return false;
     });
   }
-
 };
 
 

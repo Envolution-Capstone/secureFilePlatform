@@ -1,64 +1,16 @@
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import 'firebase/compat/storage'
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import DescriptionIcon from '@material-ui/icons/Description';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
-import { BackendRequest } from '../requests/client';
+import { BackendRequest } from '../../requests/client';
+import { client } from '../../requests/client';
 
-import { client } from '../requests/client';
+import { DataGrid, DataFile, DataListRow } from '../../styles/DocumentTable.styles';
 
-const DataGrid = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  width: 100%;
-`;
-const DataListRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #ccc;
-  padding: 10px;
-  p {
-    display: flex;
-    align-items: center;
-    font-size: 13px;
-    b {
-      display: flex;
-      align-items: center;
-    }
-    svg {
-      font-size: 22px;
-      margin: 10px;
-    }
-  }
-`;
-const DataFile = styled.div`
-  text-align: center;
-  border: 1px solid rgb(204 204 204 / 46%);
-  margin: 10px;
-  min-width: 200px;
-  padding: 10px 0px 0px 0px;
-  border-radius: 5px;
-  svg {
-    font-size: 60px;
-    color: gray;
-  }
-  p {
-    border-top: 1px solid #ccc;
-    margin-top: 5px;
-    font-size: 12px;
-    background: whitesmoke;
-    padding: 10px 0px;
-  }
-`;
+
 
 const DocumentTable = ({route}) => {
   const [files, setFiles] = useState([]);
@@ -67,7 +19,11 @@ const DocumentTable = ({route}) => {
     const req = async () => {
       setTimeout(async ()=>{
         const response = await BackendRequest('GET', route);
-        setFiles(response.data.data);
+        if (response.data) {
+          if (response.data.data) {
+            setFiles(response.data.data);
+          }
+        }
       }, 300);
       
     };
@@ -146,12 +102,10 @@ const DocumentTable = ({route}) => {
         </DataListRow>
         {files.map((file) => (
           <DataListRow key={file.id} onClick={()=>downloadFile(file.id, file.filename)}>
-            <a>
-              <p>
-                <InsertDriveFileIcon /> {file.filename}
-              </p>
-            </a>
-            <p>{new Date(file.timestamp?.seconds * 1000).toUTCString()}</p>
+            <p>
+              <InsertDriveFileIcon /> {file.filename}
+            </p>
+            <p>{new Date(file.timestamp * 1000).toUTCString()}</p>
             <p>{byteConvert(file.size)}</p>
           </DataListRow>
         ))}

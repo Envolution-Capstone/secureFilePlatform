@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 import FormatAlignCenterIcon from "@material-ui/icons/FormatAlignCenter";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
@@ -10,72 +9,20 @@ import {
   Avatar,
   Divider,
   ListItemIcon,
-  makeStyles,
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import { useEffect, useState } from "react";
-import { PersonAdd, Settings } from "@material-ui/icons";
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import 'firebase/compat/storage'
+import { useState } from "react";
+import { PersonAdd } from "@material-ui/icons";
 import { useStyles } from "./MuiStyle";
-
-const HeaderContainer = styled.div`
-  display: grid;
-  grid-template-columns: 300px auto 200px;
-  align-items: center;
-  padding: 5px 20px;
-  height: 60px;
-  border-bottom: 1px solid lightgray;
-`;
-const HeaderLogo = styled.div`
-    display: flex;
-    align-items: center;
-    img {
-        width: 70px;
-    }
-    span {
-        font-size: 38px;
-        margin-left: 10px;
-        color: Black;
-        font-family: 'Roboto', sans-serif;
-    }
-`
-
-const HeaderSearch = styled.div`
-  display: flex;
-  align-items: center;
-  width: 700px;
-  background-color: whitesmoke;
-  padding: 12px;
-  border-radius: 10px;
-  input {
-    background-color: transparent;
-    border: 0;
-    outline: 0;
-    flex: 1;
-  }
-`;
-
-const HeaderIcons = styled.div`
-  display: flex;
-  align-items: center;
-  span {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-  }
-  svg.MuiSvgIcon-root {
-    margin: 0px 10px;
-  }
-`;
+import { HeaderContainer, HeaderLogo, HeaderIcons, HeaderSearch } from '../styles/Header.styles';
+import { signOut } from "../util/user/login";
 
 const Header = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const classes = useStyles();
+  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -84,18 +31,7 @@ const Header = ({ user }) => {
   };
 
   const handleLogOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-        localStorage.removeItem("user");
-        window.location.reload();
-      })
-      .catch((error) => {
-        // An error happened.
-        alert(error);
-      });
+    signOut();
   };
 
   return (

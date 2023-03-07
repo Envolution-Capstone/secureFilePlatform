@@ -20,8 +20,11 @@ class FileService {
       userid: req.userid,
       groupid: req.body.groupid,
       filename: req.body.filename,
+      timestamp: Date.now(),
       size: req.files.file[0].size
     };
+
+    console.log(JSON.stringify(meta));
 
     if (!this.checkReq(req)) {
       return false;

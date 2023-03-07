@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ShareWithMe from "./pages/ShareWithMe";
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -38,6 +38,11 @@ const LoginContainer = styled.div`
     margin-top:20px
   }
 `;
+const SideBySide = styled.div`
+  display:flex; 
+  flex-direction:row;
+`
+
 function App() {
   const [user, setUser] = useState(null);
 
@@ -50,25 +55,15 @@ function App() {
     <>
       {user ? (
         <>
+          <Header user={user} />
           <BrowserRouter>
-            <Header user={user} />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <div className="App">
-                    <Sidebar user={user} />
-                    <Outlet />
-                  </div>
-                }
-              >
-                <Route index element={<MyDrive user={user} />} />
-                <Route
-                  path="share-with-me"
-                  element={<ShareWithMe user={user} />}
-                />
-              </Route>
-            </Routes>
+          <SideBySide>
+          <Sidebar user={user} />
+          <Routes>
+              <Route index element={<MyDrive user={user} />} />
+              <Route path="share-with-me" element={<ShareWithMe user={user} />} />
+          </Routes>
+          </SideBySide>
           </BrowserRouter>
         </>
       ) : (

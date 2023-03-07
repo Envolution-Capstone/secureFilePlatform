@@ -17,8 +17,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage'
-import { db } from "../firebase/firebase";
-import { useStyles } from "./MuiStyle";
+import { db } from "../../firebase/firebase";
+import { useStyles } from "../MuiStyle";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -53,9 +53,9 @@ function getStyles(name, personName, theme) {
   };
 }
 
-const GroupModel = ({
-  openCreateGroupModel,
-  setOpenCreateGroupModel,
+const GroupModal = ({
+  openCreateGroupModal,
+  setOpenCreateGroupModal,
   listOfUsers,
   user,
 }) => {
@@ -76,7 +76,7 @@ const GroupModel = ({
 
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
-      setOpenCreateGroupModel(false);
+      setOpenCreateGroupModal(false);
     }
   };
 
@@ -101,8 +101,8 @@ const GroupModel = ({
   return (
     <Dialog
       disableEscapeKeyDown
-      open={openCreateGroupModel}
-      onClose={() => setOpenCreateGroupModel(false)}
+      open={openCreateGroupModal}
+      onClose={() => setOpenCreateGroupModal(false)}
     >
       <DialogTitle>Create A Group</DialogTitle>
       <DialogContent>
@@ -163,4 +163,4 @@ const GroupModel = ({
   );
 };
 
-export default GroupModel;
+export default GroupModal;

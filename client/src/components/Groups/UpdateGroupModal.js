@@ -13,12 +13,12 @@ import {
   useTheme,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { db } from "../firebase/firebase";
+import { db } from "../../firebase/firebase";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage'
-import { useStyles } from "./MuiStyle";
+import { useStyles } from "../MuiStyle";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -53,9 +53,9 @@ function getStyles(name, personName, theme) {
   };
 }
 
-const UpdateGroupModel = ({
-  openUpdateGroupModel,
-  setOpenUpdateGroupModel,
+const UpdateGroupModal = ({
+  openUpdateGroupModal,
+  setOpenUpdateGroupModal,
   listOfUsers,
   user,
   group,
@@ -77,7 +77,7 @@ const UpdateGroupModel = ({
 
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
-      setOpenUpdateGroupModel(false);
+      setOpenUpdateGroupModal(false);
     }
   };
 
@@ -104,8 +104,8 @@ const UpdateGroupModel = ({
   return (
     <Dialog
       disableEscapeKeyDown
-      open={openUpdateGroupModel}
-      onClose={() => setOpenUpdateGroupModel(false)}
+      open={openUpdateGroupModal}
+      onClose={() => setOpenUpdateGroupModal(false)}
     >
       <DialogTitle>Update Group</DialogTitle>
       <DialogContent>
@@ -166,4 +166,4 @@ const UpdateGroupModel = ({
   );
 };
 
-export default UpdateGroupModel;
+export default UpdateGroupModal;
