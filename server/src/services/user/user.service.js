@@ -4,9 +4,13 @@ class UserService {
  
   #userRepo;
 
-  constructor(fb) {
-    this.#userRepo = new UserRepo(fb);
+  constructor() {
+    this.#userRepo = new UserRepo();
   }
+
+  getUserGroups = (userID)=> {
+    return this.#userRepo.getUserGroups(userID);
+  };
 
   getUser = (userID) => {
     return this.#userRepo.getUser(userID);

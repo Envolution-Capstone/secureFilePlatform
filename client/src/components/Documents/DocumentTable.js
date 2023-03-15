@@ -16,18 +16,22 @@ const DocumentTable = ({route}) => {
   const [files, setFiles] = useState([]);
 
   useEffect(()=>{
-    const req = async () => {
-      setTimeout(async ()=>{
-        const response = await BackendRequest('GET', route);
-        if (response.data) {
-          if (response.data.data) {
-            setFiles(response.data.data);
-          }
-        }
-      }, 300);
-      
-    };
-    req();
+    if (route) {
+      const req = async () => {
+        setTimeout(async ()=>{
+          BackendRequest('GET', route)
+          .then((response)=>{
+            if (response.data) {
+              if (response.data.data) {
+                setFiles(response.data.data);
+              }
+            }
+          })
+          .catch((error)=>{ console.log(`Backend Request Error: ${error}`);});
+        }, 300);
+      };
+      req();
+    }
   }, []);
 
   const getFileIcon = (fileType) => {

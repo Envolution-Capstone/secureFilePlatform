@@ -13,6 +13,7 @@ const signIn = async () => {
         name: user?.user.displayName,
         email: user?.user.email,
         photoURL: user?.user.photoURL,
+        groups: [],
       })
       .catch((err) => console.log(err));
   

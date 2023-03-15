@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ShareWithMe from "./pages/ShareWithMe";
 import logo from './assets/logo.png';
 import { signIn } from "./util/user/login";
+import { auth } from './firebase/firebase';
 
 import { SideBySide, LoginContainer } from "./styles/App.styles";
 
@@ -14,9 +15,15 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
-  }, []);
+    auth.onAuthStateChanged(authUser=>{
+      if (authUser) {
+        setUser(authUser);
+        localStorage.setItem("user", JSON.stringify(authUser.providerData));
+      } else {
+        setUser(null);
+      }
+    });
+  }, [user]);
 
   return (
     <>

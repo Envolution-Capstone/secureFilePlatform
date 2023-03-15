@@ -1,5 +1,26 @@
 import styled from "styled-components";
 
+const DataContainer = styled.div`
+  flex: 1 1;
+  padding: 10px 0px 0px 20px;
+`;
+
+const DataHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid lightgray;
+  height: 75px;
+  .headerLeft {
+    display: flex;
+    align-items: center;
+  }
+  .headerRight svg {
+    margin: 0px 10px;
+  }
+`;
+
+
 const DataGrid = styled.div`
   display: flex;
   align-items: center;
@@ -50,6 +71,8 @@ const DataFile = styled.div`
 
 export {
   DataGrid,
-DataListRow,
-DataFile,
+  DataListRow,
+  DataFile,
+  DataContainer,
+  DataHeader,
 }
