@@ -5,25 +5,28 @@ import { setAuthHeader } from "../../requests/client";
 const signIn = async () => {
   const user = await auth.signInWithPopup(provider);
   if (user.user) {
-    auth.currentUser.getIdToken().then(token => setAuthHeader(token))
-    db.collection("users")
-      .doc(user?.user.uid)
-      .set({
+    auth.currentUser.getIdToken().then(token => setAuthHeader(token));
+    const userRef = db.collection("users").doc(user?.user.uid);
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+      await userRef.set({
         uid: user?.user.uid,
         name: user?.user.displayName,
         email: user?.user.email,
         photoURL: user?.user.photoURL,
         groups: [],
-      })
-      .catch((err) => console.log(err));
-  
+      });
+    }
+
     localStorage.setItem("user", JSON.stringify(user.user));
-  
+
     return user.user;
   }
 
   return null;
 };
+
 
 const signOut = async () => {
   auth

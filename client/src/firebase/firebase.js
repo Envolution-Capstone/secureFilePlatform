@@ -1,8 +1,7 @@
-
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import 'firebase/compat/storage'
+import 'firebase/compat/storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA7ROErICF1bCa4earw2UoglBq_POrwBrA",
@@ -19,4 +18,16 @@ const storage = firebase.storage();
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-export { db, storage, auth, provider };
+const getUserByEmail = async (email) => {
+  const usersRef = firebaseApp.firestore().collection('users');
+  const snapshot = await usersRef.where('email', '==', email).get();
+
+  if (snapshot.empty) {
+    console.log('No matching user found for the email.');
+    return null;
+  }
+
+  return snapshot.docs[0].id;
+};
+
+export { db, storage, auth, provider, getUserByEmail };
