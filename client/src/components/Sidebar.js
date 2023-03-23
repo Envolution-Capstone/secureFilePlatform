@@ -63,7 +63,11 @@ const Sidebar = () => {
         </SidebarOptions>
         <hr />
       </SidebarContainer>
-      <GroupModal open={showGroupModal} onClose={() => setShowGroupModal(false)} />
+      <GroupModal
+        open={showGroupModal}
+        onClose={() => setShowGroupModal(false)}
+        onUpdateInviteCount={fetchGroupInvitesCount}
+      />
     </>
   );
 };

@@ -3,7 +3,7 @@ import { Button } from '@material-ui/core';
 import { db, auth } from '../../firebase/firebase';
 import firebase from 'firebase/compat/app';
 
-const GroupInvites = () => {
+const GroupInvites = ({ onUpdateInviteCount }) => {
   const [invites, setInvites] = useState([]);
 
   useEffect(() => {
@@ -37,7 +37,9 @@ const GroupInvites = () => {
       members: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.uid),
     });
 
-    setInvites(invites.filter((invite) => invite.groupID !== groupID));
+    const updatedInvites = invites.filter((invite) => invite.groupID !== groupID);
+    setInvites(updatedInvites);
+    onUpdateInviteCount(updatedInvites.length);
   };
 
   const declineInvite = async (groupID) => {
@@ -47,7 +49,9 @@ const GroupInvites = () => {
       groupInvites: invites.filter((invite) => invite.groupID !== groupID),
     });
 
-    setInvites(invites.filter((invite) => invite.groupID !== groupID));
+    const updatedInvites = invites.filter((invite) => invite.groupID !== groupID);
+    setInvites(updatedInvites);
+    onUpdateInviteCount(updatedInvites.length);
   };
 
   return (
