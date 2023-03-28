@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { GroupInfo } from "../components/Groups/GroupInfo";
 import { DataContainer, DataHeader } from "../styles/DocumentTable.styles";
 import DocumentTable from "../components/Documents/DocumentTable";
-import { getUserGroups } from "../util/groups/groups";
 import { GroupSelector } from "../components/Groups/GroupSelector";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { getUserGroupsWithNames } from "../util/groups/groups";
+
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -21,7 +22,7 @@ const ShareWithMe = ({ user }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    getUserGroups(user.uid).then((groups) => {
+    getUserGroupsWithNames(user.uid).then((groups) => {
       setUserGroups(groups);
     }).catch((error) => {
       console.log(`Error Setting Groups: ${error}`);

@@ -1,4 +1,6 @@
 import { BackendRequest } from "../../requests/client";
+import { db } from '../../firebase/firebase';
+
 
 
 const getUserGroups = async (userID) => {
@@ -25,9 +27,22 @@ const removeMember = async (groupID, memberID) => {
   return null;
 };
 
+const getUserGroupsWithNames = async (userID) => {
+  const userDoc = await db.collection("users").doc(userID).get();
+  const userData = userDoc.data();
 
-export {
-  getUserGroups,
-  getGroupInfo,
-  removeMember,
-}
+  if (!userData.groups) {
+    return [];
+  }
+
+  const groupPromises = userData.groups.map(async (group) => {
+    const groupDoc = await db.collection("group").doc(group.id).get();
+    return { ...group, name: groupDoc.data().name };
+  });
+
+  return Promise.all(groupPromises);
+};
+
+
+
+export { getGroupInfo, getUserGroups, getUserGroupsWithNames, removeMember };
