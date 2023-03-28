@@ -5,7 +5,7 @@ import DocumentTable from "../components/Documents/DocumentTable";
 import { GroupSelector } from "../components/Groups/GroupSelector";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import { getUserGroupsWithNames } from "../util/groups/groups";
+import { getUserGroupsWithNames, getGroupInfo } from "../util/groups/groups";
 
 
 const useStyles = makeStyles(() => ({
@@ -42,11 +42,16 @@ const ShareWithMe = ({ user }) => {
     console.log(`Kicking member ${memberID} from group ${groupID}`);
   };
 
-  const handleGroupChange = (val) => {
+  const handleGroupChange = async (val) => {
     setGroupID(val);
-    // Set creator value based on user's status in group
-    setCreator(val ? true : false);
+    if (val) {
+      const groupInfo = await getGroupInfo(val);
+      setCreator(groupInfo.createdBy === user.uid);
+    } else {
+      setCreator(false);
+    }
   };
+  
 
   return (
     <DataContainer>

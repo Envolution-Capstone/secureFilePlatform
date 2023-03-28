@@ -90,7 +90,21 @@ return (
               <ListItemAvatar>
                 <Avatar alt={member.displayName} src={member.photoURL} />
               </ListItemAvatar>
-              <ListItemText primary={member.displayName} secondary={member.email} />
+              <ListItemText
+                primary={member.displayName}
+                secondary={member.email}
+                secondaryTypographyProps={{
+                  component: "span",
+                  display: "block",
+                }}
+              >
+                {groupInfo.createdBy === member.id && (
+                  <Typography variant="caption" color="secondary">
+                    (Admin)
+                  </Typography>
+                )}
+              </ListItemText>
+
               {creator && (
                 <Tooltip title="Kick from group">
                   <IconButton
