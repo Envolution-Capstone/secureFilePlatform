@@ -17,8 +17,17 @@ const getGroupInfo = async (groupID) => {
   return null;
 };
 
+const removeMember = async (groupID, memberID) => {
+  const resp = await BackendRequest('DELETE', `/group/${groupID}/member/${memberID}`);
+  if (resp.data) {
+    return resp.data;
+  }
+  return null;
+};
+
 
 export {
   getUserGroups,
   getGroupInfo,
+  removeMember,
 }

@@ -12,9 +12,14 @@ class UserRepo {
 
   };
 
-  getUser = (userID)=>{
-
+  getUser = async (userID) => {
+    const doc = await this.#usersRef.doc(userID).get();
+    if (doc.exists) {
+      return doc.data();
+    }
+    return null;
   };
+
 
   getUserGroups = async (userID)=>{
 

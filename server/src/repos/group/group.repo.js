@@ -21,6 +21,11 @@ class GroupRepo {
     }
   };
 
+  update = async (groupID, updatedData) => {
+    await this.#groupsRef.doc(groupID).update(updatedData);
+  };
+  
+
 };
 
 module.exports = {

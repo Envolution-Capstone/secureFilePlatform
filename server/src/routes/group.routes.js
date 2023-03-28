@@ -26,6 +26,23 @@ const makeGroupRoutes = (groupService) => {
     respondUnAuthorized(res);
   });
 
+  GroupRoutes.delete('/:groupID/member/:memberID', (req, res) => {
+    groupService
+      .removeMember(req.params.groupID, req.params.memberID)
+      .then((success) => {
+        if (success) {
+          res.status(204).send();
+        } else {
+          respondNotFound(res);
+        }
+      })
+      .catch((error) => {
+        Log.error(`DELETE /group/:groupID/member/:memberID : ${error}`);
+        respondServerError(res);
+      });
+  });
+  
+
   return GroupRoutes;
 }
 
