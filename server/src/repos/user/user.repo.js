@@ -38,9 +38,10 @@ class UserRepo {
     return null;
   };
 
-  updateUser = (userID, userUpdateInfo) => {
-  
+  updateUser = async (userID, userUpdateInfo) => {
+    await this.#usersRef.doc(userID).update(userUpdateInfo);
   };
+  
 
   deleteUser = (userID) => {
 

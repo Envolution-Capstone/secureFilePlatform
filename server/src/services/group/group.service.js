@@ -47,10 +47,19 @@ class GroupService {
     if (groupInfo) {
       const members = groupInfo.members.filter((id) => id !== memberID);
       await this.#groupRepo.update(groupID, { members });
+  
+      // Remove the group from the user's groups
+      const userInfo = await this.#userRepo.getUser(memberID);
+      if (userInfo) {
+        const updatedUserGroups = userInfo.groups.filter((group) => group.id !== groupID);
+        await this.#userRepo.updateUser(memberID, { groups: updatedUserGroups });
+      }
+  
       return true;
     }
     return false;
   };
+  
   
 
 }
