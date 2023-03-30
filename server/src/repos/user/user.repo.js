@@ -3,9 +3,11 @@ const { db } = require('./../../firebase/firebase');
 class UserRepo {
 
   #usersRef;
+  #groupsRef;
 
   constructor() {
     this.#usersRef = db.collection("users");
+    this.#groupsRef = db.collection("groups");
   }
 
   createUser = (userInfo)=>{
@@ -27,12 +29,15 @@ class UserRepo {
 
     if (doc.exists) {
       const data = doc.data();
-      return data.groups.map((group)=> {
-        return {
-          id: group.id,
-          name: group.name,
-        };
-      });
+      const g = await Promise.all(
+        data.groups.map(async (group)=> {
+          console.log(JSON.stringify(group));
+          const info = await this.#groupsRef.doc(group.id).get();
+          console.log(JSON.stringify(info.data()));
+          return info.data();
+        })
+      );
+      return g;
     }
 
     return null;
