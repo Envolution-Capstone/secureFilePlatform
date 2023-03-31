@@ -79,7 +79,10 @@ const createGroup = async (groupName, currentUserID) => {
     await userRef.update({
       groups: firebase.firestore.FieldValue.arrayUnion({ id: groupDoc.id }),
     });
-  
+
+    console.log(`Adding group : ${groupDoc.id}`);
+    const fdoc = await db.collection("group").doc(groupDoc.id).collection("files").add({});
+
     return groupDoc.id;
   };
   

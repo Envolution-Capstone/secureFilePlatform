@@ -2,14 +2,13 @@
 
 import { BackendRequest } from "../../requests/client";
 
-const uploadFile = async (file)=> {
+const uploadFile = async (file, route)=> {
 
   const data = new FormData() 
   data.append('file',file);
   data.append('filename',file.name);
-  data.append('groupid', null);
-  
-  return await BackendRequest('POST', '/file', data);
+  console.log(`uploading to ${route}`);
+  return await BackendRequest('POST', route, data);
 };
 
 

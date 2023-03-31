@@ -9,7 +9,7 @@ import DocumentUploadModal from "./Documents/DocumentUploadModal";
 import GroupModal from "./Documents/GroupModal";
 import { db, auth } from "../firebase/firebase";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [inviteCount, setInviteCount] = useState(0);
@@ -34,7 +34,7 @@ const Sidebar = () => {
             <span> Upload File </span>
           </button>
         </SidebarBtn>
-        <DocumentUploadModal Open={showUpload} onFinished={() => setShowUpload(false)} />
+        <DocumentUploadModal user={user} Open={showUpload} onFinished={() => setShowUpload(false)} />
 
         <SidebarOptions>
           <NavLink to="/">
@@ -64,6 +64,7 @@ const Sidebar = () => {
         <hr />
       </SidebarContainer>
       <GroupModal
+        user={user}
         open={showGroupModal}
         onClose={() => setShowGroupModal(false)}
         onUpdateInviteCount={fetchGroupInvitesCount}

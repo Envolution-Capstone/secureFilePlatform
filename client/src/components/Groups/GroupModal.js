@@ -84,16 +84,16 @@ const GroupModal = ({
     if (!groupName) return;
     let members = personName.map(({ uid }) => uid);
     members.unshift(user.uid);
+    
     db.collection("groups")
       .add({
         groupName: groupName,
         admin: user.uid,
         members,
-        // files:[],
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      .then(() => {
-        handleClose();
+      .then((group) => {
+
       })
       .catch((err) => alert(err));
   };

@@ -23,6 +23,7 @@ const DocumentTable = ({route}) => {
           .then((response)=>{
             if (response.data) {
               if (response.data.data) {
+                console.log(response.data.data);
                 setFiles(response.data.data);
               }
             }
@@ -32,7 +33,7 @@ const DocumentTable = ({route}) => {
       };
       req();
     }
-  }, []);
+  }, [route]);
 
   const getFileIcon = (fileType) => {
     switch (fileType) {
@@ -104,7 +105,8 @@ const DocumentTable = ({route}) => {
             <b>File Size</b>
           </p>
         </DataListRow>
-        {files.map((file) => (
+        {
+        files.map((file) => (
           <DataListRow key={file.id} onClick={()=>downloadFile(file.id, file.filename)}>
             <p>
               <InsertDriveFileIcon /> {file.filename}

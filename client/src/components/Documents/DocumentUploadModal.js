@@ -1,15 +1,28 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "@material-ui/core";
 import { uploadFile } from "../../util/files/fileUpload";
 import { ModalPopup, ModalBody, UploadingPara, ModalHeading } from "../../styles/DocumentUploadModal.styles";
-
+import { GroupSelector } from "../Groups/GroupSelector";
 import { SideBySide } from "../../styles/App.styles";
 
-const DocumentUploadModal = ({ Open, onFinished }) => {
+import { getUserGroupsWithNames } from "../../util/groups/groups";
+
+const DocumentUploadModal = ({ user, Open, onFinished }) => {
   const [uploading, setUploading] = useState(false);
-  const [encryptKey, setEncryptKey] = useState(null);
+  const [userGroups, setUserGroups] = useState(null);
+  const [groupID, setGroupID] = useState(null);
   const [file, setFile] = useState(null);
+
+
+  useEffect(() => {
+    getUserGroupsWithNames(user.uid).then((groups) => {
+      setUserGroups(groups);
+    }).catch((error) => {
+      console.log(`Error Setting Groups: ${error}`);
+    });
+  }, [user]);
+
 
   const handleFile = (e) => {
     if (e.target.files[0]) setFile(e.target.files[0]);
@@ -18,13 +31,20 @@ const DocumentUploadModal = ({ Open, onFinished }) => {
   const handleUpload = (e) => {
     e.preventDefault();
     setUploading(true);
-    
-    uploadFile(file)
+    let route = "/file";
+    if (groupID) {
+      route = `/group/${groupID}/files`;
+    }
+    uploadFile(file, route)
     .then(()=> {
       setUploading(false);
       onFinished();
     });
   };
+
+  const handleGroupChange = (groupId) => {
+    setGroupID(groupId);
+  }
 
   return (
     <Modal open={Open} onClose={()=> onFinished()}>
@@ -38,11 +58,10 @@ const DocumentUploadModal = ({ Open, onFinished }) => {
               <UploadingPara>Uploading...</UploadingPara>
             ) : (
               <>
-                <p>Encryption Key</p>
                 <SideBySide>
-                  <input type="text" className="encrypt_key" onChange={(e)=>{setEncryptKey(e.target.value)}} />
                   <input type="file" className="modal_selectFile" onChange={handleFile} />
                 </SideBySide>
+                <GroupSelector groups={userGroups} set={handleGroupChange} />
                 <input type="submit" className="modal_submitFile" onClick={handleUpload}/>
               </>
             )}

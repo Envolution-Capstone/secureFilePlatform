@@ -21,8 +21,7 @@ class FileRepo {
             id: doc.id,
             filename: data.filename,
             size: data.size,
-            timestamp: data.timestamp,
-            groupid: doc.groupid || null,
+            timestamp: data.timestamp
           };
           return temp;
         });
@@ -47,7 +46,6 @@ class FileRepo {
     const fileID = this.#filesRef.doc();
     const data = {
       userid: meta.userid,
-      groupid: meta.groupid,
       filename: meta.filename,
       size: meta.size,
       timestamp: meta.timestamp,

@@ -21,6 +21,45 @@ class GroupRepo {
     }
   };
 
+  async createFile(meta, groupID, file) {
+    const fileID = db.collection("group").doc(groupID).collection("files").doc();
+    const data = {
+      userid: meta.userid,
+      filename: meta.filename,
+      size: meta.size,
+      timestamp: meta.timestamp,
+      content: file
+    };
+    return await fileID.set(data).then(()=>{
+      return true;
+    })
+    .catch((error)=>{
+      Log.error(`Error Creating File: ${error}`);
+      return false;
+    });
+  }
+
+
+  async getFiles(groupID) {
+    return db.collection("group").doc(groupID).collection("files")
+      .get()
+      .then((groupFiles)=> {
+        const docs = groupFiles.docs.map((doc)=>{
+          const data = doc.data();
+          const temp = {
+            id: doc.id,
+            filename: data.filename,
+            size: data.size,
+            timestamp: data.timestamp,
+          };
+          return temp;
+        });
+
+        return docs.filter(d => {return d.filename != null});
+      });
+  }
+
+
   update = async (groupID, updatedData) => {
     await this.#groupsRef.doc(groupID).update(updatedData);
   };

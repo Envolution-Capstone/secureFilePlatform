@@ -43,6 +43,7 @@ const ShareWithMe = ({ user }) => {
   };
 
   const handleGroupChange = async (val) => {
+    console.log(val);
     setGroupID(val);
     if (val) {
       const groupInfo = await getGroupInfo(val);

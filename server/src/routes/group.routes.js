@@ -1,11 +1,36 @@
 const express = require('express');
 const { Log } = require('../logging/logging');
 const { checkAuth } = require('../middleware/authentication/checkAuth');
-const { respondUnAuthorized, respondServerError, respondNotFound, respondData } = require('../util/responses');
+const { respondUnAuthorized, respondSuccess, respondServerError, respondBadRequest, respondNotFound, respondData } = require('../util/responses');
+
+const { uploadFile } = require('../util/file_upload');
 
 const makeGroupRoutes = (groupService) => {
   const GroupRoutes = express.Router();
   GroupRoutes.use(checkAuth);
+
+  GroupRoutes.post('/:groupID/files', (req, res)=>{
+    console.log("post groupid");
+    uploadFile(req).then((uploaded)=>{
+      if (!uploaded) {
+        respondBadRequest(res);
+      }
+
+      groupService.createFile(req.userid, req.params.groupID, req)
+        .then((created)=>{
+          if (created) {
+            respondSuccess(res);
+          } else {
+            respondBadRequest(res);
+          }
+        })
+        .catch((error)=>{
+          Log.error(`POST /group/:groupID : ${error}`);
+          respondServerError(res);
+        });
+    });
+  });
+
 
   GroupRoutes.get('/:id', (req, res)=>{
     groupService.getInfo(req.userid, req.params.id)
@@ -21,6 +46,24 @@ const makeGroupRoutes = (groupService) => {
       respondServerError(res);
     });
   });
+
+
+  GroupRoutes.get('/:groupID/files', (req, res) => {
+    console.log("getting group files");
+    groupService.getFiles(req.userid, req.params.groupID)
+    .then((files)=>{
+      if (files) {
+        respondData(res, files);
+      } else {
+        respondNotFound(res);
+      }
+    })
+    .catch((error)=>{
+      Log.error(`DELETE /group/:groupID/member/:memberID : ${error}`);
+      respondServerError(res);
+    });
+  });
+
 
   GroupRoutes.get('/:id/files', (req, res)=>{
     respondUnAuthorized(res);

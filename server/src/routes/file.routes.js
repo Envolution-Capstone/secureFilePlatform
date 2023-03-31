@@ -2,26 +2,8 @@ const express = require('express');
 const { Log } = require('../logging/logging');
 const { checkAuth } = require('../middleware/authentication/checkAuth');
 const { respondData, respondSuccess, respondUnAuthorized, respondFile, respondBadRequest, respondServerError, respondNotFound } = require('../util/responses');
-const multer = require('multer');
 
-const moduleStore = multer.memoryStorage();
-const upload = multer({
-  storage: moduleStore,
-});
-const Fields = [
-  { name: 'file', maxCount:1 },
-];
-const uploadFile = (req) => {
-  return new Promise((resolve, reject) => {
-    upload.fields(Fields)(req, {}, (error) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(true);
-    });
-  });
-};
-
+const { uploadFile } = require('../util/file_upload');
 
 const makeFileRoutes = (fileService) => {
   const FileRoutes = express.Router();
