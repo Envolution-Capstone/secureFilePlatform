@@ -37,7 +37,6 @@ class GroupService {
       return groupInfo;
     }
     
-    Log.debug(`Group doesn't contain member ${userID}`)
     return null;
   };
 
@@ -59,6 +58,15 @@ class GroupService {
     }
 
     return false;
+  }
+
+  async downloadFile(userID, groupID, fileID) {
+
+    if (await this.#checkUserInGroup(userID, groupID)) {
+      return await this.#groupRepo.downloadFile(groupID, fileID);
+    }
+
+    return null;
   }
   
   checkReq(req) {
@@ -98,6 +106,7 @@ class GroupService {
     if (!groupInfo) {
       groupInfo = await this.#groupRepo.get(groupID);
     }
+    
     if (groupInfo) {
       if (groupInfo.members.includes(userID)) {
         return true;

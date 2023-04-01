@@ -39,6 +39,17 @@ class GroupRepo {
     });
   }
 
+  async downloadFile(groupID, fileID) {
+    const doc = await db.collection("group").doc(groupID).collection("files").doc(fileID).get();
+
+    if (doc.exists) {
+      const data = doc.data();
+      return {filename: data.filename, content: data.content};
+    }
+
+    return null;
+  }
+
 
   async getFiles(groupID) {
     return db.collection("group").doc(groupID).collection("files")

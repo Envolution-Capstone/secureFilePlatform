@@ -64,7 +64,7 @@ const DocumentTable = ({route}) => {
   };
 
   const downloadFile = (fileid, filename)=>{
-    client.get(`/file/${fileid}`, {
+    client.get(`${route}/${fileid}`, {
       responseType: 'blob'
     })
     .then((response)=>{

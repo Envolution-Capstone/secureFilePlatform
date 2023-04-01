@@ -1,7 +1,7 @@
 const express = require('express');
 const { Log } = require('../logging/logging');
 const { checkAuth } = require('../middleware/authentication/checkAuth');
-const { respondUnAuthorized, respondSuccess, respondServerError, respondBadRequest, respondNotFound, respondData } = require('../util/responses');
+const { respondUnAuthorized, respondSuccess, respondServerError, respondBadRequest, respondNotFound, respondData, respondFile } = require('../util/responses');
 
 const { uploadFile } = require('../util/file_upload');
 
@@ -65,8 +65,19 @@ const makeGroupRoutes = (groupService) => {
   });
 
 
-  GroupRoutes.get('/:id/files', (req, res)=>{
-    respondUnAuthorized(res);
+  GroupRoutes.get('/:groupID/files/:fileID', (req, res)=>{
+    groupService.downloadFile(req.userid, req.params.groupID, req.params.fileID)
+    .then((file)=>{
+      if (file) {
+        respondFile(res, file);
+      } else {
+        respondNotFound(res);
+      }
+    })
+    .catch((error)=>{
+      Log.error(`GET /group/:groupID/files/:fileID : ${error}`);
+      respondServerError(res);
+    });
   });
 
   GroupRoutes.delete('/:groupID/member/:memberID', (req, res) => {
