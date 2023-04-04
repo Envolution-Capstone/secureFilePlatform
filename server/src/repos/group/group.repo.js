@@ -1,58 +1,112 @@
 const { db } = require('../../firebase/firebase');
 const { Log } = require('../../logging/logging');
+const { Encryption } = require('../../services/encryption/encryption.service');
+const { firebase } = require("firebase/app");
 
 class GroupRepo {
 
   #groupsRef;
+  #encryption;
 
   constructor() {
     this.#groupsRef = db.collection("group");
+    this.#encryption = new Encryption();
   }
 
-  get = async (groupID) => {
-    const doc = await this.#groupsRef.doc(groupID).get();
+  createGroup = async (groupInfo, creatorid) => {
+
+    const groupRef = await this.#groupsRef.doc();
+    const groupID = groupRef.id;
+
+    const groupDoc = await groupRef.set({
+      id: groupRef.id,
+      name: groupInfo.name,
+      createdBy: creatorid,
+      members: [
+        { id: creatorid, admin: true}
+      ],
+    });
+  
+    const userRef = db.collection('users').doc(creatorid);
+    const userInfo = await userRef.get(); 
+
+
+    await userRef.update({
+      groups: [...userInfo.data().groups, { name: groupInfo.name, id: groupID}],
+    });
+    const fdoc = await db.collection("group").doc(groupID).collection("files").add({});
+
+    return { name: groupInfo.name, id: groupID};
+  };
+
+  getInfo = async (groupid) => {
+    const doc = await this.#groupsRef.doc(groupid).get();
 
     if (doc.exists) {
-      Log.debug(`Group ${groupID} Exists`);
       return doc.data();
     } else {
-      Log.debug(`Group ${groupID} Doesn't Exist`);
+      console.log("Group doesn't exists");
       return null;
     }
   };
 
-  async createFile(meta, groupID, file) {
-    const fileID = db.collection("group").doc(groupID).collection("files").doc();
+  deleteGroup = async (groupid) => {
+    return await this.#groupsRef.doc(groupid).delete()
+    .then(()=>{
+      return true;
+    });
+  };
+
+  updateGroup = async (groupid, groupInfo) => {
+    // TODO 
+  };
+
+  
+
+  getMembers = async (groupid) => {
+    const groupinfo = await this.#groupsRef.doc(groupid).get();
+    if (groupinfo.exists) {
+      return groupinfo.data().members;
+    }
+
+    return null;
+  };
+
+  updateMember = async (groupid, updateInfo) => {
+    // TODO
+  };
+
+  removeMember = async (groupid, memberid) => {
+    // TODO
+  };
+
+
+
+  createFile = async (meta, groupid, file) => {
+
+    const encryptedFile = await this.#encryption.encrypt(groupid, file);
+
+    const fileID = db.collection("group").doc(groupid).collection("files").doc();
     const data = {
       userid: meta.userid,
       filename: meta.filename,
       size: meta.size,
       timestamp: meta.timestamp,
-      content: file
+      content: encryptedFile
     };
-    return await fileID.set(data).then(()=>{
+    
+    return await
+    fileID.set(data).then(()=>{
       return true;
     })
     .catch((error)=>{
-      Log.error(`Error Creating File: ${error}`);
+      Log.error(`Error Creating Group File: ${error}`);
       return false;
     });
   }
 
-  async downloadFile(groupID, fileID) {
-    const doc = await db.collection("group").doc(groupID).collection("files").doc(fileID).get();
-
-    if (doc.exists) {
-      const data = doc.data();
-      return {filename: data.filename, content: data.content};
-    }
-
-    return null;
-  }
-
-
-  async getFiles(groupID) {
-    return db.collection("group").doc(groupID).collection("files")
+  getGroupFiles = async (groupid) => {
+    return db.collection("group").doc(groupid).collection("files")
       .get()
       .then((groupFiles)=> {
         const docs = groupFiles.docs.map((doc)=>{
@@ -68,14 +122,28 @@ class GroupRepo {
 
         return docs.filter(d => {return d.filename != null});
       });
-  }
-
-
-  update = async (groupID, updatedData) => {
-    await this.#groupsRef.doc(groupID).update(updatedData);
   };
-  
 
+  downloadFile = async (groupid, fileid) => {
+    const doc = await db.collection("group").doc(groupid).collection("files").doc(fileid).get();
+
+    if (doc.exists) {
+      const data = doc.data();
+      const content = await this.#encryption.decrypt(groupid, data.content);
+
+      return {filename: data.filename, content: content};
+    }
+
+    return null;
+  };
+
+  deleteFile = async (groupid, fileid) => {
+    return await 
+    db.collection("group").doc(groupid).collection("files").doc(fileid).delete()
+    .then(()=>{
+      return true;
+    });
+  };
 };
 
 module.exports = {

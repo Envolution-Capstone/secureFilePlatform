@@ -84,7 +84,7 @@ return (
       </Typography>
       <Divider />
       <List>
-        {groupInfo.members &&
+        {groupInfo ? groupInfo.members &&
           groupInfo.members.map((member) => (
             <ListItem key={member.id} className={classes.item}>
               <ListItemAvatar>
@@ -118,7 +118,7 @@ return (
                 </Tooltip>
               )}
             </ListItem>
-          ))}
+          )) : <></>}
       </List>
     </div>
   </Modal>

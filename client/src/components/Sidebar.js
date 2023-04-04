@@ -6,8 +6,9 @@ import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import { Badge } from "@material-ui/core";
 import DocumentUploadModal from "./Documents/DocumentUploadModal";
-import GroupModal from "./Documents/GroupModal";
-import { db, auth } from "../firebase/firebase";
+import GroupModal from "./Groups/GroupModal";
+import { auth } from "../firebase/firebase";
+import { BackendRequest } from "../requests/client";
 
 const Sidebar = ({ user }) => {
   const [showUpload, setShowUpload] = useState(false);
@@ -15,11 +16,8 @@ const Sidebar = ({ user }) => {
   const [inviteCount, setInviteCount] = useState(0);
 
   const fetchGroupInvitesCount = async () => {
-    const userRef = db.collection("users").doc(auth.currentUser.uid);
-    const userDoc = await userRef.get();
-    const userData = userDoc.data();
-    const groupInvites = userData.groupInvites || [];
-    setInviteCount(groupInvites.length);
+    const invites = await BackendRequest('GET', `/user/${auth.currentUser.uid}/invites`);
+    setInviteCount(invites.data.length);
   };
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import DocumentTable from "../components/Documents/DocumentTable";
 import { GroupSelector } from "../components/Groups/GroupSelector";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import { getUserGroupsWithNames, getGroupInfo } from "../util/groups/groups";
+import { getUserGroupsWithNames, getGroupInfo, removeMember } from "../util/groups/groups";
 
 
 const useStyles = makeStyles(() => ({
@@ -38,12 +38,10 @@ const ShareWithMe = ({ user }) => {
   };
 
   const handleKickMember = (memberID) => {
-    // Functionality to remove member from group
-    console.log(`Kicking member ${memberID} from group ${groupID}`);
+    removeMember(groupID, memberID);
   };
 
   const handleGroupChange = async (val) => {
-    console.log(val);
     setGroupID(val);
     if (val) {
       const groupInfo = await getGroupInfo(val);

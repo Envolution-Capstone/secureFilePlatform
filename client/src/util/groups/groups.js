@@ -13,9 +13,13 @@ const getUserGroups = async (userID) => {
 
 const getGroupInfo = async (groupID) => {
   const resp = await BackendRequest('GET', `/group/${groupID}`);
+
   if (resp.data) {
-    return resp.data.data;
+    if (resp.data.status === "success") {
+      return resp.data.data;
+    }
   }
+
   return null;
 };
 
@@ -24,25 +28,20 @@ const removeMember = async (groupID, memberID) => {
   if (resp.data) {
     return resp.data;
   }
+
   return null;
 };
 
 const getUserGroupsWithNames = async (userID) => {
-  const userDoc = await db.collection("users").doc(userID).get();
-  const userData = userDoc.data();
-
-  if (!userData.groups) {
-    return [];
+  const response = await BackendRequest('GET', `/user/${userID}/groups`);
+  
+  if (response.data) {
+    if (response.data.status === "success") {
+      return response.data.data;
+    }
   }
 
-  const groupPromises = userData.groups.map(async (group) => {
-    const groupDoc = await db.collection("group").doc(group.id).get();
-    return { ...group, name: groupDoc.data().name };
-  });
-
-  return Promise.all(groupPromises);
+  return [];
 };
-
-
 
 export { getGroupInfo, getUserGroups, getUserGroupsWithNames, removeMember };

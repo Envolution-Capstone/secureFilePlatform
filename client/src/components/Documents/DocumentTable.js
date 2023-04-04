@@ -5,10 +5,10 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import DescriptionIcon from '@material-ui/icons/Description';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
-import { BackendRequest } from '../../requests/client';
 import { client } from '../../requests/client';
 
 import { DataGrid, DataFile, DataListRow } from '../../styles/DocumentTable.styles';
+import { getFiles } from "../../util/files/files";
 
 
 
@@ -19,16 +19,8 @@ const DocumentTable = ({route}) => {
     if (route) {
       const req = async () => {
         setTimeout(async ()=>{
-          BackendRequest('GET', route)
-          .then((response)=>{
-            if (response.data) {
-              if (response.data.data) {
-                console.log(response.data.data);
-                setFiles(response.data.data);
-              }
-            }
-          })
-          .catch((error)=>{ console.log(`Backend Request Error: ${error}`);});
+          const f = await getFiles(route);
+          setFiles(f);
         }, 300);
       };
       req();
@@ -68,25 +60,28 @@ const DocumentTable = ({route}) => {
       responseType: 'blob'
     })
     .then((response)=>{
-      console.log(response);
-      const url = URL.createObjectURL(response.data);
-      const alink = document.createElement('a');
-      alink.href = url;
-      alink.setAttribute('download', filename);
-      alink.click();
-      document.removeChild(alink);
+      if (response.status === 200 && (response.data.status !== "fail" && response.data.status !== "error")) {
+        const url = URL.createObjectURL(response.data);
+        const alink = document.createElement('a');
+        alink.href = url;
+        alink.setAttribute('download', filename);
+        alink.click();
+        document.removeChild(alink);
+      } else {
+        console.log(`Failed To Download File, Status: ${response.data.status}`);
+      }
     });
   }
 
   return (
     <div>
       <DataGrid>
-        {files.map((file) => (
+        {files ? files.map((file) => (
           <DataFile key={file.id}>
             <InsertDriveFileIcon onClick={()=>downloadFile(file.id, file.filename)}/>
             <p>{file.filename}</p>
           </DataFile>
-        ))}
+        )) : <></>}
       </DataGrid>
       <div>
         <DataListRow>
@@ -105,7 +100,7 @@ const DocumentTable = ({route}) => {
             <b>File Size</b>
           </p>
         </DataListRow>
-        {
+        { files ?
         files.map((file) => (
           <DataListRow key={file.id} onClick={()=>downloadFile(file.id, file.filename)}>
             <p>
@@ -114,7 +109,7 @@ const DocumentTable = ({route}) => {
             <p>{new Date(file.timestamp * 1000).toUTCString()}</p>
             <p>{byteConvert(file.size)}</p>
           </DataListRow>
-        ))}
+        )) : <></>}
       </div>
     </div>
   );

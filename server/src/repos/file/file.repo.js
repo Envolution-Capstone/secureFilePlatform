@@ -1,14 +1,15 @@
-const crypto = require('crypto');
 const { Log } = require('../../logging/logging');
+const { Encryption } = require('../../services/encryption/encryption.service');
 const { db } = require('./../../firebase/firebase');
 
 class FileRepo {
   
   #filesRef;
-  #groupsRef;
+  #encryption;
 
   constructor() {
     this.#filesRef = db.collection("myfiles");
+    this.#encryption = new Encryption();
   }
 
   async getInfo(userID) {
@@ -36,7 +37,8 @@ class FileRepo {
     if (doc.exists) {
       const data = doc.data();
       if (data.userid == userID) {
-        return {filename: data.filename, content: data.content};
+        const content = await this.#encryption.decrypt(userID, data.content);
+        return {filename: data.filename, content: content};
       }
     }
     return false;
@@ -44,13 +46,17 @@ class FileRepo {
 
   async create(meta, file) {
     const fileID = this.#filesRef.doc();
+
+    const content = await this.#encryption.encrypt(meta.userid, file);
+
     const data = {
       userid: meta.userid,
       filename: meta.filename,
       size: meta.size,
       timestamp: meta.timestamp,
-      content: file
+      content: content
     };
+
     return await fileID.set(data).then(()=>{
       return true;
     })

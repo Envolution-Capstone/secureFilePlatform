@@ -35,6 +35,7 @@ const DocumentUploadModal = ({ user, Open, onFinished }) => {
     if (groupID) {
       route = `/group/${groupID}/files`;
     }
+    
     uploadFile(file, route)
     .then(()=> {
       setUploading(false);

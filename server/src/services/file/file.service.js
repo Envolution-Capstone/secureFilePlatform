@@ -1,3 +1,4 @@
+const { Log } = require("../../logging/logging");
 
 class FileService {
 
@@ -23,14 +24,14 @@ class FileService {
       size: req.files.file[0].size
     };
 
-    if (!this.checkReq(req)) {
+    if (!this.#checkReq(req)) {
       return false;
     }
 
     return await this.#repo.create(meta, req.files.file[0].buffer);
   }
 
-  checkReq(req) {
+  #checkReq(req) {
     if (req.userid && req.body.filename && req.files.file[0].buffer) {
       return true;
     }

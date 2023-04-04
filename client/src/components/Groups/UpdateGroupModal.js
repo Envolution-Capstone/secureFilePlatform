@@ -31,19 +31,6 @@ const MenuProps = {
   },
 };
 
-// const names = [
-//   "Oliver Hansen",
-//   "Van Henry",
-//   "April Tucker",
-//   "Ralph Hubbard",
-//   "Omar Alexander",
-//   "Carlos Abbott",
-//   "Miriam Wagner",
-//   "Bradley Wilkerson",
-//   "Virginia Andrews",
-//   "Kelly Snyder",
-// ];
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
@@ -64,7 +51,7 @@ const UpdateGroupModal = ({
   const [personName, setPersonName] = useState([]);
   const [groupName, setGroupName] = useState(group?.groupName);
   const classes = useStyles();
-  console.log(personName);
+  
   const handleChange = (event) => {
     const {
       target: { value },
@@ -90,7 +77,6 @@ const UpdateGroupModal = ({
         groupName: groupName,
         admin: user.uid,
         members,
-        // files:[],
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(() => {
@@ -98,8 +84,6 @@ const UpdateGroupModal = ({
       })
       .catch((err) => alert(err));
   };
-
-  // console.log(group);
 
   return (
     <Dialog

@@ -1,3 +1,4 @@
+const { Log } = require("../logging/logging");
 
 const respondSuccess = (res) => {
   res.status(200).json({
@@ -21,7 +22,7 @@ const respondFile = (res, file) => {
 }
 
 const respondUnAuthorized = (res)=>{
-  res.status(403).json({
+  res.status(200).json({
     'status': 'fail',
     'data': 'User Not Authorized To Access Resource',
   });
@@ -35,16 +36,16 @@ const respondServerError = (res)=>{
 }
 
 const respondNotFound = (res)=>{
-  res.status(404).json({
+  res.status(200).json({
     'status': 'fail',
     'data': 'Resource Not Found',
   });
 }
 
-const respondBadRequest = (res)=>{
-  res.status(400).json({
+const respondBadRequest = (res, info)=>{
+  res.status(200).json({
     'status': 'fail',
-    'data': 'Bad Request',
+    'data': `Bad Request ${info ? `Info: ${info}` : ""}`,
   });
 }
 

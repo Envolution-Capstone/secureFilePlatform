@@ -1,119 +1,385 @@
 const { Log } = require('../../logging/logging');
 const { GroupRepo } = require('../../repos/group/group.repo');
 const { UserRepo } = require('../../repos/user/user.repo');
+const { uploadFile } = require('../../util/file_upload');
+const { FileRepo } = require('../../repos/file/file.repo');
 
 class GroupService {
 
   #groupRepo;
   #userRepo;
+  #fileRepo;
 
   constructor() {
     this.#groupRepo = new GroupRepo();
     this.#userRepo = new UserRepo();
+    this.#fileRepo = new FileRepo();
   }
 
-  getInfo = async (userID, groupID) => {
-    
-    const groupInfo = await this.#groupRepo.get(groupID);
+  // --------- GROUPS -----------------------------------------------------------
 
-    if (await this.#checkUserInGroup(userID, groupID, groupInfo)) {
-      // Fetch user information for each member in the group
-      const membersWithInfo = [];
-      for (const memberID of groupInfo.members) {
-        const userInfo = await this.#userRepo.getUser(memberID);
-        if (userInfo) {
-          membersWithInfo.push({
-            id: memberID,
-            displayName: userInfo.displayName,
-            email: userInfo.email,
-            photoURL: userInfo.photoURL,
-          });
-        }
+  getInfo = async (req) => {
+    Log.debug(`GroupRepo: getInfo`);
+
+    const groupid = req.params.groupid;
+    const userid = req.userid;
+    if (!groupid || !userid) {
+      return null;
+    }
+
+
+    return await
+    this.#require_IsMember(req)
+    .then(async (isMember) => {
+      if (isMember) {
+        return await this.#groupRepo.getInfo(groupid);
       }
 
-      // Replace the original members array with the new array containing user information
-      groupInfo.members = membersWithInfo;
+      return null;
+    })
+  };
 
-      return groupInfo;
+  createGroup = async (req) => {
+    Log.debug(`GroupRepo: createGroup`);
+
+    const userid = req.userid;
+    const groupInfo = this.#groupInfo(req);
+
+    if (userid && groupInfo) {
+      return await this.#groupRepo.createGroup(groupInfo, userid);
     }
-    
+
     return null;
   };
 
-  async createFile(userID, groupID, req) {
-    
-    if (await this.#checkUserInGroup(userID, groupID)) {
-      const meta = {
-        userid: req.userid,
-        filename: req.body.filename,
-        timestamp: Date.now(),
-        size: req.files.file[0].size
-      };
+  updateGroup = async (req) => {
+    Log.debug(`GroupRepo: updateGroup`);
 
-      if (!this.checkReq(req)) {
-        return false;
+    return await 
+    this.#require_IsAdmin(req)
+    .then( async (isAdmin) => {
+      if (isAdmin) {
+        const groupUpdateInfo = this.#groupUpdateInfo(req);
+        const groupid = req.params.groupid;
+
+        if (!groupUpdateInfo || !groupid) {
+          return null;
+        }
+
+        return await this.#groupRepo.updateGroup(groupid, groupUpdateInfo);
       }
 
-      return await this.#groupRepo.createFile(meta, groupID, req.files.file[0].buffer);
+      return null;
+    });
+  };
+
+  deleteGroup = async (req) => {
+    Log.debug(`GroupRepo: deleteGroup`);
+
+    const groupid = req.params.groupid;
+
+    if (!groupid) {
+      return null;
+    }
+
+    return await
+    this.#require_IsAdmin(req)
+    .then(async (isAdmin) => {
+      if (isAdmin) {
+        return await this.#groupRepo.deleteGroup(groupid);
+      }
+
+      return null;
+    });
+  };
+
+  // --------- END GROUPS -----------------------------------------------------------
+
+  // --------- GROUP FILES -----------------------------------------------------------
+
+  createFile = async (req) => {
+    Log.debug(`GroupRepo: createFile`);
+
+    const uploaded = await uploadFile(req);
+    if (!uploaded) {
+      return null;
+    }
+
+    const groupid = req.params.groupid;
+    if (!groupid) {
+      return null;
+    }
+
+    if (!this.#checkFile(req)) {
+      return null;
+    }
+
+    return await
+    this.#require_IsMember(req)
+    .then(async (isMember) => {
+      if (isMember) {
+        const meta = {
+          userid: req.userid,
+          filename: req.body.filename,
+          timestamp: Date.now(),
+          size: req.files.file[0].size
+        };
+      
+        return await this.#groupRepo.createFile(meta, groupid, req.files.file[0].buffer);
+      }
+
+      return null;
+    });
+  };
+
+  getGroupFilesInfo = async (req) => {
+    Log.debug(`GroupRepo: getGroupFilesInfo`);
+
+    const groupid = req.params.groupid;
+    if (!groupid) {
+      return null;
+    }
+
+    return await
+    this.#require_IsMember((req))
+    .then(async (isMember) => {
+      if (isMember) {
+        return await this.#groupRepo.getGroupFiles(groupid);
+      }
+
+      return null;
+    });
+  };
+
+  downloadFile = async (req) => {
+    Log.debug(`GroupRepo: downloadFile`);
+
+    const groupid = req.params.groupid;
+    const fileid = req.params.fileid;
+
+    if (!groupid || !fileid) {
+      return null;
+    }
+
+    return await
+    this.#require_IsMember(req)
+    .then(async (isMember) => {
+      if (isMember) {
+        return await this.#groupRepo.downloadFile(groupid, fileid);
+      }
+
+      return null;
+    });
+  };
+
+  updateFile = async (req) => {
+    Log.debug(`GroupRepo: updateFile`);
+
+    const groupid = req.params.groupid;
+    const fileid = req.params.fileid;
+    
+    // TODO update file
+
+  };
+
+  deleteFile = async (req) => {
+    Log.debug(`GroupRepo: deleteFile`);
+
+    const groupid = req.params.groupid;
+    const fileid = req.params.fileid;
+
+    return await
+    this.#require_IsAdmin(req)
+    .then(async (isAdmin) => {
+      if (isAdmin) {
+        return await this.#groupRepo.deleteFile(groupid, fileid);
+      }
+
+      return null;
+    });
+  };
+
+
+  // --------- END GROUP FILES -----------------------------------------------------------
+
+  // --------- GROUP MEMBERS -----------------------------------------------------------
+
+  getMembers = async (req) => {
+    Log.debug(`GroupRepo: getMembers`);
+
+    const groupid = req.params.groupid;
+
+    if (!groupid) {
+      return null;
+    }
+
+    return await
+    this.#require_IsMember(req)
+    .then(async (isMember)=>{
+      if (isMember) {
+        return await this.#groupRepo.getMembers(groupid);
+      }
+
+      return null;
+    });
+  };
+
+  inviteMember = async (req) => {
+    Log.debug(`GroupRepo: inviteMember`);
+
+    const groupid = req.params.groupid;
+    const userid = req.userid;
+    const invitee = req.params.memberemail;
+
+    if (!groupid || !userid || !invitee) {
+      return null;
+    }
+
+    return await
+    this.#require_IsAdmin(req)
+    .then(async (isAdmin) => {
+      if (isAdmin) {
+        return await this.#userRepo.groupInvite(invitee, groupid);
+      }
+
+      return null;
+    });
+  };
+
+  updateMember = async (req) => {
+    Log.debug(`GroupRepo: updateMember`);
+
+    const groupid = req.params.groupid;
+    const userid = req.userid;
+    const updateInfo = this.#memberUpdateInfo(req);
+
+
+    if (!groupid || !userid || !updateInfo) {
+      return null;
+    }
+
+    return await
+    this.#require_IsAdmin(req)
+    .then(async (isAdmin) => {
+      if (isAdmin) {
+        return await this.#groupRepo.updateMember(groupid, updateInfo);
+      }
+
+      return null;
+    });
+  };
+
+  removeMember = async (req) => {
+    Log.debug(`GroupRepo: removeMember`);
+
+    const groupid = req.params.groupid;
+    const memberid = req.params.memberid;
+
+    if (!groupid || !memberid) {
+      return null;
+    }
+
+    return await
+    this.#require_IsAdmin(req)
+    .then(async (isAdmin) => {
+      if (isAdmin) {
+        return await this.#groupRepo.removeMember(groupid, memberid);
+      }
+
+      return null;
+    });
+  };
+
+
+  // --------- END GROUP MEMBERS -----------------------------------------------------------
+
+
+  // --------- UTIL -----------------------------------------------------------
+
+  #require_IsMember = async (req) => {
+    Log.debug(`#GroupRepo: require_IsMember`);
+
+    const groupid = req.params.groupid;
+    const userid = req.userid;
+
+
+    if (!groupid || !userid) {
+      return false;
+    }
+    const groupInfo = await this.#groupRepo.getInfo(groupid);
+
+    if (groupInfo) {
+      const found = groupInfo.members.find((value) => { return value.id === userid; });
+      if (found) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  #require_IsAdmin = async (req) => {
+    Log.debug(`#GroupRepo: require_IsAdmin`);
+
+    const groupid = req.params.groupid;
+    const userid = req.userid;
+
+    if (!groupid || !userid) {
+      return false;
+    }
+
+    const groupInfo = await this.#groupRepo.get(groupid);
+
+    if (groupInfo) {
+      const user = groupInfo.members.find((val) => {
+        return val.id === userid;
+      });
+
+      if (user) {
+        return user.admin;
+      }
     }
 
     return false;
-  }
+  };
 
-  async downloadFile(userID, groupID, fileID) {
-
-    if (await this.#checkUserInGroup(userID, groupID)) {
-      return await this.#groupRepo.downloadFile(groupID, fileID);
+  #groupInfo = (req) => {
+    if (req.body.name) {
+      return {
+        name: req.body.name
+      };
     }
 
-    return null;
-  }
-  
-  checkReq(req) {
+    return false;
+  };
+
+  #groupUpdateInfo = (req) => {
+    return {
+      name: req.body.name || null
+    }
+  };
+
+  #checkFile(req) {
     if (req.userid && req.body.filename && req.files.file[0].buffer) {
       return true;
     }
     return false;
   }
 
-  async getFiles(userID, groupID) {
-    if ( await this.#checkUserInGroup(userID, groupID)) {
-      return this.#groupRepo.getFiles(groupID);
-    }
-    return null;
-  }
+  #fileUpdateInfo = (req) => {
 
-  removeMember = async (groupID, memberID) => {
-    const groupInfo = await this.#groupRepo.get(groupID);
-    if (groupInfo) {
-      const members = groupInfo.members.filter((id) => id !== memberID);
-      await this.#groupRepo.update(groupID, { members });
-  
-      // Remove the group from the user's groups
-      const userInfo = await this.#userRepo.getUser(memberID);
-      if (userInfo) {
-        const updatedUserGroups = userInfo.groups.filter((group) => group.id !== groupID);
-        await this.#userRepo.updateUser(memberID, { groups: updatedUserGroups });
-      }
-  
-      return true;
-    }
-    return false;
-  };
-  
-  
-  #checkUserInGroup = async (userID, groupID, groupInfo) => {
-    if (!groupInfo) {
-      groupInfo = await this.#groupRepo.get(groupID);
-    }
+    // TODO
     
-    if (groupInfo) {
-      if (groupInfo.members.includes(userID)) {
-        return true;
-      }
-    }
-    return false;
+    return {
+
+    };
   };
+
+  #memberUpdateInfo = (req) => {
+    // TODO
+    return {};
+  };
+
+  // --------- END UTIL -----------------------------------------------------------
 }
 
 module.exports = {
