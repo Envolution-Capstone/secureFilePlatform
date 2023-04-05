@@ -8,7 +8,7 @@ const makeUserRoutes = (userService) => {
   UserRoutes.use(checkAuth);
 
   UserRoutes.get('/:userid', (req, res) => {
-    userService.getUserInfo(req)
+    userService.getUser(req)
     .then((info) => {
       if (info) {
         respondData(res, info);

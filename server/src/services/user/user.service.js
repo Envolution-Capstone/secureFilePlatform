@@ -29,7 +29,13 @@ class UserService {
   };
 
   getUser = async (req) => {
-    return await this.#userRepo.getUser(userID);
+
+    const userid = req.params.userid;
+    if (!userid) {
+      return null;
+    }
+
+    return await this.#userRepo.getUser(userid);
   };
 
   userLogin = async (req) => {

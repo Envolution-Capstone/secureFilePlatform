@@ -15,6 +15,8 @@ import {
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import { getGroupInfo, removeMember } from "../../util/groups/groups";
+import { BackendRequest } from "../../requests/client";
+import { auth } from "../../firebase/firebase";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -42,8 +44,9 @@ kickBtn: {
 },
 }));
 
-const GroupInfo = ({ group, open, onClose, handleKickMember, creator }) => {
+const GroupInfo = ({ group, open, onClose, handleKickMember }) => {
 const [groupInfo, setGroupInfo] = useState({});
+const [members, setMembers] = useState([]);
 const classes = useStyles();
 
 useEffect(() => {
@@ -51,6 +54,16 @@ useEffect(() => {
     getGroupInfo(group)
       .then((info) => {
         setGroupInfo(info);
+        if (info.members) {
+          setMembers([]);
+          info.members.forEach(async (member)=> {
+            const response = await BackendRequest('GET', `/user/${member.id}`);
+            if (response.data.status === "success") {
+              const info = { ...response.data.data, admin:member.admin };
+              setMembers(old => [...old, info]);
+            }
+          });
+        }
       })
       .catch((error) => {
         console.log(`Error Fetching Group Info: ${error}`);
@@ -84,9 +97,9 @@ return (
       </Typography>
       <Divider />
       <List>
-        {groupInfo ? groupInfo.members &&
-          groupInfo.members.map((member) => (
-            <ListItem key={member.id} className={classes.item}>
+        {groupInfo ? 
+          members.map((member) => (
+            <ListItem key={member.uid} className={classes.item}>
               <ListItemAvatar>
                 <Avatar alt={member.displayName} src={member.photoURL} />
               </ListItemAvatar>
@@ -98,14 +111,14 @@ return (
                   display: "block",
                 }}
               >
-                {groupInfo.createdBy === member.id && (
+                {member.admin && (
                   <Typography variant="caption" color="secondary">
                     (Admin)
                   </Typography>
                 )}
               </ListItemText>
 
-              {creator && (
+              {members.find((val) => { return ((val.uid === auth.currentUser.uid) && val.admin && (member.uid !== auth.currentUser.uid));}) !== undefined ? (
                 <Tooltip title="Kick from group">
                   <IconButton
                     className={classes.kickBtn}
@@ -116,7 +129,7 @@ return (
                     <Clear />
                   </IconButton>
                 </Tooltip>
-              )}
+              ): <></>}
             </ListItem>
           )) : <></>}
       </List>
