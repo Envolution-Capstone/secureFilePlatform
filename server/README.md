@@ -2,7 +2,7 @@
 #  Backend API
 
 All responses are in the form:
-```json
+```
 {
 	"status" : "success" | "fail" | "error",
 	"data" : {*data form dependent on route*}
@@ -15,7 +15,7 @@ All responses are in the form:
 
 **Function:** Returns information about files for user logged in
 **Parameters:** 
-- authtoken header (automatically set when user logs in)
+- Auth Token
 
 **Returns:** array of files
 -  `{id : string, groupid: string, filename : string, size : number}[]`
@@ -56,7 +56,7 @@ All responses are in the form:
 - Auth Token
 
 **Returns:**  Group Info
-```json
+```
 { 
 	"createdBy": string, 
 	"members": {id: string, admin: bool}[] ,
@@ -73,7 +73,7 @@ All responses are in the form:
 - `{ "name": string }`
 
 **Returns:** New Group Id
-```json
+```
 { "id" : string }
 ```
 
@@ -201,7 +201,7 @@ All responses are in the form:
 - Auth Token
 
 **Returns:** User info
-```json
+```
 { "id": string, "name": string }[]
 ```
 
@@ -213,7 +213,7 @@ All responses are in the form:
 - Auth Token
 
 **Returns:** User info
-```json
+```
 { "id": string, "name": string }[]
 ```
 
@@ -226,7 +226,7 @@ All responses are in the form:
 - Auth Token
 
 **Returns:** List of invites
-```json
+```
 { "id": string, "name": string }[]
 ```
 
