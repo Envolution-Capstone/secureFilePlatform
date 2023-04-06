@@ -20,24 +20,21 @@ class GroupService {
 
   getInfo = async (req) => {
     Log.debug(`GroupRepo: getInfo`);
-
+  
     const groupid = req.params.groupid;
     const userid = req.userid;
     if (!groupid || !userid) {
       return null;
     }
-
-
-    return await
-    this.#require_IsMember(req)
-    .then(async (isMember) => {
-      if (isMember) {
-        return await this.#groupRepo.getInfo(groupid);
-      }
-
-      return null;
-    })
+  
+    const isMember = await this.#require_IsMember(req);
+    if (isMember) {
+      return await this.#groupRepo.getInfo(groupid);
+    }
+  
+    return null;
   };
+  
 
   createGroup = async (req) => {
     Log.debug(`GroupRepo: createGroup`);
@@ -92,6 +89,16 @@ class GroupService {
       return null;
     });
   };
+
+  // Adding this method for testing purposes only
+test_require_IsMember = async (req) => {
+  return await this.#require_IsMember(req);
+};
+
+// Similarly, for the other private method
+test_require_IsAdmin = async (req) => {
+  return await this.#require_IsAdmin(req);
+};
 
   // --------- END GROUPS -----------------------------------------------------------
 

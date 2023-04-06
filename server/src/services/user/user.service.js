@@ -5,8 +5,8 @@ class UserService {
  
   #userRepo;
 
-  constructor() {
-    this.#userRepo = new UserRepo();
+  constructor(userRepo) {
+    this.#userRepo = userRepo || new UserRepo();
   }
 
   getUserGroups = async (req) => {
@@ -60,8 +60,9 @@ class UserService {
       return null;
     }
 
-    return this.#userRepo.deleteUser(userID);
+    return this.#userRepo.deleteUser(req.params.userid);
   };
+
 
   // ------ UTIL -------------------------------------------------------
 
