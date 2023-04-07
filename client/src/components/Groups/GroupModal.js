@@ -60,9 +60,10 @@ const handleTabChange = (event, newValue) => {
 };
 
 const handleCreateGroup = async () => {
-  await BackendRequest('POST', '/group', {
+  const group = await BackendRequest('POST', '/group', {
     name: groupName
   });
+  inviteUserToGroup(email, group.data.data.groupid);
   onClose();
 };
 
@@ -76,7 +77,6 @@ return (
       <Tabs value={tabValue} onChange={handleTabChange}>
         <Tab label="Create Group" />
         <Tab label="Group Invites" />
-        <Tab label="Group Admin" />
       </Tabs>
       <TabPanel value={tabValue} index={0} className={classes.tabPanel}>
         <Typography variant="h6">Create a Group</Typography>

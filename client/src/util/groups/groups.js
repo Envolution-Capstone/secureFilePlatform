@@ -1,7 +1,4 @@
 import { BackendRequest } from "../../requests/client";
-import { db } from '../../firebase/firebase';
-
-
 
 const getUserGroups = async (userID) => {
   const resp = await BackendRequest('GET', `/user/${userID}/group`);
