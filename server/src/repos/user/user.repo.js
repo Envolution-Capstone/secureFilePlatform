@@ -87,7 +87,7 @@ class UserRepo {
     });
   };
 
-  acceptInvite = async (groupid, groupName, userid) => {
+  acceptInvite = async (groupid, groupname, userid) => {
     const userRef = await db.collection('users').doc(userid);
     const userData = (await userRef.get()).data();
   
@@ -96,8 +96,8 @@ class UserRepo {
       : [];
 
     const updatedGroups = userData.groups
-      ? [...userData.groups, { groupid, groupName }]
-      : [{ groupid, groupName }];
+      ? [...userData.groups, { groupid, groupname }]
+      : [{ groupid, groupname }];
   
     await userRef.set({ groupInvites: updatedInvites, groups: updatedGroups }, { merge: true });
     return true;

@@ -388,7 +388,7 @@ class GroupService {
   #groupInfo = (req) => {
     if (req.body.name) {
       return {
-        name: req.body.name
+        groupname: req.body.name
       };
     }
 

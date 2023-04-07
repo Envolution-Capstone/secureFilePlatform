@@ -20,7 +20,7 @@ class GroupRepo {
 
     const groupDoc = await groupRef.set({
       groupid: groupRef.id,
-      name: groupInfo.name,
+      groupname: groupInfo.name,
       createdBy: creatorid,
       members: [
         { id: creatorid, admin: true}
