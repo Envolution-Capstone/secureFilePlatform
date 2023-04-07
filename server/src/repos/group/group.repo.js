@@ -45,7 +45,6 @@ class GroupRepo {
     if (doc.exists) {
       return doc.data();
     } else {
-      console.log("Group doesn't exists");
       return null;
     }
   };

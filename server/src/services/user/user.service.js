@@ -12,7 +12,6 @@ class UserService {
   getUserGroups = async (req) => {
     const userID = req.params.userid;
     if (userID) {
-      console.log(userID);
       return await this.#userRepo.getUserGroups(userID);
     }
     return null;

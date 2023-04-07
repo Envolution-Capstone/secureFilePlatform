@@ -295,7 +295,6 @@ class GroupService {
 
     const groupid = req.params.groupid;
     const userid = req.params.userid;
-    console.log(`${groupid} ${userid}`);
 
     const isUser = this.#require_IsUser(req);
     if (isUser) {

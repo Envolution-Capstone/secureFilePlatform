@@ -35,7 +35,6 @@ class UserRepo {
       const data = doc.data();
       const g = await Promise.all(
         data.groups.map(async (group)=> {
-          console.log(`Group: ${JSON.stringify(group)}`);
           const info = await this.#groupsRef.doc(group.groupid).get();
           return info.data();
         })
@@ -68,9 +67,7 @@ class UserRepo {
     return null;
   };
 
-  groupInvite = async (groupid, groupName, useremail) => {
-    console.log(`email: ${useremail}`);
-    
+  groupInvite = async (groupid, groupName, useremail) => {    
     return await 
     this.#usersRef.where('email', '==', useremail).get()
     .then((snapshot) => {
@@ -107,11 +104,11 @@ class UserRepo {
     const userRef = await db.collection('users').doc(userid);
     const userData = (await userRef.get()).data();
   
-    const updatedGroups = userData.groups
-      ? userData.groups.filter((group) => {return group.groupid === groupid; })
+    const updatedGroups = userData.groupInvites
+      ? userData.groupInvites.filter((group) => {return group.groupid !== groupid; })
       : [];
   
-    await userRef.set({ groups: updatedGroups }, { merge: true });
+    await userRef.set({ groupInvites: updatedGroups }, { merge: true });
     return true;
   };
 
