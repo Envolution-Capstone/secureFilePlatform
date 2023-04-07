@@ -14,15 +14,28 @@ const Sidebar = ({ user }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [inviteCount, setInviteCount] = useState(0);
+  const [refreshInviteCount, setRefreshInviteCount] = useState(false);
+
 
   const fetchGroupInvitesCount = async () => {
-    const invites = await BackendRequest('GET', `/user/${auth.currentUser.uid}/invites`);
-    setInviteCount(invites.data.length);
+    try {
+      const response = await BackendRequest('GET', `/user/${auth.currentUser.uid}/invites`);
+      if (response.data.status === "success") {
+        setInviteCount(response.data.data.length);
+      } else {
+        setInviteCount(0);
+      }
+    } catch (error) {
+      console.error('Error fetching group invites count:', error);
+      setInviteCount(0);
+    }
   };
+  
 
   useEffect(() => {
     fetchGroupInvitesCount();
-  }, []);
+  }, [refreshInviteCount]);
+  
 
   return (
     <>
@@ -65,8 +78,9 @@ const Sidebar = ({ user }) => {
         user={user}
         open={showGroupModal}
         onClose={() => setShowGroupModal(false)}
-        onUpdateInviteCount={fetchGroupInvitesCount}
+        onUpdateInviteCount={() => setRefreshInviteCount(!refreshInviteCount)}
       />
+
     </>
   );
 };
