@@ -12,7 +12,6 @@ class Encryption {
   decrypt = async (entityId, fileContent) => {
     return fileContent;
   };
-
 };
 
 module.exports = {

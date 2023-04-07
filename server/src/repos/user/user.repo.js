@@ -35,6 +35,7 @@ class UserRepo {
       const data = doc.data();
       const g = await Promise.all(
         data.groups.map(async (group)=> {
+          console.log(`Group: ${JSON.stringify(group)}`);
           const info = await this.#groupsRef.doc(group.groupid).get();
           return info.data();
         })
@@ -95,7 +96,7 @@ class UserRepo {
       : [];
 
     const updatedGroups = userData.groups
-      ? [...userData.groupInvites, { groupid, groupName }]
+      ? [...userData.groups, { groupid, groupName }]
       : [{ groupid, groupName }];
   
     await userRef.set({ groupInvites: updatedInvites, groups: updatedGroups }, { merge: true });
@@ -107,7 +108,7 @@ class UserRepo {
     const userData = (await userRef.get()).data();
   
     const updatedGroups = userData.groups
-      ? userData.groups.filter((group) => {return group.id === groupid; })
+      ? userData.groups.filter((group) => {return group.groupid === groupid; })
       : [];
   
     await userRef.set({ groups: updatedGroups }, { merge: true });

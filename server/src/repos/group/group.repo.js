@@ -19,7 +19,7 @@ class GroupRepo {
     const groupID = groupRef.id;
 
     const groupDoc = await groupRef.set({
-      id: groupRef.id,
+      groupid: groupRef.id,
       name: groupInfo.name,
       createdBy: creatorid,
       members: [
@@ -32,11 +32,11 @@ class GroupRepo {
 
 
     await userRef.update({
-      groups: [...userInfo.data().groups, { name: groupInfo.name, id: groupID}],
+      groups: [...userInfo.data().groups, { name: groupInfo.name, groupid: groupID}],
     });
     const fdoc = await db.collection("group").doc(groupID).collection("files").add({});
 
-    return { name: groupInfo.name, id: groupID};
+    return { groupname: groupInfo.name, groupid: groupID};
   };
 
   getInfo = async (groupid) => {

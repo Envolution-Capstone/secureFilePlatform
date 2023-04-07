@@ -12,6 +12,7 @@ class UserService {
   getUserGroups = async (req) => {
     const userID = req.params.userid;
     if (userID) {
+      console.log(userID);
       return await this.#userRepo.getUserGroups(userID);
     }
     return null;
@@ -83,7 +84,7 @@ class UserService {
       email: req.body.email,
       photoURL: req.body.photoURL,
       groups: [],
-      invites: [],
+      groupInvites: [],
     };
     
     if (!userInfo.uid || !userInfo.name || !userInfo.email) {
