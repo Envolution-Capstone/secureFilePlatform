@@ -20,12 +20,17 @@ const GroupInvites = ({ onUpdateInviteCount }) => {
   const acceptInvite = async (groupid) => {
     const userid = auth.currentUser.uid;
     await BackendRequest('POST', `/group/${groupid}/accept/${userid}`);
+    onUpdateInviteCount();
+    setInvites((prevState) => prevState.filter((invite) => invite.groupid !== groupid));
   };
-
+  
   const declineInvite = async (groupid) => {
     const userid = auth.currentUser.uid;
     await BackendRequest('POST', `/group/${groupid}/decline/${userid}`);
+    onUpdateInviteCount();
+    setInvites((prevState) => prevState.filter((invite) => invite.groupid !== groupid));
   };
+  
 
   return (
     <div>

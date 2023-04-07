@@ -14,7 +14,6 @@ const Sidebar = ({ user }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [inviteCount, setInviteCount] = useState(0);
-  const [refreshInviteCount, setRefreshInviteCount] = useState(false);
 
 
   const fetchGroupInvitesCount = async () => {
@@ -34,7 +33,8 @@ const Sidebar = ({ user }) => {
 
   useEffect(() => {
     fetchGroupInvitesCount();
-  }, [refreshInviteCount]);
+  }, []);
+  
   
 
   return (
@@ -78,9 +78,8 @@ const Sidebar = ({ user }) => {
         user={user}
         open={showGroupModal}
         onClose={() => setShowGroupModal(false)}
-        onUpdateInviteCount={() => setRefreshInviteCount(!refreshInviteCount)}
+        onUpdateInviteCount={fetchGroupInvitesCount}
       />
-
     </>
   );
 };
