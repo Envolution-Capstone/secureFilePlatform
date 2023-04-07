@@ -65,6 +65,21 @@ class FileRepo {
       return false;
     });
   }
+
+
+  deleteFile = async (userid, fileid) => {
+    const doc = this.#filesRef.doc(fileId);
+  
+    if (doc.exists) {
+      const data = doc.data();
+      if (data.userid == userID) {
+        await doc.delete();
+        return true;
+      }
+    }
+    return false;
+  };
+
 };
 
 

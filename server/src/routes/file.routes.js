@@ -60,6 +60,21 @@ const makeFileRoutes = (fileService) => {
     });
   });
 
+  FileRoutes.delete('/:id', (req, res)=>{
+    fileService.deleteFile(req.userid, req.params.id)
+    .then((file)=>{
+      if (file) {
+        respondFile(res, file);
+      } else {
+        respondNotFound(res);
+      }
+    })
+    .catch((error)=>{
+      Log.error(`GET /file/:id : ${error}`);
+      respondServerError(res);
+    });
+  });
+
 
   return FileRoutes;
 }

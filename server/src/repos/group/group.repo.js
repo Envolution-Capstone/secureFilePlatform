@@ -57,7 +57,6 @@ class GroupRepo {
   };
 
   updateGroup = async (groupid, groupInfo) => {
-    // TODO 
   };
 
   
@@ -84,7 +83,6 @@ class GroupRepo {
   };
 
   updateMember = async (groupid, updateInfo) => {
-    // TODO
   };
 
   removeMember = async (groupid, memberid) => {

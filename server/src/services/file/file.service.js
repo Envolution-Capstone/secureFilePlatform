@@ -31,6 +31,11 @@ class FileService {
     return await this.#repo.create(meta, req.files.file[0].buffer);
   }
 
+  async delete(userid, fileid) {
+    return await this.#repo.deleteFile(userid, fileid);
+  }
+
+
   #checkReq(req) {
     if (req.userid && req.body.filename && req.files.file[0].buffer) {
       return true;

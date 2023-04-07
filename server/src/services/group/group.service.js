@@ -178,8 +178,6 @@ class GroupService {
     const groupid = req.params.groupid;
     const fileid = req.params.fileid;
     
-    // TODO update file
-
   };
 
   deleteFile = async (req) => {
@@ -407,16 +405,12 @@ class GroupService {
   }
 
   #fileUpdateInfo = (req) => {
-
-    // TODO
-    
     return {
 
     };
   };
 
   #memberUpdateInfo = (req) => {
-    // TODO
     return {};
   };
 

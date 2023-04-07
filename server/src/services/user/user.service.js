@@ -52,7 +52,6 @@ class UserService {
     if (!this.#require_IsUser(req)) {
       return null;
     }
-    // TODO check that userUpdateInfo is well-formed
   };
 
   deleteUser = async (req) => {
