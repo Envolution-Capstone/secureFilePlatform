@@ -14,7 +14,7 @@ const GroupSelector = ({groups, set}) => {
           autoWidth
           label="Group">
       {groups.map((group)=>{
-        return <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
+        return <MenuItem key={group.groupid} value={group.groupid}>{group.groupname}</MenuItem>
       })}
     </Select>
   );

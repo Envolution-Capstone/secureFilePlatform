@@ -240,7 +240,7 @@ class GroupService {
     .then(async (isAdmin) => {
       if (isAdmin) {
         const info = await this.#groupRepo.getInfo(groupid);
-        return await this.#userRepo.groupInvite(groupid, info.name, invitee);
+        return await this.#userRepo.groupInvite(groupid, info.groupname, invitee);
       }
 
       return null;
@@ -300,9 +300,7 @@ class GroupService {
     const isUser = this.#require_IsUser(req);
     if (isUser) {
       const info = await this.#groupRepo.getInfo(groupid);
-      console.log('here');
-      await this.#userRepo.acceptInvite(groupid, info.name, userid);
-      console.log('here2');
+      await this.#userRepo.acceptInvite(groupid, info.groupname, userid);
       return await this.#groupRepo.addMember(groupid, {id: userid, admin: false});
     } 
 
