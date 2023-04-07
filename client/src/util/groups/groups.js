@@ -37,7 +37,6 @@ const getUserGroupsWithNames = async (userID) => {
   
   if (response.data) {
     if (response.data.status === "success") {
-      console.log(JSON.stringify(response));
       return response.data.data;
     }
   }
