@@ -73,14 +73,14 @@ class GroupRepo {
   };
 
   addMember = async (groupid, memberInfo) => {
-    const groupRef = await db.collection('group').doc(groupid).get();
-    const groupData = groupRef.data();
+    const groupRef = await db.collection('group').doc(groupid);
+    const groupData = (await groupRef.get()).data();
   
     const updatedMembers = groupData.members
-      ? [...groupData.groupInvites, memberInfo]
+      ? [...groupData.members, memberInfo]
       : [memberInfo];
   
-    await userRef.set({ members: updatedMembers }, { merge: true });
+    await groupRef.set({ members: updatedMembers }, { merge: true });
     return true;
   };
 

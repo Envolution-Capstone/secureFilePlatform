@@ -17,23 +17,23 @@ const GroupInvites = ({ onUpdateInviteCount }) => {
   }, []);
   
 
-  const acceptInvite = async (groupID) => {
+  const acceptInvite = async (groupid) => {
     const userid = auth.currentUser.uid;
-    await BackendRequest('POST', `/group/${groupID}/accept/${userid}`);
+    await BackendRequest('POST', `/group/${groupid}/accept/${userid}`);
   };
 
-  const declineInvite = async (groupID) => {
+  const declineInvite = async (groupid) => {
     const userid = auth.currentUser.uid;
-    await BackendRequest('POST', `/group/${groupID}/decline/${userid}`);
+    await BackendRequest('POST', `/group/${groupid}/decline/${userid}`);
   };
 
   return (
     <div>
       {invites ? invites.map((invite) => (
-        <div key={invite.groupID}>
+        <div key={invite.groupid}>
           <span>{invite.groupName}</span>
-          <Button onClick={() => acceptInvite(invite.groupID)}>Accept</Button>
-          <Button onClick={() => declineInvite(invite.groupID)}>Decline</Button>
+          <Button onClick={() => acceptInvite(invite.groupid)}>Accept</Button>
+          <Button onClick={() => declineInvite(invite.groupid)}>Decline</Button>
         </div>
       )) : <></>}
     </div>

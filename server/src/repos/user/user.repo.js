@@ -35,7 +35,7 @@ class UserRepo {
       const data = doc.data();
       const g = await Promise.all(
         data.groups.map(async (group)=> {
-          const info = await this.#groupsRef.doc(group.id).get();
+          const info = await this.#groupsRef.doc(group.groupid).get();
           return info.data();
         })
       );
@@ -86,21 +86,25 @@ class UserRepo {
     });
   };
 
-  acceptInvite = async (groupid, userid) => {
-    const userRef = await db.collection('users').doc(userid).get();
-    const userData = userDoc.data();
+  acceptInvite = async (groupid, groupName, userid) => {
+    const userRef = await db.collection('users').doc(userid);
+    const userData = (await userRef.get()).data();
   
+    const updatedInvites = userData.groups
+      ? userData.groups.filter((group) => {return group.id === groupid; })
+      : [];
+
     const updatedGroups = userData.groups
       ? [...userData.groupInvites, { groupid, groupName }]
       : [{ groupid, groupName }];
   
-    await userRef.set({ groups: updatedGroups }, { merge: true });
+    await userRef.set({ groupInvites: updatedInvites, groups: updatedGroups }, { merge: true });
     return true;
   };
 
   declineInvite = async (groupid, userid) => {
-    const userRef = await db.collection('users').doc(userid).get();
-    const userData = userDoc.data();
+    const userRef = await db.collection('users').doc(userid);
+    const userData = (await userRef.get()).data();
   
     const updatedGroups = userData.groups
       ? userData.groups.filter((group) => {return group.id === groupid; })

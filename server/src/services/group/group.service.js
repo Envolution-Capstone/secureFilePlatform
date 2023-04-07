@@ -295,10 +295,14 @@ class GroupService {
 
     const groupid = req.params.groupid;
     const userid = req.params.userid;
+    console.log(`${groupid} ${userid}`);
 
     const isUser = this.#require_IsUser(req);
     if (isUser) {
-      await this.#userRepo.acceptInvite(groupid, userid);
+      const info = await this.#groupRepo.getInfo(groupid);
+      console.log('here');
+      await this.#userRepo.acceptInvite(groupid, info.name, userid);
+      console.log('here2');
       return await this.#groupRepo.addMember(groupid, {id: userid, admin: false});
     } 
 
