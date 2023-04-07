@@ -32,7 +32,7 @@ class GroupRepo {
 
 
     await userRef.update({
-      groups: [...userInfo.data().groups, { name: groupInfo.name, groupid: groupID}],
+      groups: [...userInfo.data().groups, { groupname: groupInfo.groupname, groupid: groupID}],
     });
     const fdoc = await db.collection("group").doc(groupID).collection("files").add({});
 
