@@ -88,7 +88,15 @@ class GroupRepo {
   };
 
   removeMember = async (groupid, memberid) => {
-    // TODO
+    const groupRef = await this.#groupsRef.doc(groupid);
+    const groupData = (await groupRef.get()).data();
+
+    const updateMembers = groupData.members
+      ? groupData.members.filter((member) => {return member.id !== memberid; })
+      : [];
+
+    await groupRef.set({ members: updateMembers }, { merge: true });
+    return true;
   };
 
 

@@ -84,6 +84,18 @@ class UserRepo {
     });
   };
 
+  leaveGroup = async (userid, groupid) => {
+    const userRef = await db.collection('users').doc(userid);
+    const userData = (await userRef.get()).data();
+  
+    const updatedGroups = userData.groups
+      ? userData.groups.filter((group) => {return group.groupid !== groupid; })
+      : [];
+  
+    await userRef.set({ groups: updatedGroups }, { merge: true });
+    return true;
+  };
+
   acceptInvite = async (groupid, groupname, userid) => {
     const userRef = await db.collection('users').doc(userid);
     const userData = (await userRef.get()).data();

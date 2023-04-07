@@ -38,7 +38,7 @@ const ShareWithMe = ({ user }) => {
   };
 
   const handleKickMember = (memberID) => {
-    removeMember(groupID, memberID);
+    // removeMember(groupID, memberID);
   };
 
   const handleGroupChange = async (val) => {

@@ -124,7 +124,7 @@ return (
                     className={classes.kickBtn}
                     edge="end"
                     aria-label="kick"
-                    onClick={() => handleKick(member.id)}
+                    onClick={() => handleKick(member.uid)}
                   >
                     <Clear />
                   </IconButton>

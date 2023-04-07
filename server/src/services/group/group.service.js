@@ -284,6 +284,7 @@ class GroupService {
     this.#require_IsAdmin(req)
     .then(async (isAdmin) => {
       if (isAdmin) {
+        await this.#userRepo.leaveGroup(memberid, groupid);
         return await this.#groupRepo.removeMember(groupid, memberid);
       }
 

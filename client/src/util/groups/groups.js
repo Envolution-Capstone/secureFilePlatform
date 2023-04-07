@@ -24,7 +24,7 @@ const getGroupInfo = async (groupID) => {
 };
 
 const removeMember = async (groupID, memberID) => {
-  const resp = await BackendRequest('DELETE', `/group/${groupID}/member/${memberID}`);
+  const resp = await BackendRequest('DELETE', `/group/${groupID}/members/${memberID}`);
   if (resp.data) {
     return resp.data;
   }
