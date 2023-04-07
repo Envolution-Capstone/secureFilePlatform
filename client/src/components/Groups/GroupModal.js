@@ -100,6 +100,7 @@ return (
       </TabPanel>
       <TabPanel value={tabValue} index={1} className={classes.tabPanel}>
         <GroupInvites onUpdateInviteCount={onUpdateInviteCount} />
+        <Button onClick={() => inviteUserToGroup('donaldtran12@gmail.com', '8K0vk5iVRtK0TOwGuXhV')}>Accept</Button>
       </TabPanel>
     </div>
   </Modal>

@@ -11,7 +11,12 @@ class UserRepo {
   }
 
   createUser = async (userInfo) => {
-    await this.#usersRef.doc(userInfo.uid).set(userInfo, {merge: true});
+    const userDoc = await this.#usersRef.doc(userInfo.uid).get();
+
+    if (!userDoc.exists) {
+      await this.#usersRef.doc(userInfo.uid).set(userInfo, {merge: true});
+    }
+
     return true;
   };
 
@@ -62,19 +67,47 @@ class UserRepo {
     return null;
   };
 
-  groupInvite = async (groupid, useremail) => {
-    const userRef = await db.collection('users').where('email', '==', useremail).get();
+  groupInvite = async (groupid, groupName, useremail) => {
+    console.log(`email: ${useremail}`);
+    
+    return await 
+    this.#usersRef.where('email', '==', useremail).get()
+    .then((snapshot) => {
+      snapshot.forEach(async (doc) => {
+        const userData = doc.data();
+        const updatedInvites = userData.groupInvites
+          ? [...userData.groupInvites, { groupid, groupName }]
+          : [{ groupid, groupName }];
+
+        const userRef = this.#usersRef.doc(doc.id);
+        await userRef.set({ groupInvites: updatedInvites }, { merge: true });
+      });
+      return true;
+    });
+  };
+
+  acceptInvite = async (groupid, userid) => {
+    const userRef = await db.collection('users').doc(userid).get();
     const userData = userDoc.data();
   
-    const updatedInvites = userData.groupInvites
+    const updatedGroups = userData.groups
       ? [...userData.groupInvites, { groupid, groupName }]
       : [{ groupid, groupName }];
   
-    await userRef.set({ groupInvites: updatedInvites }, { merge: true });
+    await userRef.set({ groups: updatedGroups }, { merge: true });
+    return true;
   };
 
-  acceptInvite = (groupid, userid) => {
-    // TODO
+  declineInvite = async (groupid, userid) => {
+    const userRef = await db.collection('users').doc(userid).get();
+    const userData = userDoc.data();
+  
+    const updatedGroups = userData.groups
+      ? userData.groups.filter((group) => {return group.id === groupid; })
+      : [];
+  
+    await userRef.set({ groups: updatedGroups }, { merge: true });
+    return true;
   };
 
 };

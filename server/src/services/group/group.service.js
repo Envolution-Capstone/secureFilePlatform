@@ -239,7 +239,8 @@ class GroupService {
     this.#require_IsAdmin(req)
     .then(async (isAdmin) => {
       if (isAdmin) {
-        return await this.#userRepo.groupInvite(invitee, groupid);
+        const info = await this.#groupRepo.getInfo(groupid);
+        return await this.#userRepo.groupInvite(groupid, info.name, invitee);
       }
 
       return null;
@@ -290,6 +291,33 @@ class GroupService {
     });
   };
 
+  userAcceptInvite = async (req) => {
+
+    const groupid = req.params.groupid;
+    const userid = req.params.userid;
+
+    const isUser = this.#require_IsUser(req);
+    if (isUser) {
+      await this.#userRepo.acceptInvite(groupid, userid);
+      return await this.#groupRepo.addMember(groupid, {id: userid, admin: false});
+    } 
+
+    return null;
+  };
+
+  userDeclineInvite = async (req) => {
+
+    const groupid = req.params.groupid;
+    const userid = req.params.userid;
+
+    const isUser = this.#require_IsUser(req);
+    if (isUser) {
+      return await this.#userRepo.declineInvite(groupid, userid);
+    } 
+
+    return null;
+  };
+
 
   // --------- END GROUP MEMBERS -----------------------------------------------------------
 
@@ -327,7 +355,7 @@ class GroupService {
       return false;
     }
 
-    const groupInfo = await this.#groupRepo.get(groupid);
+    const groupInfo = await this.#groupRepo.getInfo(groupid);
 
     if (groupInfo) {
       const user = groupInfo.members.find((val) => {
@@ -340,6 +368,17 @@ class GroupService {
     }
 
     return false;
+  };
+
+  #require_IsUser = (req) => {
+    const tokenuser = req.userid;
+    const userid = req.params.userid;
+
+    if (!tokenuser || !userid) {
+      return false;
+    }
+
+    return tokenuser === userid;
   };
 
   #groupInfo = (req) => {

@@ -214,6 +214,36 @@ const makeGroupRoutes = (groupService) => {
       respondServerError(res);
     });
   });
+
+  GroupRoutes.post('/:groupid/accept/:userid', (req, res) => {
+    groupService.userAcceptInvite(req)
+    .then((success) => {
+      if (success) {
+        respondSuccess(res);
+      } else {
+        respondBadRequest(res);
+      }
+    })
+    .catch((error) => {
+      Log.error(`POST /group/:groupid/accept/:memberid : ${error}`);
+      respondServerError(res);
+    });
+  });
+
+  GroupRoutes.post('/:groupid/decline/:userid', (req, res) => {
+    groupService.userDeclineInvite(req)
+    .then((success) => {
+      if (success) {
+        respondSuccess(res);
+      } else {
+        respondBadRequest(res);
+      }
+    })
+    .catch((error) => {
+      Log.error(`POST /group/:groupid/decline/:memberid : ${error}`);
+      respondServerError(res);
+    });
+  });
   
 
   // -------- END Group Member Routes -------------------------------------------------------------------------------------------
