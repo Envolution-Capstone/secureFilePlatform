@@ -10,15 +10,16 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative; // Add this line
   ...
-  
 `;
+
 
 const SidebarBtn = styled.div`
   margin-top: ${({ primary }) => (primary ? "40px" : "20px")};
   display: flex;
   justify-content: center;
-  
+
   button {
     background: ${({ primary }) => (primary ? "white" : "transparent")};
     color: ${({ primary }) => (primary ? "#2262c6" : "inherit")};
@@ -68,7 +69,7 @@ const SidebarOption = styled.div`
   span {
     margin-left: 15px;
     font-size: 15px; // Increase font size
-    font-weight: 600; // Increase font-weight to make it bolder
+    font-weight: 400; // Increase font-weight to make it bolder
     -webkit-font-smoothing: antialiased; // Enable font smoothing
     -moz-osx-font-smoothing: grayscale; // Enable font smoothing for Firefox on macOS
     color: #fff;
@@ -125,6 +126,42 @@ const UploadingPara = styled.p`
   letter-spacing: 1px;
 `;
 
+const StorageBarContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; // Change this line
+  margin-bottom: 100px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-left: 15px;
+`;
+
+
+const StorageBar = styled.div`
+  width: 80%;
+  height: 10px;
+  background-color: white;
+  border-radius: 4px;
+  margin: 5px 0;
+  overflow: hidden;
+  position: relative;
+`;
+
+const StorageBarProgress = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: lightblue;
+  border-radius: 5px;
+`;
+
+const StorageText = styled.span`
+  color: #fff;
+  font-size: 14px;
+  margin-top: 5px;
+`;
 
 
 export {
@@ -136,4 +173,8 @@ export {
   ModalHeading,
   ModalBody,
   UploadingPara,
+  StorageText,
+  StorageBarProgress,
+  StorageBar,
+  StorageBarContainer,
 };

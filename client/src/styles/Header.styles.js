@@ -16,7 +16,7 @@ const HeaderLogo = styled.div`
     span {
         font-size: 38px;
         margin-left: 10px;
-        color: Black;
+        color: #2262c6;
         font-family: 'Roboto', sans-serif;
     }
 `

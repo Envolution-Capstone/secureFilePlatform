@@ -14,6 +14,10 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import BackupIcon from "@material-ui/icons/Backup";
 import styled from "styled-components";
+import CloudQueueIcon from '@material-ui/icons/CloudQueue';
+import { StorageBarContainer, StorageBar, StorageBarProgress, StorageText } from "../styles/Sidebar.styles";
+  
+
 
 
 const StyledNavLink = styled(NavLink)`
@@ -106,7 +110,16 @@ const Sidebar = ({ user }) => {
             </Badge>
           </SidebarBtn>
         </SidebarOptions>
-
+        <StorageBarContainer>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <CloudQueueIcon style={{ color: "#fff" }} />
+          <span style={{ color: "#fff", marginLeft: "5px" }}>Storage</span>
+        </div>
+        <StorageBar>
+          <StorageBarProgress style={{ width: "60%" }} />
+        </StorageBar>
+        <StorageText>600 MB out of 1000 MB used</StorageText>
+      </StorageBarContainer>
       </SidebarContainer>
       <GroupModal
         user={user}

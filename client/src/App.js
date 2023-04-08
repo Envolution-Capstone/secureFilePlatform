@@ -9,7 +9,7 @@ import { signIn } from "./util/user/login";
 import { auth } from './firebase/firebase';
 
 import { SideBySide, LoginContainer } from "./styles/App.styles";
-
+import GlobalStyles from "./GlobalStyles"; // Import GlobalStyles here
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,6 +27,7 @@ function App() {
 
   return (
     <>
+      <GlobalStyles />
       {user ? (
         <>
           <Header user={user} />
