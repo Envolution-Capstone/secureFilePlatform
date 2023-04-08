@@ -24,7 +24,7 @@ const SidebarBtn = styled.div`
     background: ${({ primary }) => (primary ? "white" : "transparent")};
     color: ${({ primary }) => (primary ? "#2262c6" : "inherit")};
     border: 1px solid ${({ primary }) => (primary ? "white" : "lightgray")};
-    border-radius: ${({ primary }) => (primary ? "20px" : "40px")};
+    border-radius: ${({ primary }) => (primary ? "12px" : "40px")};
     padding: ${({ primary }) => (primary ? "10px 20px" : "5px 10px")};
     ...
     span {

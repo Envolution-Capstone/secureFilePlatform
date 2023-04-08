@@ -49,7 +49,13 @@ const Header = ({ user }) => {
         </UserInfo>
         <span>
         <div style={{ position: "relative" }}>
-          <Avatar onClick={handleClick} src={user?.photoURL} />
+          <Avatar style={{
+                  width: "45px",
+                  height: "45px",
+                  marginRight: "13px",
+                  borderRadius: "8px",
+                }}
+                onClick={handleClick} src={user?.photoURL} />
           <Menu
             className={classes.menu}
             anchorEl={anchorEl}
@@ -93,6 +99,7 @@ const Header = ({ user }) => {
                   width: "60px",
                   height: "60px",
                   marginRight: "13px",
+                  borderRadius: "8px",
                 }}
                 src={user?.photoURL}
               />{" "}
