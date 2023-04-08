@@ -16,8 +16,10 @@ const SidebarContainer = styled.div`
 
 const SidebarBtn = styled.div`
   margin-top: ${({ primary }) => (primary ? "40px" : "20px")};
+  display: flex;
+  justify-content: center;
+  
   button {
-    margin: 0 auto; // Center the button horizontally
     background: ${({ primary }) => (primary ? "white" : "transparent")};
     color: ${({ primary }) => (primary ? "#2262c6" : "inherit")};
     border: 1px solid ${({ primary }) => (primary ? "white" : "lightgray")};
@@ -26,7 +28,7 @@ const SidebarBtn = styled.div`
     ...
     span {
       ...
-      font-size: ${({ primary }) => (primary ? "18px" : "16px")};
+      font-size: ${({ primary }) => (primary ? "20px" : "18px")}; // Increase font size
       color: ${({ primary }) => (primary ? "mediumblue" : "#fff")};
     }
     &:hover {
@@ -49,6 +51,9 @@ margin-top: 10px;
 `;
 
 const SidebarOption = styled.div`
+  a {
+    text-decoration: none;
+  }
   display: flex;
   align-items: center;
   padding: 8px 20px;
@@ -62,12 +67,11 @@ const SidebarOption = styled.div`
   }
   span {
     margin-left: 15px;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 15px; // Increase font size
+    font-weight: 600; // Increase font-weight to make it bolder
+    -webkit-font-smoothing: antialiased; // Enable font smoothing
+    -moz-osx-font-smoothing: grayscale; // Enable font smoothing for Firefox on macOS
     color: #fff;
-  }
-  a {
-    text-decoration: none;
   }
 `;
 

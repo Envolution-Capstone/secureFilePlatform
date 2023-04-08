@@ -13,8 +13,12 @@ import ComputerIcon from "@material-ui/icons/Computer";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import BackupIcon from "@material-ui/icons/Backup";
+import styled from "styled-components";
 
 
+const StyledNavLink = styled(NavLink)`
+  text-decoration: none;
+`;
 
 const Sidebar = ({ user }) => {
   const [showUpload, setShowUpload] = useState(false);
@@ -54,42 +58,42 @@ const Sidebar = ({ user }) => {
         <DocumentUploadModal user={user} Open={showUpload} onFinished={() => setShowUpload(false)} />
 
         <SidebarOptions>
-          <NavLink to="/">
+          <StyledNavLink to="/">
             <SidebarOption>
               <MobileScreenShareIcon />
               <span>My Drive</span>
             </SidebarOption>
-          </NavLink>
-          <NavLink to="/share-with-me">
+          </StyledNavLink>
+          <StyledNavLink to="/share-with-me">
             <SidebarOption>
               <PeopleAltOutlinedIcon />
               <span>Shared with me</span>
             </SidebarOption>
-          </NavLink>
-          <NavLink to="/computers">
+          </StyledNavLink>
+          <StyledNavLink to="/computers">
             <SidebarOption>
               <ComputerIcon />
               <span>Computers</span>
             </SidebarOption>
-          </NavLink>
-          <NavLink to="/recent">
+          </StyledNavLink>
+          <StyledNavLink to="/recent">
             <SidebarOption>
               <AccessTimeIcon />
               <span>Recent</span>
             </SidebarOption>
-          </NavLink>
-          <NavLink to="/starred">
+          </StyledNavLink>
+          <StyledNavLink to="/starred">
             <SidebarOption>
               <StarBorderIcon />
               <span>Starred</span>
             </SidebarOption>
-          </NavLink>
-          <NavLink to="/backups">
+          </StyledNavLink>
+          <StyledNavLink to="/backups">
             <SidebarOption>
               <BackupIcon />
               <span>Backups</span>
             </SidebarOption>
-          </NavLink>
+          </StyledNavLink>
           <SidebarOption>
             <DeleteOutlineOutlinedIcon />
             <span>Trash</span>
