@@ -6,7 +6,6 @@ const HeaderContainer = styled.div`
   align-items: center;
   padding: 5px 20px;
   height: 60px;
-  border-bottom: 1px solid lightgray;
 `;
 const HeaderLogo = styled.div`
     display: flex;

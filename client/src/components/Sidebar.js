@@ -9,6 +9,12 @@ import DocumentUploadModal from "./Documents/DocumentUploadModal";
 import GroupModal from "./Groups/GroupModal";
 import { auth } from "../firebase/firebase";
 import { BackendRequest } from "../requests/client";
+import ComputerIcon from "@material-ui/icons/Computer";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import BackupIcon from "@material-ui/icons/Backup";
+
+
 
 const Sidebar = ({ user }) => {
   const [showUpload, setShowUpload] = useState(false);
@@ -40,11 +46,11 @@ const Sidebar = ({ user }) => {
   return (
     <>
       <SidebarContainer>
-        <SidebarBtn>
-          <button onClick={() => setShowUpload(!showUpload)}>
-            <span> Upload File </span>
-          </button>
-        </SidebarBtn>
+      <SidebarBtn primary>
+        <button onClick={() => setShowUpload(!showUpload)}>
+          <span> Upload New File </span>
+        </button>
+      </SidebarBtn>
         <DocumentUploadModal user={user} Open={showUpload} onFinished={() => setShowUpload(false)} />
 
         <SidebarOptions>
@@ -60,6 +66,30 @@ const Sidebar = ({ user }) => {
               <span>Shared with me</span>
             </SidebarOption>
           </NavLink>
+          <NavLink to="/computers">
+            <SidebarOption>
+              <ComputerIcon />
+              <span>Computers</span>
+            </SidebarOption>
+          </NavLink>
+          <NavLink to="/recent">
+            <SidebarOption>
+              <AccessTimeIcon />
+              <span>Recent</span>
+            </SidebarOption>
+          </NavLink>
+          <NavLink to="/starred">
+            <SidebarOption>
+              <StarBorderIcon />
+              <span>Starred</span>
+            </SidebarOption>
+          </NavLink>
+          <NavLink to="/backups">
+            <SidebarOption>
+              <BackupIcon />
+              <span>Backups</span>
+            </SidebarOption>
+          </NavLink>
           <SidebarOption>
             <DeleteOutlineOutlinedIcon />
             <span>Trash</span>
@@ -72,7 +102,7 @@ const Sidebar = ({ user }) => {
             </Badge>
           </SidebarBtn>
         </SidebarOptions>
-        <hr />
+
       </SidebarContainer>
       <GroupModal
         user={user}

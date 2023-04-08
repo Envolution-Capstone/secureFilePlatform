@@ -1,40 +1,51 @@
 import styled from "styled-components";
 
 const SidebarContainer = styled.div`
+  width: 250px;
+  min-height: 100vh;
+  background-color: #2262c6;
+  border-top-right-radius: 75px;
   margin-top: 10px;
+  ...
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  ...
+  
 `;
+
 const SidebarBtn = styled.div`
+  margin-top: ${({ primary }) => (primary ? "40px" : "20px")};
   button {
-    background: transparent;
-    border: 1px solid lightgray;
-    display: flex;
-    align-items: center;
-    border-radius: 40px;
-    padding: 5px 10px;
-    box-shadow: 2px 2px 2px #ccc;
-    margin-left: 20px;
+    margin: 0 auto; // Center the button horizontally
+    background: ${({ primary }) => (primary ? "white" : "transparent")};
+    color: ${({ primary }) => (primary ? "#2262c6" : "inherit")};
+    border: 1px solid ${({ primary }) => (primary ? "white" : "lightgray")};
+    border-radius: ${({ primary }) => (primary ? "20px" : "40px")};
+    padding: ${({ primary }) => (primary ? "10px 20px" : "5px 10px")};
+    ...
     span {
-      font-size: 16px;
-      margin-right: 20px;
-      margin-left: 10px;
+      ...
+      font-size: ${({ primary }) => (primary ? "18px" : "16px")};
+      color: ${({ primary }) => (primary ? "mediumblue" : "#fff")};
     }
     &:hover {
-      background: lightblue;
+      background: ${({ primary }) => (primary ? "mediumblue" : "lightblue")};
+      color: ${({ primary }) => (primary ? "white" : "inherit")};
       cursor: pointer;
     }
   }
 `;
 
+
 const SidebarOptions = styled.div`
-  margin-top: 10px;
-  .progress_bar {
-    padding: 0px 20px;
-  }
-  .progress_bar span {
-    display: block;
-    color: #333;
-    font-size: 13px;
-  }
+margin-top: 10px;
+&:not(:first-child) {
+  margin-top: 30px; // Apply margin to all buttons except the first
+}
+&:first-child {
+  margin-top: 30px; // Add margin to the first button in SidebarOptions
+}
 `;
 
 const SidebarOption = styled.div`
@@ -47,13 +58,16 @@ const SidebarOption = styled.div`
     cursor: pointer;
   }
   svg.MuiSvgIcon-root {
-    color: rgb(78, 78, 78);
+    color: #fff;
   }
   span {
     margin-left: 15px;
     font-size: 13px;
     font-weight: 500;
-    color: rgb(78, 78, 78);
+    color: #fff;
+  }
+  a {
+    text-decoration: none;
   }
 `;
 
@@ -107,13 +121,15 @@ const UploadingPara = styled.p`
   letter-spacing: 1px;
 `;
 
+
+
 export {
   SidebarContainer,
-SidebarBtn,
-SidebarOptions,
-SidebarOption,
-ModalPopup,
-ModalHeading,
-ModalBody,
-UploadingPara,
-}
+  SidebarBtn,
+  SidebarOptions,
+  SidebarOption,
+  ModalPopup,
+  ModalHeading,
+  ModalBody,
+  UploadingPara,
+};
