@@ -1,8 +1,5 @@
 import SearchIcon from "@material-ui/icons/Search";
 import FormatAlignCenterIcon from "@material-ui/icons/FormatAlignCenter";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import SettingsIcon from "@material-ui/icons/Settings";
-import AppsIcon from "@material-ui/icons/Apps";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import logo from '../assets/logo.png';
 import {
@@ -15,7 +12,7 @@ import {
 import { useState } from "react";
 import { PersonAdd } from "@material-ui/icons";
 import { useStyles } from "./MuiStyle";
-import { HeaderContainer, HeaderLogo, HeaderIcons, HeaderSearch } from '../styles/Header.styles';
+import { HeaderContainer, HeaderLogo, HeaderIcons, HeaderSearch, UserInfo, UserName, UserEmail } from '../styles/Header.styles';
 import { signOut } from "../util/user/login";
 
 const Header = ({ user }) => {
@@ -37,8 +34,8 @@ const Header = ({ user }) => {
   return (
     <HeaderContainer>
       <HeaderLogo>
-      <img src={logo} alt="logo"/>
-      <span> Envolution </span>
+        <img src={logo} alt="logo"/>
+        <span> Envolution </span>
       </HeaderLogo>
       <HeaderSearch>
         <SearchIcon />
@@ -46,95 +43,94 @@ const Header = ({ user }) => {
         <FormatAlignCenterIcon />
       </HeaderSearch>
       <HeaderIcons>
+        <UserInfo>
+          <UserName>{user?.displayName}</UserName>
+          <UserEmail>{user?.email}</UserEmail>
+        </UserInfo>
         <span>
-          <HelpOutlineIcon />
-          <SettingsIcon />
-        </span>
-        <span>
-          <AppsIcon />
-          <div style={{ position: "relative" }}>
-            <Avatar onClick={handleClick} src={user?.photoURL} />
-            <Menu
-              className={classes.menu}
-              anchorEl={anchorEl}
-              id="account-menu"
-              open={open}
-              onClose={handleClose}
-              onClick={handleClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-
-                  "&:before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                  },
+        <div style={{ position: "relative" }}>
+          <Avatar onClick={handleClick} src={user?.photoURL} />
+          <Menu
+            className={classes.menu}
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
                 },
-              }}
-              transformOrigin={{ horizontal: "right", vertical: "top" }}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            >
-              <MenuItem onClick={handleClose}>
-                <Avatar
-                  style={{
-                    width: "60px",
-                    height: "60px",
-                    marginRight: "13px",
-                  }}
-                  src={user?.photoURL}
-                />{" "}
-                <div>
-                  <p style={{ fontSize: "14px", fontWeight: "bold" }}>
-                    {user?.displayName}
-                  </p>
-                  <p style={{ fontSize: "12px" }}>{user?.email}</p>
-                </div>
-              </MenuItem>
 
-              <Divider style={{ marginTop: "6px" }} />
-              <MenuItem
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem onClick={handleClose}>
+              <Avatar
                 style={{
-                  marginTop: "25px",
-                  paddingTop: "12px",
-                  paddingBottom: "12px",
+                  width: "60px",
+                  height: "60px",
+                  marginRight: "13px",
                 }}
-                onClick={handleClose}
-              >
-                <ListItemIcon style={{ minWidth: "30px" }}>
-                  <PersonAdd fontSize="small" />
-                </ListItemIcon>
-                Add another account
-              </MenuItem>
+                src={user?.photoURL}
+              />{" "}
+              <div>
+                <p style={{ fontSize: "14px", fontWeight: "bold" }}>
+                  {user?.displayName}
+                </p>
+                <p style={{ fontSize: "12px" }}>{user?.email}</p>
+              </div>
+            </MenuItem>
 
-              <MenuItem
-                style={{ paddingTop: "12px", paddingBottom: "12px" }}
-                onClick={handleLogOut}
-              >
-                <ListItemIcon style={{ minWidth: "30px" }}>
-                  {" "}
-                  <ExitToAppIcon fontSize="small" />
-                </ListItemIcon>
-                Logout
-              </MenuItem>
-            </Menu>
-          </div>
+            <Divider style={{ marginTop: "6px" }} />
+            <MenuItem
+              style={{
+                marginTop: "25px",
+                paddingTop: "12px",
+                paddingBottom: "12px",
+              }}
+              onClick={handleClose}
+            >
+              <ListItemIcon style={{ minWidth: "30px" }}>
+                <PersonAdd fontSize="small" />
+              </ListItemIcon>
+              Add another account
+            </MenuItem>
+
+            <MenuItem
+              style={{ paddingTop: "12px", paddingBottom: "12px" }}
+              onClick={handleLogOut}
+            >
+              <ListItemIcon style={{ minWidth: "30px" }}>
+                {" "}
+                <ExitToAppIcon fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </Menu>
+        </div>
         </span>
       </HeaderIcons>
     </HeaderContainer>

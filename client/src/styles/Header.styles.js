@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const HeaderContainer = styled.div`
   display: grid;
-  grid-template-columns: 300px auto 200px;
+  grid-template-columns: 300px auto 300px;
   align-items: center;
   padding: 5px 20px;
   height: 60px;
@@ -39,6 +39,7 @@ const HeaderSearch = styled.div`
 const HeaderIcons = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   span {
     display: flex;
     align-items: center;
@@ -49,9 +50,30 @@ const HeaderIcons = styled.div`
   }
 `;
 
+const UserInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 15px;
+`;
+
+const UserName = styled.p`
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+`;
+
+const UserEmail = styled.p`
+  font-size: 12px;
+  margin: 0;
+`;
+
 export {
   HeaderContainer,
-HeaderLogo,
-HeaderSearch,
-HeaderIcons,
-}
+  HeaderLogo,
+  HeaderSearch,
+  HeaderIcons,
+  UserInfo,
+  UserName,
+  UserEmail,
+};
