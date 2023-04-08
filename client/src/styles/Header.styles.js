@@ -18,6 +18,7 @@ const HeaderLogo = styled.div`
         margin-left: 10px;
         color: #2262c6;
         font-family: 'Roboto', sans-serif;
+        font-weight: 600; // Adjust the font-weight as desired
     }
 `
 
@@ -25,9 +26,10 @@ const HeaderSearch = styled.div`
   display: flex;
   align-items: center;
   width: 700px;
+  margin-left: 60px; /* Add margin to move the search bar to the right */
   background-color: whitesmoke;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 30px;
   input {
     background-color: transparent;
     border: 0;
@@ -35,6 +37,7 @@ const HeaderSearch = styled.div`
     flex: 1;
   }
 `;
+
 
 const HeaderIcons = styled.div`
   display: flex;

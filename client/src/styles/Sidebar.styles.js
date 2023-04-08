@@ -69,7 +69,7 @@ const SidebarOption = styled.div`
   span {
     margin-left: 15px;
     font-size: 15px; // Increase font size
-    font-weight: 400; // Increase font-weight to make it bolder
+    font-weight: 500; // Increase font-weight to make it bolder
     -webkit-font-smoothing: antialiased; // Enable font smoothing
     -moz-osx-font-smoothing: grayscale; // Enable font smoothing for Firefox on macOS
     color: #fff;
@@ -153,7 +153,7 @@ const StorageBarProgress = styled.div`
   top: 0;
   left: 0;
   height: 100%;
-  background-color: lightblue;
+  background-color: #7cabf5;
   border-radius: 5px;
 `;
 
