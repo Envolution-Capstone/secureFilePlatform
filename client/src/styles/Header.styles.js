@@ -25,7 +25,7 @@ const HeaderLogo = styled.div`
 const HeaderSearch = styled.div`
   display: flex;
   align-items: center;
-  width: 500px;
+  width: 700px;
   margin-left: 70px; /* Add margin to move the search bar to the right */
   background-color: whitesmoke;
   padding: 12px;

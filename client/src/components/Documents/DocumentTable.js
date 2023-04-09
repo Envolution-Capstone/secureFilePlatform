@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
-
-import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import DescriptionIcon from '@material-ui/icons/Description';
-import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import { client } from '../../requests/client';
-
 import { DataGrid, DataFile, DataListRow } from '../../styles/DocumentTable.styles';
 import { getFiles } from "../../util/files/files";
-
-
 
 const DocumentTable = ({route}) => {
   const [files, setFiles] = useState([]);
@@ -27,22 +19,24 @@ const DocumentTable = ({route}) => {
     }
   }, [route]);
 
-  const getFileIcon = (fileType) => {
-    switch (fileType) {
-      case "txt":
-        return <DescriptionIcon />;
-      case "JPEG":
-      case "jpeg":
-      case "PNG":
-      case "png":
-        return <InsertPhotoIcon />;
+  const getIconURLByExtension = (extension) => {
+    switch (extension) {
       case "pdf":
-        return <PictureAsPdfIcon />;
+        return "https://www.gstatic.com/images/icons/material/system/2x/picture_as_pdf_black_24dp.png";
       case "doc":
       case "docx":
-        return <InsertDriveFileIcon />;
+        return "https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Adescription%3A";
+      case "xls":
+      case "xlsx":
+        return "https://www.gstatic.com/images/icons/material/system/2x/grid_on_black_24dp.png";
+      case "ppt":
+      case "pptx":
+        return "https://www.gstatic.com/images/icons/material/system/2x/present_to_all_black_24dp.png";
+      case "zip":
+      case "rar":
+        return "https://www.gstatic.com/images/icons/material/system/2x/archive_black_24dp.png";
       default:
-        return <InsertDriveFileIcon />;
+        return "https://www.gstatic.com/images/icons/material/system/2x/insert_drive_file_black_24dp.png";
     }
   };
 
@@ -72,13 +66,18 @@ const DocumentTable = ({route}) => {
       }
     });
   }
-
+  
   return (
     <div>
       <DataGrid>
         {files ? files.map((file) => (
           <DataFile key={file.id}>
-            <InsertDriveFileIcon onClick={()=>downloadFile(file.id, file.filename)}/>
+            <img
+              src={getIconURLByExtension(file.extension)}
+              alt={file.extension}
+              style={{ width: "60px", height: "60px", cursor: "pointer" }}
+              onClick={() => downloadFile(file.id, file.filename)}
+            />
             <p>{file.filename}</p>
           </DataFile>
         )) : <></>}
@@ -87,7 +86,7 @@ const DocumentTable = ({route}) => {
         <DataListRow>
           <p>
             <b>
-              Name <ArrowDownwardIcon />
+            Name <ArrowDownwardIcon />
             </b>
           </p>
           <p>
@@ -104,7 +103,12 @@ const DocumentTable = ({route}) => {
         files.map((file) => (
           <DataListRow key={file.id} onClick={()=>downloadFile(file.id, file.filename)}>
             <p>
-              <InsertDriveFileIcon /> {file.filename}
+              <img
+                src={getIconURLByExtension(file.extension)}
+                alt={file.extension}
+                style={{ width: "22px", height: "22px", marginRight: "10px" }}
+              />
+              {file.filename}
             </p>
             <p>{new Date(file.timestamp * 1000).toUTCString()}</p>
             <p>{byteConvert(file.size)}</p>
