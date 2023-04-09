@@ -31,7 +31,6 @@ const DocumentTable = ({route}) => {
   }, [route]);
 
   const getIconURLByExtension = (extension) => {
-    console.log("Extension:", extension);
     switch (extension) {
       case "txt":
         return txt;
@@ -131,7 +130,9 @@ const DocumentTable = ({route}) => {
               />
               {file.filename}
             </NameColumn>
-            <SharedByColumn></SharedByColumn>
+            <SharedByColumn>
+            <p>{file.sharedBy}</p>
+            </SharedByColumn>
             <LastModifiedColumn>
               {new Date(file.timestamp * 1000).toUTCString()}
             </LastModifiedColumn>

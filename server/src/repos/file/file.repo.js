@@ -5,33 +5,37 @@ const { db } = require('./../../firebase/firebase');
 class FileRepo {
   
   #filesRef;
+  #usersRef;
   #encryption;
 
   constructor() {
     this.#filesRef = db.collection("myfiles");
+    this.#usersRef = db.collection("users");
     this.#encryption = new Encryption();
   }
 
   async getInfo(userID) {
-    return new Promise((resolve, reject) => { 
+    return new Promise(async (resolve, reject) => {
       this.#filesRef.where("userid", "==", userID)
-      .onSnapshot((snapshot) => {
-        const docs = snapshot.docs.map((doc)=>{
-          const data = doc.data();
-          const temp = {
-            id: doc.id,
-            filename: data.filename,
-            extension: data.extension,
-            size: data.size,
-            timestamp: data.timestamp
-          };
-          return temp;
+        .onSnapshot(async (snapshot) => {
+          const docs = await Promise.all(snapshot.docs.map(async (doc) => {
+            const data = doc.data();
+            const sharedByName = await this.getUserNameByUid(data.userid);
+            const temp = {
+              id: doc.id,
+              filename: data.filename,
+              extension: data.extension,
+              size: data.size,
+              timestamp: data.timestamp,
+              sharedBy: sharedByName
+            };
+            return temp;
+          }));
+          resolve(docs);
         });
-        resolve(docs);
-      });
     });
   }
-
+  
   async get(userID, fileId) {
     const doc = await this.#filesRef.doc(fileId).get();
   
@@ -81,6 +85,20 @@ class FileRepo {
     }
     return false;
   };
+
+  async getUserNameByUid(uid) {
+    try {
+      const userDoc = await this.#usersRef.doc(uid).get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        return userData.name;
+      }
+      return 'Unknown';
+    } catch (error) {
+      Log.error(`Error getting user name by UID: ${error}`);
+      return 'Unknown';
+    }
+  }
 
 };
 
