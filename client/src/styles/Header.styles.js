@@ -25,8 +25,8 @@ const HeaderLogo = styled.div`
 const HeaderSearch = styled.div`
   display: flex;
   align-items: center;
-  width: 700px;
-  margin-left: 0px; /* Add margin to move the search bar to the right */
+  width: 500px;
+  margin-left: 70px; /* Add margin to move the search bar to the right */
   background-color: whitesmoke;
   padding: 12px;
   border-radius: 30px;
@@ -46,12 +46,22 @@ const HeaderIcons = styled.div`
   span {
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 10px;
   }
   svg.MuiSvgIcon-root {
     margin: 0px 10px;
   }
+
+  .icons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: 130px;
+    width: 110px; // Adjust this value to change the spacing between the icons
+  }
 `;
+
 
 const UserInfo = styled.div`
   display: flex;

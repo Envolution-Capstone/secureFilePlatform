@@ -15,6 +15,8 @@ import { useStyles } from "./MuiStyle";
 import { HeaderContainer, HeaderLogo, HeaderIcons, HeaderSearch, UserInfo, UserName, UserEmail } from '../styles/Header.styles';
 import { signOut } from "../util/user/login";
 import AlertsButton from './AlertsButton';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const Header = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,7 +46,13 @@ const Header = ({ user }) => {
         <FormatAlignCenterIcon />
       </HeaderSearch>
       <HeaderIcons>
-      <AlertsButton /> {/* Add this line to include the AlertsButton component */}
+        
+      <div className="icons-wrapper">
+        <AlertsButton />
+        <SettingsIcon />
+        <HelpOutlineIcon />
+      </div>
+
         <UserInfo>
           <UserName>{user?.displayName}</UserName>
           <UserEmail>{user?.email}</UserEmail>

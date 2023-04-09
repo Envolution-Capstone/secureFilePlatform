@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Badge, IconButton, Popover, List, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+//import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import { auth } from '../firebase/firebase';
 import { BackendRequest } from '../requests/client';
 import CheckIcon from '@material-ui/icons/Check';
@@ -58,9 +59,9 @@ const AlertsButton = () => {
 
   return (
     <div>
-    <IconButton color="inherit" onClick={handleClick} style={{ marginRight: '100px' }}>
+    <IconButton color="inherit" onClick={handleClick} style={{ marginRight: '-4px' }}>
     <Badge badgeContent={inviteCount} color="error">
-        <NotificationsIcon />
+        <NotificationsNoneIcon />
     </Badge>
     </IconButton>
       <Popover
