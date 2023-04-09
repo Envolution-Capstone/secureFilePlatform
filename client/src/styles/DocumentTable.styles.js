@@ -20,7 +20,7 @@ const DataHeader = styled.h1`
 const DataGrid = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 30px;
   margin-left: 30px;
   width: 100%;
@@ -88,6 +88,17 @@ const FileSizeColumn = styled(Column)`
   width: 10%;
 `;
 
+const DocumentTableTitles = styled.h3`
+  color: gray;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  margin-left: 40px;
+  margin-right: 70px;
+  margin-top: 20px;
+`;
+
+
 export {
   DataGrid,
   DataListRow,
@@ -98,4 +109,5 @@ export {
   SharedByColumn,
   LastModifiedColumn,
   FileSizeColumn,
+  DocumentTableTitles,
 };

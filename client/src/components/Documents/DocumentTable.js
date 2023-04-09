@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { client } from '../../requests/client';
-import { DataGrid, DataFile, DataListRow } from '../../styles/DocumentTable.styles';
+import { DataGrid, DataFile, DataListRow, DocumentTableTitles } from '../../styles/DocumentTable.styles';
 import { getFiles } from "../../util/files/files";
 import doc from '../../assets/doc.png';
 import pdf from '../../assets/pdf.png';
@@ -83,6 +83,7 @@ const DocumentTable = ({route, refreshTable, setRefreshTable }) => {
   
   return (
     <div>
+      <DocumentTableTitles>QUICK ACCESS</DocumentTableTitles>
       <DataGrid>
         {files ? files.map((file) => (
           <DataFile key={file.id}>
@@ -97,6 +98,7 @@ const DocumentTable = ({route, refreshTable, setRefreshTable }) => {
         )) : <></>}
       </DataGrid>
       <div>
+      <DocumentTableTitles>ALL FILES</DocumentTableTitles>
       <DataListRow>
       <NameColumn>
         <b>
