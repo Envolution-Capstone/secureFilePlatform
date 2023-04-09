@@ -26,7 +26,7 @@ const HeaderSearch = styled.div`
   display: flex;
   align-items: center;
   width: 700px;
-  margin-left: 60px; /* Add margin to move the search bar to the right */
+  margin-left: 0px; /* Add margin to move the search bar to the right */
   background-color: whitesmoke;
   padding: 12px;
   border-radius: 30px;

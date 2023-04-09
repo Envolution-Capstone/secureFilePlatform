@@ -9,7 +9,6 @@ import {
   Box,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import GroupInvites from './GroupInvites';
 import { BackendRequest } from '../../requests/client';
 
 const useStyles = makeStyles((theme) => ({
@@ -76,7 +75,6 @@ return (
     <div className={classes.modalContent}>
       <Tabs value={tabValue} onChange={handleTabChange}>
         <Tab label="Create Group" />
-        <Tab label="Group Invites" />
       </Tabs>
       <TabPanel value={tabValue} index={0} className={classes.tabPanel}>
         <Typography variant="h6">Create a Group</Typography>
@@ -97,9 +95,6 @@ return (
         <Button onClick={handleCreateGroup} variant="contained" color="primary">
           Create Group
         </Button>
-      </TabPanel>
-      <TabPanel value={tabValue} index={1} className={classes.tabPanel}>
-        <GroupInvites onUpdateInviteCount={onUpdateInviteCount} />
       </TabPanel>
     </div>
   </Modal>

@@ -14,7 +14,8 @@ const GroupInvites = ({ onUpdateInviteCount }) => {
     };
   
     fetchData();
-  }, []);
+  }, [onUpdateInviteCount]);
+  
   
 
   const acceptInvite = async (groupid) => {
@@ -45,4 +46,4 @@ const GroupInvites = ({ onUpdateInviteCount }) => {
   );
 };
 
-export default GroupInvites;
+export default GroupInvites

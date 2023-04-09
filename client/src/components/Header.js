@@ -14,6 +14,7 @@ import { PersonAdd } from "@material-ui/icons";
 import { useStyles } from "./MuiStyle";
 import { HeaderContainer, HeaderLogo, HeaderIcons, HeaderSearch, UserInfo, UserName, UserEmail } from '../styles/Header.styles';
 import { signOut } from "../util/user/login";
+import AlertsButton from './AlertsButton';
 
 const Header = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -43,6 +44,7 @@ const Header = ({ user }) => {
         <FormatAlignCenterIcon />
       </HeaderSearch>
       <HeaderIcons>
+      <AlertsButton /> {/* Add this line to include the AlertsButton component */}
         <UserInfo>
           <UserName>{user?.displayName}</UserName>
           <UserEmail>{user?.email}</UserEmail>
@@ -106,41 +108,41 @@ const Header = ({ user }) => {
               <div>
                 <p style={{ fontSize: "14px", fontWeight: "bold" }}>
                   {user?.displayName}
-                </p>
-                <p style={{ fontSize: "12px" }}>{user?.email}</p>
-              </div>
-            </MenuItem>
+                  </p>
+            <p style={{ fontSize: "12px" }}>{user?.email}</p>
+          </div>
+        </MenuItem>
 
-            <Divider style={{ marginTop: "6px" }} />
-            <MenuItem
-              style={{
-                marginTop: "25px",
-                paddingTop: "12px",
-                paddingBottom: "12px",
-              }}
-              onClick={handleClose}
-            >
-              <ListItemIcon style={{ minWidth: "30px" }}>
-                <PersonAdd fontSize="small" />
-              </ListItemIcon>
-              Add another account
-            </MenuItem>
+        <Divider style={{ marginTop: "6px" }} />
+        <MenuItem
+          style={{
+            marginTop: "25px",
+            paddingTop: "12px",
+            paddingBottom: "12px",
+          }}
+          onClick={handleClose}
+        >
+          <ListItemIcon style={{ minWidth: "30px" }}>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Add another account
+        </MenuItem>
 
-            <MenuItem
-              style={{ paddingTop: "12px", paddingBottom: "12px" }}
-              onClick={handleLogOut}
-            >
-              <ListItemIcon style={{ minWidth: "30px" }}>
-                {" "}
-                <ExitToAppIcon fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </MenuItem>
-          </Menu>
-        </div>
-        </span>
-      </HeaderIcons>
-    </HeaderContainer>
+        <MenuItem
+          style={{ paddingTop: "12px", paddingBottom: "12px" }}
+          onClick={handleLogOut}
+        >
+          <ListItemIcon style={{ minWidth: "30px" }}>
+            {" "}
+            <ExitToAppIcon fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    </div>
+    </span>
+  </HeaderIcons>
+</HeaderContainer>
   );
 };
 
