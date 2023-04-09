@@ -18,7 +18,7 @@ const HeaderLogo = styled.div`
         margin-left: 10px;
         color: #2262c6;
         font-family: 'Roboto', sans-serif;
-        font-weight: 600; // Adjust the font-weight as desired
+        font-weight: 500; // Adjust the font-weight as desired
     }
 `
 

@@ -5,27 +5,24 @@ const DataContainer = styled.div`
   padding: 10px 0px 0px 20px;
 `;
 
-const DataHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid lightgray;
-  height: 75px;
-  .headerLeft {
-    display: flex;
-    align-items: center;
-  }
-  .headerRight svg {
-    margin: 0px 10px;
-  }
+const DataHeader = styled.h1`
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  color: #2262c6;
+  margin-left: 30px;
+  margin-right: 70px;
+  margin-top: 20px; // Add this line to push the text down
+  padding-bottom: 14px; // Add this line to create space for the line below the text
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); // Add this line to create a faint horizontal line under the text
 `;
-
 
 const DataGrid = styled.div`
   display: flex;
   align-items: center;
   margin-top: 30px;
   margin-bottom: 30px;
+  margin-left: 30px;
   width: 100%;
 `;
 const DataListRow = styled.div`
@@ -34,6 +31,8 @@ const DataListRow = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid #ccc;
   padding: 10px;
+  margin-left: 30px;
+  margin-right: 70px;
   p {
     display: flex;
     align-items: center;
