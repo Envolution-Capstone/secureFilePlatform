@@ -8,6 +8,12 @@ import pdf from '../../assets/pdf.png';
 import txt from '../../assets/txt.png';
 import xls from '../../assets/xls.png';
 import zip from '../../assets/zip.png';
+import {
+  NameColumn,
+  SharedByColumn,
+  LastModifiedColumn,
+  FileSizeColumn,
+} from "../../styles/DocumentTable.styles";
 
 const DocumentTable = ({route}) => {
   const [files, setFiles] = useState([]);
@@ -83,7 +89,7 @@ const DocumentTable = ({route}) => {
             <img
               src={getIconURLByExtension(file.extension)}
               alt={file.extension}
-              style={{ width: "80px", height: "80px", cursor: "pointer" }}
+              style={{ width: "60px", height: "80px", cursor: "pointer" }}
               onClick={() => downloadFile(file.id, file.filename)}
             />
             <p>{file.filename}</p>
@@ -91,37 +97,48 @@ const DocumentTable = ({route}) => {
         )) : <></>}
       </DataGrid>
       <div>
-        <DataListRow>
-          <p>
-            <b>
-            Name <ArrowDownwardIcon />
-            </b>
-          </p>
-          <p>
-            <b>Shared by</b>
-          </p>
-          <p>
-            <b>Last Modified</b>
-          </p>
-          <p>
-            <b>File Size</b>
-          </p>
-        </DataListRow>
-        { files ?
-        files.map((file) => (
-          <DataListRow key={file.id} onClick={()=>downloadFile(file.id, file.filename)}>
-            <p>
+      <DataListRow>
+      <NameColumn>
+        <b>
+          Name <ArrowDownwardIcon />
+        </b>
+      </NameColumn>
+      <SharedByColumn>
+        <b>Shared by</b>
+      </SharedByColumn>
+      <LastModifiedColumn>
+        <b>Last Modified</b>
+      </LastModifiedColumn>
+      <FileSizeColumn>
+        <b>File Size</b>
+      </FileSizeColumn>
+    </DataListRow>
+    {files
+      ? files.map((file) => (
+          <DataListRow
+            key={file.id}
+            onClick={() => downloadFile(file.id, file.filename)}
+          >
+            <NameColumn>
               <img
                 src={getIconURLByExtension(file.extension)}
                 alt={file.extension}
-                style={{ width: "22px", height: "22px", marginRight: "10px" }}
+                style={{
+                  width: "22px",
+                  height: "22px",
+                  marginRight: "10px",
+                }}
               />
               {file.filename}
-            </p>
-            <p>{new Date(file.timestamp * 1000).toUTCString()}</p>
-            <p>{byteConvert(file.size)}</p>
+            </NameColumn>
+            <SharedByColumn></SharedByColumn>
+            <LastModifiedColumn>
+              {new Date(file.timestamp * 1000).toUTCString()}
+            </LastModifiedColumn>
+            <FileSizeColumn>{byteConvert(file.size)}</FileSizeColumn>
           </DataListRow>
-        )) : <></>}
+        ))
+      : ""}
       </div>
     </div>
   );

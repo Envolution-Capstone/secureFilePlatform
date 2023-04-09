@@ -67,6 +67,26 @@ const DataFile = styled.div`
   }
 `;
 
+const Column = styled.p`
+  margin: 0;
+  padding: 0;
+`;
+
+const NameColumn = styled(Column)`
+  width: 20%;
+`;
+
+const SharedByColumn = styled(Column)`
+  width: 20%;
+`;
+
+const LastModifiedColumn = styled(Column)`
+  width: 20%;
+`;
+
+const FileSizeColumn = styled(Column)`
+  width: 10%;
+`;
 
 export {
   DataGrid,
@@ -74,4 +94,8 @@ export {
   DataFile,
   DataContainer,
   DataHeader,
-}
+  NameColumn,
+  SharedByColumn,
+  LastModifiedColumn,
+  FileSizeColumn,
+};
