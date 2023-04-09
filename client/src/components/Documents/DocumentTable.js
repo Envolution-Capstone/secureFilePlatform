@@ -15,7 +15,7 @@ import {
   FileSizeColumn,
 } from "../../styles/DocumentTable.styles";
 
-const DocumentTable = ({route}) => {
+const DocumentTable = ({route, refreshTable, setRefreshTable }) => {
   const [files, setFiles] = useState([]);
 
   useEffect(()=>{
@@ -24,11 +24,12 @@ const DocumentTable = ({route}) => {
         setTimeout(async ()=>{
           const f = await getFiles(route);
           setFiles(f);
+          setRefreshTable(false);
         }, 300);
       };
       req();
     }
-  }, [route]);
+  }, [route, refreshTable]);
 
   const getIconURLByExtension = (extension) => {
     switch (extension) {

@@ -21,7 +21,7 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
 `;
 
-const Sidebar = ({ user }) => {
+const Sidebar = ({ user, setRefreshTable }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
 
@@ -36,7 +36,7 @@ const Sidebar = ({ user }) => {
           <span> Upload New File </span>
         </button>
       </SidebarBtn>
-        <DocumentUploadModal user={user} Open={showUpload} onFinished={() => setShowUpload(false)} />
+      <DocumentUploadModal user={user} Open={showUpload} onFinished={() => setShowUpload(false)} setRefreshTable={setRefreshTable} />
 
         <SidebarOptions>
           <StyledNavLink to="/">

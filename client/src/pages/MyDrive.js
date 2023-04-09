@@ -2,7 +2,7 @@ import DocumentTable from "../components/Documents/DocumentTable";
 import { DataContainer, DataHeader } from "../styles/DocumentTable.styles";
 import FolderSharedIcon from '@material-ui/icons/FolderShared';
 
-const MyDrive = ({user}) => {
+const MyDrive = ({user, refreshTable, setRefreshTable}) => {
   return (
     <DataContainer>
       <DataHeader>
@@ -13,7 +13,7 @@ const MyDrive = ({user}) => {
         </span>
         </span>
       </DataHeader>
-      <DocumentTable  user={user} route="/file"></DocumentTable>
+      <DocumentTable route="/file" user={user} refreshTable={refreshTable} setRefreshTable={setRefreshTable} />
     </DataContainer>
   );
 };

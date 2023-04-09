@@ -8,7 +8,7 @@ import { SideBySide } from "../../styles/App.styles";
 
 import { getUserGroupsWithNames } from "../../util/groups/groups";
 
-const DocumentUploadModal = ({ user, Open, onFinished }) => {
+const DocumentUploadModal = ({ user, Open, onFinished, setRefreshTable }) => {
   const [uploading, setUploading] = useState(false);
   const [userGroups, setUserGroups] = useState(null);
   const [groupID, setGroupID] = useState(null);
@@ -40,6 +40,7 @@ const DocumentUploadModal = ({ user, Open, onFinished }) => {
     .then(()=> {
       setUploading(false);
       onFinished();
+      setRefreshTable((prev) => !prev);
     });
   };
 

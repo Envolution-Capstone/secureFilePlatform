@@ -13,6 +13,7 @@ import GlobalStyles from "./GlobalStyles"; // Import GlobalStyles here
 
 function App() {
   const [user, setUser] = useState(null);
+  const [refreshTable, setRefreshTable] = useState(false);
 
   useEffect(() => {
     auth.onAuthStateChanged(authUser=>{
@@ -33,9 +34,9 @@ function App() {
           <Header user={user} />
           <BrowserRouter>
           <SideBySide>
-          <Sidebar user={user} />
+          <Sidebar user={user} setRefreshTable={setRefreshTable} />
           <Routes>
-              <Route index element={<MyDrive user={user} />} />
+              <Route index element={<MyDrive user={user} refreshTable={refreshTable} setRefreshTable={setRefreshTable} />} />
               <Route path="share-with-me" element={<ShareWithMe user={user} />} />
           </Routes>
           </SideBySide>
