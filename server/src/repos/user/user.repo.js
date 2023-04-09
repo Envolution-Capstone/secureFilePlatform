@@ -100,17 +100,15 @@ class UserRepo {
     const userRef = await db.collection('users').doc(userid);
     const userData = (await userRef.get()).data();
   
-    const updatedInvites = userData.groups
-      ? userData.groups.filter((group) => {return group.id === groupid; })
-      : [];
-
     const updatedGroups = userData.groups
       ? [...userData.groups, { groupid, groupname }]
       : [{ groupid, groupname }];
   
-    await userRef.set({ groupInvites: updatedInvites, groups: updatedGroups }, { merge: true });
+    await userRef.set({ groups: updatedGroups }, { merge: true });
+    await this.removeSpecificInvite(userid, groupid);
     return true;
   };
+  
 
   declineInvite = async (groupid, userid) => {
     const userRef = await db.collection('users').doc(userid);
@@ -123,6 +121,18 @@ class UserRepo {
     await userRef.set({ groupInvites: updatedGroups }, { merge: true });
     return true;
   };
+
+  removeSpecificInvite = async (userid, groupid) => {
+    const userRef = this.#usersRef.doc(userid);
+    const userData = (await userRef.get()).data();
+  
+    const updatedInvites = userData.groupInvites
+      ? userData.groupInvites.filter((invite) => invite.groupid !== groupid)
+      : [];
+  
+    await userRef.update({ groupInvites: updatedInvites });
+  };
+  
 
 };
 
