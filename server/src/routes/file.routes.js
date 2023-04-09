@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const { Log } = require('../logging/logging');
 const { checkAuth } = require('../middleware/authentication/checkAuth');
 const { respondData, respondSuccess, respondUnAuthorized, respondFile, respondBadRequest, respondServerError, respondNotFound } = require('../util/responses');
@@ -14,6 +15,10 @@ const makeFileRoutes = (fileService) => {
       if (!uploaded) {
         respondBadRequest(res);
       }
+      
+      const file = req.files.file[0];
+      const extension = path.extname(file.originalname).substring(1);
+      req.extension = extension;
 
       fileService.create(req)
         .then((created)=>{

@@ -20,6 +20,7 @@ class FileService {
     const meta = {
       userid: req.userid,
       filename: req.body.filename,
+      extension: req.extension,
       timestamp: Date.now(),
       size: req.files.file[0].size
     };

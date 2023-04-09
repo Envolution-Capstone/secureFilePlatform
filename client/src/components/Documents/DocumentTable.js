@@ -3,6 +3,7 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { client } from '../../requests/client';
 import { DataGrid, DataFile, DataListRow } from '../../styles/DocumentTable.styles';
 import { getFiles } from "../../util/files/files";
+import doc from '../../assets/doc.png';
 
 const DocumentTable = ({route}) => {
   const [files, setFiles] = useState([]);
@@ -20,12 +21,13 @@ const DocumentTable = ({route}) => {
   }, [route]);
 
   const getIconURLByExtension = (extension) => {
+    console.log("Extension:", extension);
     switch (extension) {
       case "pdf":
         return "https://www.gstatic.com/images/icons/material/system/2x/picture_as_pdf_black_24dp.png";
       case "doc":
       case "docx":
-        return "https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Adescription%3A";
+        return doc;
       case "xls":
       case "xlsx":
         return "https://www.gstatic.com/images/icons/material/system/2x/grid_on_black_24dp.png";

@@ -21,6 +21,7 @@ class FileRepo {
           const temp = {
             id: doc.id,
             filename: data.filename,
+            extension: data.extension,
             size: data.size,
             timestamp: data.timestamp
           };
@@ -52,6 +53,7 @@ class FileRepo {
     const data = {
       userid: meta.userid,
       filename: meta.filename,
+      extension: meta.extension,
       size: meta.size,
       timestamp: meta.timestamp,
       content: content
