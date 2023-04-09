@@ -4,6 +4,10 @@ import { client } from '../../requests/client';
 import { DataGrid, DataFile, DataListRow } from '../../styles/DocumentTable.styles';
 import { getFiles } from "../../util/files/files";
 import doc from '../../assets/doc.png';
+import pdf from '../../assets/pdf.png';
+import txt from '../../assets/txt.png';
+import xls from '../../assets/xls.png';
+import zip from '../../assets/zip.png';
 
 const DocumentTable = ({route}) => {
   const [files, setFiles] = useState([]);
@@ -23,20 +27,22 @@ const DocumentTable = ({route}) => {
   const getIconURLByExtension = (extension) => {
     console.log("Extension:", extension);
     switch (extension) {
+      case "txt":
+        return txt;
       case "pdf":
-        return "https://www.gstatic.com/images/icons/material/system/2x/picture_as_pdf_black_24dp.png";
+        return pdf;
       case "doc":
       case "docx":
         return doc;
       case "xls":
       case "xlsx":
-        return "https://www.gstatic.com/images/icons/material/system/2x/grid_on_black_24dp.png";
+        return xls;
       case "ppt":
       case "pptx":
         return "https://www.gstatic.com/images/icons/material/system/2x/present_to_all_black_24dp.png";
       case "zip":
       case "rar":
-        return "https://www.gstatic.com/images/icons/material/system/2x/archive_black_24dp.png";
+        return zip;
       default:
         return "https://www.gstatic.com/images/icons/material/system/2x/insert_drive_file_black_24dp.png";
     }
@@ -77,7 +83,7 @@ const DocumentTable = ({route}) => {
             <img
               src={getIconURLByExtension(file.extension)}
               alt={file.extension}
-              style={{ width: "60px", height: "60px", cursor: "pointer" }}
+              style={{ width: "80px", height: "80px", cursor: "pointer" }}
               onClick={() => downloadFile(file.id, file.filename)}
             />
             <p>{file.filename}</p>
