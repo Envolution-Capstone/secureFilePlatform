@@ -6,10 +6,12 @@ const { firebase } = require("firebase/app");
 class GroupRepo {
 
   #groupsRef;
+  #usersRef;
   #encryption;
 
   constructor() {
     this.#groupsRef = db.collection("group");
+    this.#usersRef = db.collection("users");
     this.#encryption = new Encryption();
   }
 
@@ -34,7 +36,7 @@ class GroupRepo {
     await userRef.update({
       groups: [...userInfo.data().groups, { groupname: groupInfo.groupname, groupid: groupID}],
     });
-    const fdoc = await db.collection("group").doc(groupID).collection("files").add({});
+    //const fdoc = await db.collection("group").doc(groupID).collection("files").add({});
 
     return { groupname: groupInfo.groupname, groupid: groupID};
   };
@@ -125,21 +127,24 @@ class GroupRepo {
   getGroupFiles = async (groupid) => {
     return db.collection("group").doc(groupid).collection("files")
       .get()
-      .then((groupFiles)=> {
-        const docs = groupFiles.docs.map((doc)=>{
+      .then(async (groupFiles) => {
+        const docs = await Promise.all(groupFiles.docs.map(async (doc) => {
           const data = doc.data();
+          const sharedByName = await this.getUserNameByUid(data.userid);
           const temp = {
             id: doc.id,
             filename: data.filename,
             size: data.size,
             timestamp: data.timestamp,
+            sharedBy: sharedByName,
           };
           return temp;
-        });
-
-        return docs.filter(d => {return d.filename != null});
+        }));
+  
+        return docs.filter(d => { return d.filename != null });
       });
   };
+  
 
   downloadFile = async (groupid, fileid) => {
     const doc = await db.collection("group").doc(groupid).collection("files").doc(fileid).get();
@@ -161,6 +166,27 @@ class GroupRepo {
       return true;
     });
   };
+
+  async getUserNameByUid(uid) {
+    if (!uid || typeof uid !== 'string' || uid.trim() === '') {
+      Log.warn('Invalid UID provided');
+      return 'Unknown';
+    }
+  
+    try {
+      const userDoc = await this.#usersRef.doc(uid).get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        return userData.name;
+      }
+      return 'Unknown';
+    } catch (error) {
+      Log.error(`Error getting user name by UID: ${error}`);
+      return 'Unknown';
+    }
+  }
+  
+  
 };
 
 module.exports = {

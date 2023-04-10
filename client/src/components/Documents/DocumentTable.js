@@ -15,7 +15,7 @@ import {
   FileSizeColumn,
 } from "../../styles/DocumentTable.styles";
 
-const DocumentTable = ({route, refreshTable, setRefreshTable }) => {
+const DocumentTable = ({route, user, refreshTable, setRefreshTable }) => {
   const [files, setFiles] = useState([]);
 
   useEffect(()=>{
@@ -29,7 +29,7 @@ const DocumentTable = ({route, refreshTable, setRefreshTable }) => {
       };
       req();
     }
-  }, [route, refreshTable]);
+  }, [route, user, refreshTable]);
 
   const getIconURLByExtension = (extension) => {
     switch (extension) {
