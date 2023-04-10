@@ -8,6 +8,7 @@ import {
   getUserGroupsWithNames,
   getGroupInfo,
   getAllFilesForGroups,
+  getGroupName,
 } from "../util/groups/groups";
 
 const useStyles = makeStyles(() => ({
@@ -29,29 +30,30 @@ const ShareWithMe = ({ user }) => {
     const fetchFiles = async () => {
       const groups = await getUserGroupsWithNames(user.uid);
       console.log("User Groups:", groups);
-    
+  
       const allFiles = await getAllFilesForGroups(groups.map((group) => group.groupid));
       console.log("All Files:", allFiles);
-    
-      // Map group names to the files
-      const filesWithGroupNames = allFiles.map((file) => {
-        const group = groups.find((group) => group.groupid === file.group);
-        return {
-          ...file,
-          groupName: group ? group.name : "Unknown",
-        };
-      });
-    
+  
+      // Fetch group names using the getGroupName function
+      const filesWithGroupNames = await Promise.all(
+        allFiles.map(async (file) => {
+          const groupName = await getGroupName(file.groupID);
+          return {
+            ...file,
+            groupName: groupName || "Unknown",
+          };
+        })
+      );
+  
       setFiles(filesWithGroupNames);
     };
-    
-    
+  
     fetchFiles().catch((error) => {
       console.log(`Error Setting Groups: ${error}`);
     });
   }, [user]);
   
-
+  
   const handleOpen = () => {
     setOpen(true);
   };
@@ -82,7 +84,7 @@ const ShareWithMe = ({ user }) => {
         handleKickMember={handleKickMember}
         creator={creator}
       />
-      <Button
+      {/* <Button
         className={classes.button}
         variant="contained"
         color="primary"
@@ -90,7 +92,7 @@ const ShareWithMe = ({ user }) => {
         disabled={!groupID}
       >
         View Group Info
-      </Button>
+      </Button> */}
       <DocumentTable
         user={user}
         sharedFiles={files}

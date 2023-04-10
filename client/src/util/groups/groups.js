@@ -63,5 +63,20 @@ const getAllFilesForGroups = async (groupIDs) => {
   }
 };
 
+const getGroupName = async (groupID) => {
+  try {
+    const response = await BackendRequest('GET', `/group/${groupID}`);
 
-export { getGroupInfo, getUserGroups, getUserGroupsWithNames, removeMember, getAllFilesForGroups };
+    if (response.data && response.data.data) {
+      return response.data.data.groupname;
+    } else {
+      return "Unknown";
+    }
+  } catch (error) {
+    console.log(`Error getting group name: ${error}`);
+    return "Unknown";
+  }
+};
+
+
+export { getGroupInfo, getUserGroups, getUserGroupsWithNames, removeMember, getAllFilesForGroups, getGroupName };
