@@ -13,7 +13,13 @@ const MyDrive = ({user, refreshTable, setRefreshTable}) => {
         </span>
         </span>
       </DataHeader>
-      <DocumentTable route="/file" user={user} refreshTable={refreshTable} setRefreshTable={setRefreshTable} />
+      <DocumentTable
+        route="/file"
+        user={user}
+        refreshTable={refreshTable}
+        setRefreshTable={setRefreshTable}
+        showGroupColumn={false}
+      />
     </DataContainer>
   );
 };

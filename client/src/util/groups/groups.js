@@ -1,4 +1,5 @@
 import { BackendRequest } from "../../requests/client";
+import { getFiles } from "../files/files";
 
 const getUserGroups = async (userID) => {
   const resp = await BackendRequest('GET', `/user/${userID}/group`);
@@ -41,4 +42,26 @@ const getUserGroupsWithNames = async (userID) => {
   return [];
 };
 
-export { getGroupInfo, getUserGroups, getUserGroupsWithNames, removeMember };
+const getAllFilesForGroups = async (groupIDs) => {
+  try {
+    const allFiles = [];
+
+    for (const groupID of groupIDs) {
+      const files = await getFiles(`/group/${groupID}/files`);
+      console.log(`Files for group ${groupID}:`, files);
+      const filesWithGroupID = files.map((file) => ({
+        ...file,
+        groupID: groupID,
+      }));
+      allFiles.push(...filesWithGroupID);
+    }
+
+    return allFiles;
+  } catch (error) {
+    console.error(`Error fetching all files for groups: ${error}`);
+    return [];
+  }
+};
+
+
+export { getGroupInfo, getUserGroups, getUserGroupsWithNames, removeMember, getAllFilesForGroups };

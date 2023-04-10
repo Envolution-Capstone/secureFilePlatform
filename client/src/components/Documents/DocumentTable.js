@@ -13,13 +13,16 @@ import {
   SharedByColumn,
   LastModifiedColumn,
   FileSizeColumn,
+  GroupColumn,
 } from "../../styles/DocumentTable.styles";
 
-const DocumentTable = ({route, user, refreshTable, setRefreshTable }) => {
+const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupColumn = false, sharedFiles }) => {
   const [files, setFiles] = useState([]);
 
   useEffect(()=>{
-    if (route) {
+    if (sharedFiles && sharedFiles.length > 0) {
+      setFiles(sharedFiles);
+    } else if (route) {
       const req = async () => {
         setTimeout(async ()=>{
           const f = await getFiles(route);
@@ -29,7 +32,7 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable }) => {
       };
       req();
     }
-  }, [route, user, refreshTable]);
+  }, [route, user, refreshTable, sharedFiles]);
 
   const getIconURLByExtension = (extension) => {
     switch (extension) {
@@ -108,6 +111,9 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable }) => {
       <SharedByColumn>
         <b>Shared by</b>
       </SharedByColumn>
+      <GroupColumn>
+        {showGroupColumn ? <b>Group</b> : null}
+      </GroupColumn>
       <LastModifiedColumn>
         <b>Last Modified</b>
       </LastModifiedColumn>
@@ -136,6 +142,9 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable }) => {
             <SharedByColumn>
             <p>{file.sharedBy}</p>
             </SharedByColumn>
+            <GroupColumn>
+            {showGroupColumn ? <p>{file.groupName}</p> : null}
+            </GroupColumn>
             <LastModifiedColumn>
               {new Date(file.timestamp * 1000).toUTCString()}
             </LastModifiedColumn>

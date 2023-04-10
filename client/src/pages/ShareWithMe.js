@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { GroupInfo } from "../components/Groups/GroupInfo";
 import { DataContainer, DataHeader } from "../styles/DocumentTable.styles";
 import DocumentTable from "../components/Documents/DocumentTable";
-import { GroupSelector } from "../components/Groups/GroupSelector";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import { getUserGroupsWithNames, getGroupInfo } from "../util/groups/groups";
-
+import {
+  getUserGroupsWithNames,
+  getGroupInfo,
+  getAllFilesForGroups,
+} from "../util/groups/groups";
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -19,15 +21,36 @@ const ShareWithMe = ({ user }) => {
   const [groupID, setGroupID] = useState(null);
   const [open, setOpen] = useState(false);
   const [creator, setCreator] = useState(false);
+  const [files, setFiles] = useState([]);
   const classes = useStyles();
+  const [refreshTable, setRefreshTable] = useState(false);
 
   useEffect(() => {
-    getUserGroupsWithNames(user.uid).then((groups) => {
-      setUserGroups(groups);
-    }).catch((error) => {
+    const fetchFiles = async () => {
+      const groups = await getUserGroupsWithNames(user.uid);
+      console.log("User Groups:", groups);
+    
+      const allFiles = await getAllFilesForGroups(groups.map((group) => group.groupid));
+      console.log("All Files:", allFiles);
+    
+      // Map group names to the files
+      const filesWithGroupNames = allFiles.map((file) => {
+        const group = groups.find((group) => group.groupid === file.group);
+        return {
+          ...file,
+          groupName: group ? group.name : "Unknown",
+        };
+      });
+    
+      setFiles(filesWithGroupNames);
+    };
+    
+    
+    fetchFiles().catch((error) => {
       console.log(`Error Setting Groups: ${error}`);
     });
   }, [user]);
+  
 
   const handleOpen = () => {
     setOpen(true);
@@ -37,8 +60,7 @@ const ShareWithMe = ({ user }) => {
     setOpen(false);
   };
 
-  const handleKickMember = (memberID) => {
-  };
+  const handleKickMember = (memberID) => {};
 
   const handleGroupChange = async (val) => {
     setGroupID(val);
@@ -49,21 +71,33 @@ const ShareWithMe = ({ user }) => {
       setCreator(false);
     }
   };
-  
 
   return (
     <DataContainer>
       <DataHeader>Shared With Me</DataHeader>
-      <GroupSelector groups={userGroups} set={handleGroupChange} />
-      <GroupInfo group={groupID} open={open} onClose={handleClose} handleKickMember={handleKickMember} creator={creator} />
-      <Button className={classes.button} variant="contained" color="primary" onClick={handleOpen} disabled={!groupID}>
+      <GroupInfo
+        group={groupID}
+        open={open}
+        onClose={handleClose}
+        handleKickMember={handleKickMember}
+        creator={creator}
+      />
+      <Button
+        className={classes.button}
+        variant="contained"
+        color="primary"
+        onClick={handleOpen}
+        disabled={!groupID}
+      >
         View Group Info
       </Button>
-      {groupID ? (
-        <DocumentTable user={user} route={`/group/${groupID}/files`} />
-      ) : (
-        <DocumentTable user={user} route={null} />
-      )}
+      <DocumentTable
+        user={user}
+        sharedFiles={files}
+        showGroupColumn
+        refreshTable={refreshTable}
+        setRefreshTable={setRefreshTable}
+      />
     </DataContainer>
   );
 };

@@ -73,19 +73,23 @@ const Column = styled.p`
 `;
 
 const NameColumn = styled(Column)`
-  width: 20%;
+  width: 12%;
 `;
 
 const SharedByColumn = styled(Column)`
-  width: 20%;
+  width: 12%;
 `;
 
 const LastModifiedColumn = styled(Column)`
-  width: 20%;
+  width: 18%;
 `;
 
 const FileSizeColumn = styled(Column)`
-  width: 10%;
+  width: 12%;
+`;
+
+const GroupColumn = styled(Column)`
+  width: 12%;
 `;
 
 const DocumentTableTitles = styled.h3`
@@ -110,4 +114,5 @@ export {
   LastModifiedColumn,
   FileSizeColumn,
   DocumentTableTitles,
+  GroupColumn,
 };
