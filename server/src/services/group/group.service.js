@@ -3,6 +3,8 @@ const { GroupRepo } = require('../../repos/group/group.repo');
 const { UserRepo } = require('../../repos/user/user.repo');
 const { uploadFile } = require('../../util/file_upload');
 const { FileRepo } = require('../../repos/file/file.repo');
+const path = require('path');
+
 
 class GroupService {
 
@@ -99,38 +101,41 @@ class GroupService {
 
   createFile = async (req) => {
     Log.debug(`GroupRepo: createFile`);
-
+  
     const uploaded = await uploadFile(req);
     if (!uploaded) {
       return null;
     }
-
+  
     const groupid = req.params.groupid;
     if (!groupid) {
       return null;
     }
-
+  
     if (!this.#checkFile(req)) {
       return null;
     }
-
+  
     return await
     this.#require_IsMember(req)
     .then(async (isMember) => {
       if (isMember) {
+        const fileExtension = path.extname(req.body.filename).substring(1);
         const meta = {
           userid: req.userid,
           filename: req.body.filename,
+          extension: fileExtension,
           timestamp: Date.now(),
           size: req.files.file[0].size
         };
       
         return await this.#groupRepo.createFile(meta, groupid, req.files.file[0].buffer);
       }
-
+  
       return null;
     });
   };
+  
 
   getGroupFilesInfo = async (req) => {
     Log.debug(`GroupRepo: getGroupFilesInfo`);
