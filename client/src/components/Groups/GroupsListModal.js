@@ -16,7 +16,8 @@ import {
 } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import StarIcon from "@material-ui/icons/Star";
 
 const GroupsListModal = ({ user, open, onClose }) => {
   const [groups, setGroups] = useState([]);
@@ -96,6 +97,11 @@ const GroupsListModal = ({ user, open, onClose }) => {
           <List>
             {groupMembers.map((member) => (
               <ListItem key={member.id}>
+                {member.admin && (
+                  <IconButton disabled edge="start" aria-label="admin">
+                    <StarIcon />
+                  </IconButton>
+                )}
                 <ListItemText primary={member.name} />
                 {isAdmin && !member.admin && (
                   <ListItemSecondaryAction>
@@ -104,7 +110,6 @@ const GroupsListModal = ({ user, open, onClose }) => {
                       aria-label="kick"
                       onClick={() => onKickMember(member.id)}
                     >
-                      {/* Replace this text with a suitable icon */}
                       <HighlightOffIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
