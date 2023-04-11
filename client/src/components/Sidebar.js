@@ -13,8 +13,9 @@ import BackupIcon from "@material-ui/icons/Backup";
 import styled from "styled-components";
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
 import { StorageBarContainer, StorageBar, StorageBarProgress, StorageText } from "../styles/Sidebar.styles";
-  
+import GroupsListModal from "./Groups/GroupsListModal";
 
+  
 
 
 const StyledNavLink = styled(NavLink)`
@@ -24,6 +25,7 @@ const StyledNavLink = styled(NavLink)`
 const Sidebar = ({ user, setRefreshTable }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
+  const [showGroupsList, setShowGroupsList] = useState(false);
 
 
   
@@ -81,9 +83,15 @@ const Sidebar = ({ user, setRefreshTable }) => {
           </SidebarOption>
           <SidebarBtn>
               <button onClick={() => setShowGroupModal(true)}>
-                <span> Group </span>
+                <span> Create Group </span>
               </button>
           </SidebarBtn>
+          <SidebarBtn>
+  <button onClick={() => setShowGroupsList(true)}>
+    <span> View Groups </span>
+  </button>
+</SidebarBtn>
+
         </SidebarOptions>
         <StorageBarContainer>
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -101,6 +109,12 @@ const Sidebar = ({ user, setRefreshTable }) => {
         open={showGroupModal}
         onClose={() => setShowGroupModal(false)}
       />
+      <GroupsListModal
+  user={user}
+  open={showGroupsList}
+  onClose={() => setShowGroupsList(false)}
+/>
+
     </>
   );
 };

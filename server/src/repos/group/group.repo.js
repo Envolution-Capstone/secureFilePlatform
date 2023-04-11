@@ -43,14 +43,34 @@ class GroupRepo {
 
   getInfo = async (groupid) => {
     const doc = await this.#groupsRef.doc(groupid).get();
-
+  
     if (doc.exists) {
-      return doc.data();
+      const groupData = doc.data();
+      const memberData = await Promise.all(
+        groupData.members.map(async (member) => {
+          const userDoc = await this.#usersRef.doc(member.id).get();
+          if (userDoc.exists) {
+            const userData = userDoc.data();
+            return {
+              id: member.id,
+              name: userData.name,
+              admin: member.admin,
+            };
+          } else {
+            return {
+              id: member.id,
+              name: "Unknown",
+              admin: member.admin,
+            };
+          }
+        })
+      );
+      return { ...groupData, members: memberData };
     } else {
       return null;
     }
   };
-
+  
   deleteGroup = async (groupid) => {
     return await this.#groupsRef.doc(groupid).delete()
     .then(()=>{

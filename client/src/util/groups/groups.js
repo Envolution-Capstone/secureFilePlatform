@@ -32,7 +32,7 @@ const removeMember = async (groupID, memberID) => {
 
 const getUserGroupsWithNames = async (userID) => {
   const response = await BackendRequest('GET', `/user/${userID}/groups`);
-  
+
   if (response.data) {
     if (response.data.status === "success") {
       return response.data.data;
@@ -41,6 +41,9 @@ const getUserGroupsWithNames = async (userID) => {
 
   return [];
 };
+
+
+
 
 const getAllFilesForGroups = async (groupIDs) => {
   try {

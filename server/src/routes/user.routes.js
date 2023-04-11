@@ -37,20 +37,22 @@ const makeUserRoutes = (userService) => {
     })
   });
 
-  UserRoutes.get('/:userid/groups', (req, res)=>{
+  UserRoutes.get('/:userid/groups', (req, res) => {
     userService.getUserGroups(req)
-    .then((groups)=>{
-      if (groups) {
-        respondData(res, groups);
-      } else {
-        respondNotFound(res);
-      }
-    })
-    .catch((error)=>{
-      Log.error(`GET /user/:id/groups : ${error}`);
-      respondServerError(res);
-    });
+      .then((groups) => {
+        
+        if (groups) {
+          respondData(res, groups);
+        } else {
+          respondNotFound(res);
+        }
+      })
+      .catch((error) => {
+        Log.error(`GET /user/:id/groups : ${error}`);
+        respondServerError(res);
+      });
   });
+  
 
   UserRoutes.get('/:userid/invites', (req, res)=> {
     userService.getUserInvites(req)
