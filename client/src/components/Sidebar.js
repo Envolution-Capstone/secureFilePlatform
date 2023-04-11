@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { SidebarContainer, SidebarBtn, SidebarOption, SidebarOptions } from "../styles/Sidebar.styles";
+import { SidebarContainer, SidebarBtn, SidebarOption, SidebarOptions, UploadBtn } from "../styles/Sidebar.styles";
 import MobileScreenShareIcon from "@material-ui/icons/MobileScreenShare";
 import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
@@ -14,30 +14,51 @@ import styled from "styled-components";
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
 import { StorageBarContainer, StorageBar, StorageBarProgress, StorageText } from "../styles/Sidebar.styles";
 import GroupsListModal from "./Groups/GroupsListModal";
+import GroupAddOutlinedIcon from '@material-ui/icons/GroupAddOutlined';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 
   
-
-
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
+`;
+
+const GroupOptions = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 38px;
+`;
+
+const GroupOptionsLine = styled.hr`
+  flex-grow: ${({ left }) => (left ? 0.1 : 1)};
+  borderColor: rgba(255, 255, 255, 0.3);
+  borderWidth: 1px;
+`;
+
+const GroupOptionsText = styled.span`
+  color: #fff;
+  margin: 0 10px;
+`;
+
+const ButtonIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
 `;
 
 const Sidebar = ({ user, setRefreshTable }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [showGroupsList, setShowGroupsList] = useState(false);
-
-
-  
+ 
 
   return (
     <>
       <SidebarContainer>
-      <SidebarBtn primary>
+      <UploadBtn primary>
         <button onClick={() => setShowUpload(!showUpload)}>
           <span> Upload New File </span>
         </button>
-      </SidebarBtn>
+      </UploadBtn>
       <DocumentUploadModal user={user} Open={showUpload} onFinished={() => setShowUpload(false)} setRefreshTable={setRefreshTable} />
 
         <SidebarOptions>
@@ -81,17 +102,35 @@ const Sidebar = ({ user, setRefreshTable }) => {
             <DeleteOutlineOutlinedIcon />
             <span>Trash</span>
           </SidebarOption>
-          <SidebarBtn>
-              <button onClick={() => setShowGroupModal(true)}>
-                <span> Create Group </span>
-              </button>
-          </SidebarBtn>
-          <SidebarBtn>
-  <button onClick={() => setShowGroupsList(true)}>
-    <span> View Groups </span>
-  </button>
-</SidebarBtn>
+          <div style={{ marginTop: "20px" }}>
+          <GroupOptions>
+            <GroupOptionsLine left />
+            <GroupOptionsText>Group Options</GroupOptionsText>
+            <GroupOptionsLine />
+          </GroupOptions>
 
+          <SidebarBtn>
+          <button onClick={() => setShowGroupModal(true)}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <ButtonIcon>
+              <GroupAddOutlinedIcon />
+            </ButtonIcon>
+              <span>Create Group</span>
+            </div>
+          </button>
+        </SidebarBtn>
+        <SidebarBtn>
+          <button onClick={() => setShowGroupsList(true)}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <ButtonIcon>
+              <PeopleOutlineIcon />
+            </ButtonIcon>
+              <span>View Groups</span>
+            </div>
+          </button>
+        </SidebarBtn>
+
+        </div>
         </SidebarOptions>
         <StorageBarContainer>
         <div style={{ display: "flex", alignItems: "center" }}>

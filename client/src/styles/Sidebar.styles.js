@@ -16,6 +16,35 @@ const SidebarContainer = styled.div`
 
 
 const SidebarBtn = styled.div`
+  padding-top: 5px;
+  margin-top: ${({ primary }) => (primary ? "40px" : "20px")};
+  display: flex;
+  justify-content: center;
+
+  button {
+    background: ${({ primary }) => (primary ? "transparent" : "transparent")};
+    color: ${({ primary }) => (primary ? "#2262c6" : "#fff")};
+    border: none;
+    padding: ${({ primary }) => (primary ? "10px 20px" : "5px 10px")};
+    font-size: ${({ primary }) => (primary ? "15px" : "15px")};
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 0;
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
+
+    &:hover {
+      background: ${({ primary }) => (primary ? "lightblue" : "lightblue")};
+      color: ${({ primary }) => (primary ? "mediumblue" : "#fff")};
+      cursor: pointer;
+    }
+  }
+`;
+
+const UploadBtn = styled.div`
   margin-top: ${({ primary }) => (primary ? "40px" : "20px")};
   display: flex;
   justify-content: center;
@@ -177,4 +206,5 @@ export {
   StorageBarProgress,
   StorageBar,
   StorageBarContainer,
+  UploadBtn,
 };
