@@ -146,7 +146,7 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupCol
             {showGroupColumn ? <p>{file.groupName}</p> : null}
             </GroupColumn>
             <LastModifiedColumn>
-              {new Date(file.timestamp * 1000).toUTCString()}
+              {new Date(file.timestamp).toUTCString()}
             </LastModifiedColumn>
             <FileSizeColumn>{byteConvert(file.size)}</FileSizeColumn>
           </DataListRow>
