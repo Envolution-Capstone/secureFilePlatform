@@ -16,6 +16,8 @@ import { StorageBarContainer, StorageBar, StorageBarProgress, StorageText } from
 import GroupsListModal from "./Groups/GroupsListModal";
 import GroupAddOutlinedIcon from '@material-ui/icons/GroupAddOutlined';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import InviteUserModal from "./Groups/InviteUserModal";
+import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 
   
 const StyledNavLink = styled(NavLink)`
@@ -49,6 +51,7 @@ const Sidebar = ({ user, setRefreshTable }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [showGroupsList, setShowGroupsList] = useState(false);
+  const [showInviteUserModal, setShowInviteUserModal] = useState(false);
  
 
   return (
@@ -129,6 +132,16 @@ const Sidebar = ({ user, setRefreshTable }) => {
             </div>
           </button>
         </SidebarBtn>
+        <SidebarBtn>
+          <button onClick={() => setShowInviteUserModal(true)}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ButtonIcon>
+                <PersonAddOutlinedIcon />
+              </ButtonIcon>
+              <span>Invite User</span>
+            </div>
+          </button>
+        </SidebarBtn>
 
         </div>
         </SidebarOptions>
@@ -149,11 +162,15 @@ const Sidebar = ({ user, setRefreshTable }) => {
         onClose={() => setShowGroupModal(false)}
       />
       <GroupsListModal
-  user={user}
-  open={showGroupsList}
-  onClose={() => setShowGroupsList(false)}
-/>
-
+        user={user}
+        open={showGroupsList}
+        onClose={() => setShowGroupsList(false)}
+      />
+      <InviteUserModal
+        user={user}
+        open={showInviteUserModal}
+        onClose={() => setShowInviteUserModal(false)}
+      />
     </>
   );
 };
