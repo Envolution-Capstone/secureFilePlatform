@@ -47,7 +47,12 @@ class UserService {
       return null;
     }
 
-    return await this.#userRepo.createUser(userInfo);
+    const user = await this.#userRepo.createUser(userInfo);
+    if (user.newuser) {
+      await this.#keyService.addEntity(user.id);
+    }
+    
+    return user.id;
   };
 
   updateUser = async (req) => {

@@ -12,12 +12,14 @@ class UserRepo {
 
   createUser = async (userInfo) => {
     const userDoc = await this.#usersRef.doc(userInfo.uid).get();
+    const newuser = false;
 
     if (!userDoc.exists) {
+      newuser = true;
       await this.#usersRef.doc(userInfo.uid).set(userInfo, {merge: true});
     }
 
-    return true;
+    return {newuser, id : userDoc.id};
   };
 
   getUser = async (userID) => {

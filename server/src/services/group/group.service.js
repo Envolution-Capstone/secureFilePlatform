@@ -48,7 +48,12 @@ class GroupService {
     const groupInfo = this.#groupInfo(req);
 
     if (userid && groupInfo) {
-      return await this.#groupRepo.createGroup(groupInfo, userid);
+      const group = await this.#groupRepo.createGroup(groupInfo, userid);
+      if (group) {
+        await this.#keyService.addEntity(group.groupid);
+        return group;
+      }
+      return null;
     }
 
     return null;
