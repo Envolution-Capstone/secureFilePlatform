@@ -32,22 +32,22 @@ const DocumentUploadModal = ({ user, Open, onFinished, setRefreshTable, updateGr
   const handleUpload = (e) => {
     e.preventDefault();
     setUploading(true);
-    let route = "/file";
-    if (groupID) {
-      route = `/group/${groupID}/files`;
-    }
-    
-    uploadFile(file, route)
-    .then(()=> {
-      setUploading(false);
-      onFinished();
-      setRefreshTable((prev) => !prev);
-    });
+    uploadFile(file, groupID)
+      .then(() => {
+        setUploading(false);
+        onFinished();
+        setRefreshTable((prev) => !prev);
+      })
+      .finally(() => {
+        setGroupID(null);
+      });
   };
+  
 
   const handleGroupChange = (groupId) => {
-    setGroupID(groupId);
+    setGroupID(groupId || null);
   }
+  
 
   return (
     <Modal open={Open} onClose={()=> onFinished()}>

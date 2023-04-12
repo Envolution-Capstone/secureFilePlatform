@@ -41,7 +41,7 @@ const ShareWithMe = ({ user, refreshTable, setRefreshTable }) => {
     fetchFiles().catch((error) => {
       console.log(`Error Setting Groups: ${error}`);
     });
-  }, [user]);
+  }, [user, refreshTable]);
   
   
 
