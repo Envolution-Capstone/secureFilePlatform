@@ -65,7 +65,7 @@ const ShareWithMe = ({ user, refreshTable, setRefreshTable }) => {
       />
       <DocumentTable
         user={user}
-        route="/group/${groupID}/files"
+        route={`/group/${groupID}/files`}
         sharedFiles={files}
         showGroupColumn
         refreshTable={refreshTable}

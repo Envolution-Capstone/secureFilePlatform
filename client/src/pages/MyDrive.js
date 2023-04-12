@@ -14,8 +14,8 @@ const MyDrive = ({user, refreshTable, setRefreshTable}) => {
         </span>
       </DataHeader>
       <DocumentTable
-        route="/file"
         user={user}
+        shared="/file"
         refreshTable={refreshTable}
         setRefreshTable={setRefreshTable}
         showGroupColumn={false}

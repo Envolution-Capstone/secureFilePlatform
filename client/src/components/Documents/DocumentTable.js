@@ -66,8 +66,9 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupCol
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
 
-  const downloadFile = (fileid, filename)=>{
-    client.get(`${route}/${fileid}`, {
+  const downloadFile = (fileid, groupid, filename)=>{
+    const rt = groupid ? `/group/${groupid}/files/${fileid}` : `/file/${fileid}`;
+    client.get(rt, {
       responseType: 'blob'
     })
     .then((response)=>{
@@ -94,7 +95,7 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupCol
               src={getIconURLByExtension(file.extension)}
               alt={file.extension}
               style={{ width: "60px", height: "80px", cursor: "pointer" }}
-              onClick={() => downloadFile(file.id, file.filename)}
+              onClick={() => downloadFile(file.id, file.groupID, file.filename)}
             />
             <p>{file.filename}</p>
           </DataFile>
@@ -125,7 +126,7 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupCol
       ? files.map((file) => (
           <DataListRow
             key={file.id}
-            onClick={() => downloadFile(file.id, file.filename)}
+            onClick={() => downloadFile(file.id, file.groupID, file.filename)}
           >
             <NameColumn>
               <img
