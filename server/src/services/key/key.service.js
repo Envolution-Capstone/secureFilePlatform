@@ -6,8 +6,8 @@ class KeyService {
   };
 
   getKey = async (entityId) => {
-    // TODO
-    return entityId;
+    // TODO pull key from google secrets
+    return "f270ce3673dd0125a9b61b1b839a45eb";
   };
 };
 
