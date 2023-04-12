@@ -37,7 +37,7 @@ const SidebarBtn = styled.div`
     padding-left: 20px;
 
     &:hover {
-      background: ${({ primary }) => (primary ? "lightblue" : "lightblue")};
+      background: ${({ primary }) => (primary ? "#4e81d1" : "#4e81d1")};
       color: ${({ primary }) => (primary ? "mediumblue" : "#fff")};
       cursor: pointer;
     }
@@ -89,7 +89,7 @@ const SidebarOption = styled.div`
   padding: 8px 20px;
   border-radius: 0px 20px 20px 0px;
   &:hover {
-    background: lightblue;
+    background: #4e81d1;
     cursor: pointer;
   }
   svg.MuiSvgIcon-root {
