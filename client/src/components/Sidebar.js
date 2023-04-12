@@ -52,7 +52,8 @@ const Sidebar = ({ user, setRefreshTable }) => {
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [showGroupsList, setShowGroupsList] = useState(false);
   const [showInviteUserModal, setShowInviteUserModal] = useState(false);
- 
+  const [updateGroups, setUpdateGroups] = useState(false);
+
 
   return (
     <>
@@ -62,7 +63,7 @@ const Sidebar = ({ user, setRefreshTable }) => {
           <span> Upload New File </span>
         </button>
       </UploadBtn>
-      <DocumentUploadModal user={user} Open={showUpload} onFinished={() => setShowUpload(false)} setRefreshTable={setRefreshTable} />
+      <DocumentUploadModal user={user} Open={showUpload} onFinished={() => setShowUpload(false)} setRefreshTable={setRefreshTable} updateGroups={updateGroups} />
 
         <SidebarOptions>
           <StyledNavLink to="/">
@@ -160,6 +161,8 @@ const Sidebar = ({ user, setRefreshTable }) => {
         user={user}
         open={showGroupModal}
         onClose={() => setShowGroupModal(false)}
+        updateGroups={updateGroups}
+        setUpdateGroups={setUpdateGroups}
       />
       <GroupsListModal
         user={user}

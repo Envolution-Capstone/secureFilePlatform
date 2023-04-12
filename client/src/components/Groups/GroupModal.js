@@ -48,11 +48,11 @@ return (
 );
 }
 
-const GroupModal = ({ open, onClose, onUpdateInviteCount }) => {
-const classes = useStyles();
-const [groupName, setGroupName] = useState('');
-const [email, setEmail] = useState('');
-const [tabValue, setTabValue] = useState(0);
+const GroupModal = ({ open, onClose, onUpdateInviteCount, updateGroups, setUpdateGroups }) => {
+  const classes = useStyles();
+  const [groupName, setGroupName] = useState('');
+  const [email, setEmail] = useState('');
+  const [tabValue, setTabValue] = useState(0);
 
 const handleTabChange = (event, newValue) => {
   setTabValue(newValue);
@@ -64,7 +64,9 @@ const handleCreateGroup = async () => {
   });
   inviteUserToGroup(email, group.data.data.groupid);
   onClose();
+  setUpdateGroups(!updateGroups);
 };
+
 
 const inviteUserToGroup = async (userEmail, groupID) => {
   await BackendRequest('POST', `/group/${groupID}/members/${userEmail}`);
