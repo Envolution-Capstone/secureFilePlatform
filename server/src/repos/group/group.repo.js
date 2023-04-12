@@ -9,10 +9,10 @@ class GroupRepo {
   #usersRef;
   #encryption;
 
-  constructor() {
+  constructor(encryption) {
     this.#groupsRef = db.collection("group");
     this.#usersRef = db.collection("users");
-    this.#encryption = new Encryption();
+    this.#encryption = encryption;
   }
 
   createGroup = async (groupInfo, creatorid) => {

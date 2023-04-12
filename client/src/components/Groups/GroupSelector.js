@@ -11,11 +11,11 @@ const GroupSelector = ({groups, set}) => {
     <Select
           value={currGroup}
           onChange={(e)=>{setCurrGroup(e.target.value); set(e.target.value)}}
-          autoWidth
+          fullWidth
           label="Group">
-      {groups.map((group)=>{
+      {groups ? groups.map((group)=>{
         return <MenuItem key={group.groupid} value={group.groupid}>{group.groupname}</MenuItem>
-      })}
+      }) : <MenuItem key={"asdfasdfasdfasdfasdfasdfasdf"} value={null}>No Groups</MenuItem> }
     </Select>
   );
 };

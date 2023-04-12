@@ -10,12 +10,12 @@ class GroupService {
 
   #groupRepo;
   #userRepo;
-  #fileRepo;
+  #keyService;
 
-  constructor() {
-    this.#groupRepo = new GroupRepo();
-    this.#userRepo = new UserRepo();
-    this.#fileRepo = new FileRepo();
+  constructor(groupRepo, userRepo, keyService) {
+    this.#groupRepo = groupRepo;
+    this.#keyService = keyService;
+    this.#userRepo = userRepo;
   }
 
   // --------- GROUPS -----------------------------------------------------------

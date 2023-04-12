@@ -4,9 +4,11 @@ const { UserRepo } = require("../../repos/user/user.repo");
 class UserService {
  
   #userRepo;
+  #keyService;
 
-  constructor() {
-    this.#userRepo = new UserRepo();
+  constructor(userRepo, keyService) {
+    this.#keyService = keyService;
+    this.#userRepo = userRepo;
   }
 
   getUserGroups = async (req) => {

@@ -8,10 +8,10 @@ class FileRepo {
   #usersRef;
   #encryption;
 
-  constructor() {
+  constructor(encryption) {
     this.#filesRef = db.collection("myfiles");
     this.#usersRef = db.collection("users");
-    this.#encryption = new Encryption();
+    this.#encryption = encryption;
   }
 
   async getInfo(userID) {
