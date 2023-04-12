@@ -9,14 +9,13 @@ import {
 } from "../util/groups/groups";
 
 
-const ShareWithMe = ({ user }) => {
+const ShareWithMe = ({ user, refreshTable, setRefreshTable }) => {
 
   const [groupID] = useState(null);
   const [open, setOpen] = useState(false);
   const [creator] = useState(false);
   const [files, setFiles] = useState([]);
 
-  const [refreshTable, setRefreshTable] = useState(false);
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -26,7 +25,6 @@ const ShareWithMe = ({ user }) => {
       const allFiles = await getAllFilesForGroups(groups.map((group) => group.groupid));
       console.log("All Files:", allFiles);
   
-      // Fetch group names using the getGroupName function
       const filesWithGroupNames = await Promise.all(
         allFiles.map(async (file) => {
           const groupName = await getGroupName(file.groupID);
@@ -43,7 +41,8 @@ const ShareWithMe = ({ user }) => {
     fetchFiles().catch((error) => {
       console.log(`Error Setting Groups: ${error}`);
     });
-  }, [user]);
+  }, [user, refreshTable]);
+  
   
 
 

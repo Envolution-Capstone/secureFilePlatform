@@ -37,7 +37,7 @@ function App() {
           <Sidebar user={user} setRefreshTable={setRefreshTable} />
           <Routes>
               <Route index element={<MyDrive user={user} refreshTable={refreshTable} setRefreshTable={setRefreshTable} />} />
-              <Route path="share-with-me" element={<ShareWithMe user={user} />} />
+              <Route path="share-with-me" element={<ShareWithMe user={user} refreshTable={refreshTable} setRefreshTable={setRefreshTable} />} />
           </Routes>
           </SideBySide>
           </BrowserRouter>
