@@ -7,7 +7,7 @@ const MyDrive = ({user, refreshTable, setRefreshTable}) => {
     <DataContainer>
       <DataHeader>
       <span style={{ display: 'flex', alignItems: 'center' }}>
-        My Drive
+        My Files
         <span style={{ marginLeft: '10px' }}>
           <FolderSharedIcon style={{ fontSize: '40px', marginTop: '7px' }}/>
         </span>

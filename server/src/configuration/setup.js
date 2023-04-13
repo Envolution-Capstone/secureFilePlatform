@@ -19,8 +19,8 @@ const createServices = () => {
   groupRepo = new GroupRepo(services.encryption);
   userRepo = new UserRepo();
 
-  services.user = new UserService(userRepo);
-  services.group = new GroupService(groupRepo, userRepo);
+  services.user = new UserService(userRepo, services.key);
+  services.group = new GroupService(groupRepo, userRepo, services.key);
   services.file = new FileService(fileRepo);
 
   return services;

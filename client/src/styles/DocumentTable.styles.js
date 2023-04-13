@@ -33,6 +33,7 @@ const DataListRow = styled.div`
   padding: 10px;
   margin-left: 30px;
   margin-right: 70px;
+  cursor: pointer;
   p {
     display: flex;
     align-items: center;
@@ -54,6 +55,7 @@ const DataFile = styled.div`
   min-width: 200px;
   padding: 10px 0px 0px 0px;
   border-radius: 5px;
+  cursor: pointer;
   svg {
     font-size: 60px;
     color: gray;

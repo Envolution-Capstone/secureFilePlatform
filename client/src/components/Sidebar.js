@@ -3,16 +3,9 @@ import { NavLink } from "react-router-dom";
 import { SidebarContainer, SidebarBtn, SidebarOption, SidebarOptions, UploadBtn } from "../styles/Sidebar.styles";
 import MobileScreenShareIcon from "@material-ui/icons/MobileScreenShare";
 import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import DocumentUploadModal from "./Documents/DocumentUploadModal";
 import GroupModal from "./Groups/GroupModal";
-import ComputerIcon from "@material-ui/icons/Computer";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import BackupIcon from "@material-ui/icons/Backup";
 import styled from "styled-components";
-import CloudQueueIcon from '@material-ui/icons/CloudQueue';
-import { StorageBarContainer, StorageBar, StorageBarProgress, StorageText } from "../styles/Sidebar.styles";
 import GroupsListModal from "./Groups/GroupsListModal";
 import GroupAddOutlinedIcon from '@material-ui/icons/GroupAddOutlined';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
@@ -69,7 +62,7 @@ const Sidebar = ({ user, setRefreshTable }) => {
           <StyledNavLink to="/">
             <SidebarOption>
               <MobileScreenShareIcon />
-              <span>My Drive</span>
+              <span>My Files</span>
             </SidebarOption>
           </StyledNavLink>
           <StyledNavLink to="/share-with-me">
@@ -78,34 +71,6 @@ const Sidebar = ({ user, setRefreshTable }) => {
               <span>Shared with me</span>
             </SidebarOption>
           </StyledNavLink>
-          <StyledNavLink to="/computers">
-            <SidebarOption>
-              <ComputerIcon />
-              <span>Computers</span>
-            </SidebarOption>
-          </StyledNavLink>
-          <StyledNavLink to="/recent">
-            <SidebarOption>
-              <AccessTimeIcon />
-              <span>Recent</span>
-            </SidebarOption>
-          </StyledNavLink>
-          <StyledNavLink to="/starred">
-            <SidebarOption>
-              <StarBorderIcon />
-              <span>Starred</span>
-            </SidebarOption>
-          </StyledNavLink>
-          <StyledNavLink to="/backups">
-            <SidebarOption>
-              <BackupIcon />
-              <span>Backups</span>
-            </SidebarOption>
-          </StyledNavLink>
-          <SidebarOption>
-            <DeleteOutlineOutlinedIcon />
-            <span>Trash</span>
-          </SidebarOption>
           <div style={{ marginTop: "20px" }}>
           <GroupOptions>
             <GroupOptionsLine left />
@@ -146,16 +111,6 @@ const Sidebar = ({ user, setRefreshTable }) => {
 
         </div>
         </SidebarOptions>
-        <StorageBarContainer>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <CloudQueueIcon style={{ color: "#fff" }} />
-          <span style={{ color: "#fff", marginLeft: "5px" }}>Storage</span>
-        </div>
-        <StorageBar>
-          <StorageBarProgress style={{ width: "10%" }} />
-        </StorageBar>
-        <StorageText>999 MB out of 1000 MB used</StorageText>
-      </StorageBarContainer>
       </SidebarContainer>
       <GroupModal
         user={user}

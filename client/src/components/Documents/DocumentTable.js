@@ -20,6 +20,8 @@ import {
 const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupColumn = false, sharedFiles }) => {
   const [files, setFiles] = useState([]);
 
+  const [cursor, setCursor] = useState('crosshair');
+
   useEffect(()=>{
     if (sharedFiles && sharedFiles.length > 0) {
       setFiles(sharedFiles);
@@ -166,6 +168,7 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupCol
                   width: "22px",
                   height: "22px",
                   marginRight: "10px",
+                  cursor:'pointer'
                 }}
               />
               {file.filename}

@@ -6,7 +6,19 @@ import { ModalPopup, ModalBody, UploadingPara, ModalHeading } from "../../styles
 import { GroupSelector } from "../Groups/GroupSelector";
 import { SideBySide } from "../../styles/App.styles";
 
+import { SidebarBtn } from "./../../styles/Sidebar.styles";
+import styled from "styled-components";
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+
+
 import { getUserGroupsWithNames } from "../../util/groups/groups";
+
+
+const ButtonIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+`;
 
 const DocumentUploadModal = ({ user, Open, onFinished, setRefreshTable, updateGroups }) => {
   const [uploading, setUploading] = useState(false);
@@ -64,7 +76,15 @@ const DocumentUploadModal = ({ user, Open, onFinished, setRefreshTable, updateGr
                 <SideBySide>
                   <input type="file" className="modal_selectFile" onChange={handleFile} />
                 </SideBySide>
+                <br/><br/>
+                <SideBySide>
+                <ButtonIcon>
+                      <PeopleOutlineIcon />
+                    </ButtonIcon>
+                      <span>Select A Group To Share With</span>
+                </SideBySide>
                 <GroupSelector groups={userGroups} set={handleGroupChange} />
+                <br/><br/>
                 <input type="submit" className="modal_submitFile" onClick={handleUpload}/>
               </>
             )}
