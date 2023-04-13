@@ -1,3 +1,4 @@
+const { Log } = require("../../logging/logging");
 
 class FileService {
 
@@ -18,20 +19,26 @@ class FileService {
   async create(req) {
     const meta = {
       userid: req.userid,
-      groupid: req.body.groupid,
       filename: req.body.filename,
+      extension: req.extension,
+      timestamp: Date.now(),
       size: req.files.file[0].size
     };
 
-    if (!this.checkReq(req)) {
+    if (!this.#checkReq(req)) {
       return false;
     }
 
     return await this.#repo.create(meta, req.files.file[0].buffer);
   }
 
-  checkReq(req) {
-    if (req.userid && (req.body.groupid || req.body.groupid === null ) && req.body.filename && req.files.file[0].buffer) {
+  async delete(userid, fileid) {
+    return await this.#repo.deleteFile(userid, fileid);
+  }
+
+
+  #checkReq(req) {
+    if (req.userid && req.body.filename && req.files.file[0].buffer) {
       return true;
     }
     return false;

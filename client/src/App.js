@@ -1,74 +1,45 @@
 import MyDrive from "./pages/MyDrive";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ShareWithMe from "./pages/ShareWithMe";
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import 'firebase/compat/storage'
 import logo from './assets/logo.png';
 import { signIn } from "./util/user/login";
+import { auth } from './firebase/firebase';
 
-const LoginContainer = styled.div`
-  background: white;
-  padding: 20px;
-  width: 400px;
-  margin: 0px auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 100px;
-  img {
-    width: 200px;
-  }
-  button {
-    width: 100%;
-    background: lightblue;
-    padding: 10px 20px;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    font-size: 16px;
-    border: 0;
-    outline: 0;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top:20px
-  }
-`;
+import { SideBySide, LoginContainer } from "./styles/App.styles";
+import GlobalStyles from "./GlobalStyles"; // Import GlobalStyles here
+
 function App() {
   const [user, setUser] = useState(null);
+  const [refreshTable, setRefreshTable] = useState(false);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
-  }, []);
+    auth.onAuthStateChanged(authUser=>{
+      if (authUser) {
+        setUser(authUser);
+        localStorage.setItem("user", JSON.stringify(authUser.providerData));
+      } else {
+        setUser(null);
+      }
+    });
+  }, [user]);
 
   return (
     <>
+      <GlobalStyles />
       {user ? (
         <>
+          <Header user={user} />
           <BrowserRouter>
-            <Header user={user} />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <div className="App">
-                    <Sidebar user={user} />
-                    <Outlet />
-                  </div>
-                }
-              >
-                <Route index element={<MyDrive user={user} />} />
-                <Route
-                  path="share-with-me"
-                  element={<ShareWithMe user={user} />}
-                />
-              </Route>
-            </Routes>
+          <SideBySide>
+          <Sidebar user={user} setRefreshTable={setRefreshTable} />
+          <Routes>
+              <Route index element={<MyDrive user={user} refreshTable={refreshTable} setRefreshTable={setRefreshTable} />} />
+              <Route path="share-with-me" element={<ShareWithMe user={user} refreshTable={refreshTable} setRefreshTable={setRefreshTable} />} />
+          </Routes>
+          </SideBySide>
           </BrowserRouter>
         </>
       ) : (

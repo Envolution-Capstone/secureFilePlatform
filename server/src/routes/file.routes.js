@@ -1,27 +1,10 @@
 const express = require('express');
+const path = require('path');
 const { Log } = require('../logging/logging');
 const { checkAuth } = require('../middleware/authentication/checkAuth');
 const { respondData, respondSuccess, respondUnAuthorized, respondFile, respondBadRequest, respondServerError, respondNotFound } = require('../util/responses');
-const multer = require('multer');
 
-const moduleStore = multer.memoryStorage();
-const upload = multer({
-  storage: moduleStore,
-});
-const Fields = [
-  { name: 'file', maxCount:1 },
-];
-const uploadFile = (req) => {
-  return new Promise((resolve, reject) => {
-    upload.fields(Fields)(req, {}, (error) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(true);
-    });
-  });
-};
-
+const { uploadFile } = require('../util/file_upload');
 
 const makeFileRoutes = (fileService) => {
   const FileRoutes = express.Router();
@@ -32,6 +15,10 @@ const makeFileRoutes = (fileService) => {
       if (!uploaded) {
         respondBadRequest(res);
       }
+      
+      const file = req.files.file[0];
+      const extension = path.extname(file.originalname).substring(1);
+      req.extension = extension;
 
       fileService.create(req)
         .then((created)=>{
@@ -65,6 +52,21 @@ const makeFileRoutes = (fileService) => {
 
   FileRoutes.get('/:id', (req, res)=>{
     fileService.get(req.userid, req.params.id)
+    .then((file)=>{
+      if (file) {
+        respondFile(res, file);
+      } else {
+        respondNotFound(res);
+      }
+    })
+    .catch((error)=>{
+      Log.error(`GET /file/:id : ${error}`);
+      respondServerError(res);
+    });
+  });
+
+  FileRoutes.delete('/:id', (req, res)=>{
+    fileService.delete(req.userid, req.params.id)
     .then((file)=>{
       if (file) {
         respondFile(res, file);

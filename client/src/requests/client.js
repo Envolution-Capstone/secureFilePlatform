@@ -30,15 +30,15 @@ const BackendRequest = async (type, route, data)=>{
     case "POST":
       return await client.post(route, data).catch((error)=>{
         console.log(`Backend Request Error: ${error}`);
-      });;
+      });
     case "PUT":
       return await client.put(route, data).catch((error)=>{
         console.log(`Backend Request Error: ${error}`);
-      });;
+      });
     case "DELETE":
       return await client.delete(route, data).catch((error)=>{
         console.log(`Backend Request Error: ${error}`);
-      });;
+      });
     default:
       throw new Error(`Wrong Request Type: ${type}`);
   }

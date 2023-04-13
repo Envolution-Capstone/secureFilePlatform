@@ -1,8 +1,8 @@
-
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import 'firebase/compat/storage'
+import 'firebase/compat/storage';
+import { setAuthHeader } from '../requests/client';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA7ROErICF1bCa4earw2UoglBq_POrwBrA",
@@ -14,11 +14,13 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-const db = firebaseApp.firestore();
-const storage = firebase.storage();
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-export { db, storage, auth, provider };
+auth.onAuthStateChanged((user) => {
+  user.getIdToken().then((token) => {
+    setAuthHeader(token);
+  });
+});
 
-
+export { auth, provider };

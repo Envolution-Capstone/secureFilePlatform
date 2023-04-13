@@ -1,40 +1,49 @@
-const crypto = require('crypto');
 const { Log } = require('../../logging/logging');
+const { Encryption } = require('../../services/encryption/encryption.service');
 const { db } = require('./../../firebase/firebase');
 
 class FileRepo {
   
   #filesRef;
-  #groupsRef;
+  #usersRef;
+  #encryption;
 
-  constructor() {
+  constructor(encryption) {
     this.#filesRef = db.collection("myfiles");
+    this.#usersRef = db.collection("users");
+    this.#encryption = encryption;
   }
 
   async getInfo(userID) {
-    return new Promise((resolve, reject) => { 
+    return new Promise(async (resolve, reject) => {
       this.#filesRef.where("userid", "==", userID)
-      .onSnapshot((snapshot) => {
-        const docs = snapshot.docs.map((doc)=>{
-          const data = doc.data();
-          return {
-            id: doc.id,
-            filename: data.filename,
-            groupid: doc.groupid || null,
-          };
+        .onSnapshot(async (snapshot) => {
+          const docs = await Promise.all(snapshot.docs.map(async (doc) => {
+            const data = doc.data();
+            const sharedByName = await this.getUserNameByUid(data.userid);
+            const temp = {
+              id: doc.id,
+              filename: data.filename,
+              extension: data.extension,
+              size: data.size,
+              timestamp: data.timestamp,
+              sharedBy: sharedByName
+            };
+            return temp;
+          }));
+          resolve(docs);
         });
-        resolve(docs);
-      });
     });
   }
-
+  
   async get(userID, fileId) {
     const doc = await this.#filesRef.doc(fileId).get();
   
     if (doc.exists) {
       const data = doc.data();
       if (data.userid == userID) {
-        return {filename: data.filename, content: data.content};
+        const content = await this.#encryption.decrypt(userID, data.content);
+        return {filename: data.filename, content: content};
       }
     }
     return false;
@@ -42,12 +51,18 @@ class FileRepo {
 
   async create(meta, file) {
     const fileID = this.#filesRef.doc();
+
+    const content = await this.#encryption.encrypt(meta.userid, file);
+
     const data = {
       userid: meta.userid,
-      groupid: meta.groupid,
       filename: meta.filename,
-      content: file
+      extension: meta.extension,
+      size: meta.size,
+      timestamp: meta.timestamp,
+      content: content
     };
+
     return await fileID.set(data).then(()=>{
       return true;
     })
@@ -55,6 +70,39 @@ class FileRepo {
       Log.error(`Error Creating File: ${error}`);
       return false;
     });
+  }
+
+
+  deleteFile = async (userid, fileid) => {
+    const docRef =this.#filesRef.doc(fileid);
+    const doc = await docRef.get();
+  
+    if (doc.exists) {
+      const data = doc.data();
+      if (data.userid == userid) {
+        console.log(`deleting ${fileid}`);
+        await docRef.delete();
+        return true;
+      }
+      console.log(`not users ${fileid}`);  
+    }
+    console.log(`doesnt exist ${fileid}`);
+    console.log(`didnt ${fileid}`);
+    return false;
+  };
+
+  async getUserNameByUid(uid) {
+    try {
+      const userDoc = await this.#usersRef.doc(uid).get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        return userData.name;
+      }
+      return 'Unknown';
+    } catch (error) {
+      Log.error(`Error getting user name by UID: ${error}`);
+      return 'Unknown';
+    }
   }
 
 };
