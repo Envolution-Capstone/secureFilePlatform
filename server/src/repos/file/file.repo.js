@@ -74,15 +74,20 @@ class FileRepo {
 
 
   deleteFile = async (userid, fileid) => {
-    const doc = this.#filesRef.doc(fileId);
+    const docRef =this.#filesRef.doc(fileid);
+    const doc = await docRef.get();
   
     if (doc.exists) {
       const data = doc.data();
-      if (data.userid == userID) {
-        await doc.delete();
+      if (data.userid == userid) {
+        console.log(`deleting ${fileid}`);
+        await docRef.delete();
         return true;
       }
+      console.log(`not users ${fileid}`);  
     }
+    console.log(`doesnt exist ${fileid}`);
+    console.log(`didnt ${fileid}`);
     return false;
   };
 

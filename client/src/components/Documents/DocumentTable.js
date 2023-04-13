@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import { client } from '../../requests/client';
+import { Menu, MenuItem } from "@material-ui/core";
+import { BackendRequest, client } from '../../requests/client';
 import { DataGrid, DataFile, DataListRow, DocumentTableTitles } from '../../styles/DocumentTable.styles';
 import { getFiles } from "../../util/files/files";
 import doc from '../../assets/doc.png';
@@ -56,6 +57,31 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupCol
         return "https://www.gstatic.com/images/icons/material/system/2x/insert_drive_file_black_24dp.png";
     }
   };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [dFileID, setDFileID] = React.useState(null);
+  const [dFilegroup, setDFilegroup] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event, file) => {
+    event.preventDefault();
+    console.log(JSON.stringify(file));
+    setDFileID(file.id);
+    setDFilegroup(file.groupID);
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleDelete = (e) => {
+    const rt = dFilegroup ? `/group/${dFilegroup}/files/${dFileID}` : `/file/${dFileID}`;
+    BackendRequest('DELETE', rt)
+    .then((res) => {
+      const newfiles = files.filter((f) => { return f.id !== dFileID; })
+      setFiles(newfiles);
+      setDFileID(null);
+    });
+  }
+
 
   const byteConvert = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
@@ -125,6 +151,10 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupCol
     {files
       ? files.map((file) => (
           <DataListRow
+            id={file.id}
+            onContextMenu={(e)=> {
+              handleClick(e, file);
+            }}
             key={file.id}
             onClick={() => downloadFile(file.id, file.groupID, file.filename)}
           >
@@ -154,6 +184,17 @@ const DocumentTable = ({route, user, refreshTable, setRefreshTable, showGroupCol
         ))
       : ""}
       </div>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+      </Menu>
     </div>
   );
 };

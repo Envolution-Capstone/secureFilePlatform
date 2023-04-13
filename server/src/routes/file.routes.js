@@ -66,7 +66,7 @@ const makeFileRoutes = (fileService) => {
   });
 
   FileRoutes.delete('/:id', (req, res)=>{
-    fileService.deleteFile(req.userid, req.params.id)
+    fileService.delete(req.userid, req.params.id)
     .then((file)=>{
       if (file) {
         respondFile(res, file);
