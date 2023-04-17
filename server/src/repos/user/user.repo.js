@@ -12,7 +12,7 @@ class UserRepo {
 
   createUser = async (userInfo) => {
     const userDoc = await this.#usersRef.doc(userInfo.uid).get();
-    const newuser = false;
+   let newuser = false;
 
     if (!userDoc.exists) {
       newuser = true;

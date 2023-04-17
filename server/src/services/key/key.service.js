@@ -24,16 +24,20 @@ should only be used on group deletion.
 
 
 
+client;
 
+  constructor() {
 
- client = new SecretManagerServiceClient();
+    this.client = new SecretManagerServiceClient();
+  }
+    
 
 
 
 
  createSecret = async(entityId)=> {
   const name=entityId;
-  const [secret] = await client.createSecret({
+  const [secret] = await this.client.createSecret({
     parent: parent,
     secretId: entityId,
     secret: {
@@ -52,7 +56,7 @@ should only be used on group deletion.
 
 
   addEntity = async (entityId) => {
-    
+    this.SecretCheck(entityId.toLowerCase());
     return true;
   };
 
@@ -71,7 +75,7 @@ should only be used on group deletion.
 
    testExist= async(entityId) =>{
     let temp=[];
-    const [secrets] = await client.listSecrets({
+    const [secrets] = await this.client.listSecrets({
       parent: parent,
     })
     
@@ -85,21 +89,21 @@ return temp.includes(String(entityId))
 
 
  SecretCheck = async (entityId) =>{ //the check to see if a user/group has a key
-  const found = await testExist(entityId);
+  const found = await this.testExist(entityId);
  
   if(found){
     console.log("Secret already exists");
   }else{
-    await createSecret(entityId);
+    await this.createSecret(entityId);
   }
  
 if(!found){
   let key=crypto.randomBytes(32);
   let payload = Buffer.from(key, 'utf8');
-  addSecretVersion(entityId,payload);
+  this.addSecretVersion(entityId.toLowerCase(),payload);
   let iv=crypto.randomBytes(16);
    payload = Buffer.from(iv, 'utf8');
-  addSecretVersion(entityId,payload);
+   this.addSecretVersion(entityId.toLowerCase(),payload);
 }
 
 
@@ -113,7 +117,7 @@ if(!found){
    addSecretVersion= async (entityId,payload) =>{//payload will be the key then next call is the iv
     const parent = "projects/halogen-eon-383017/secrets/"+entityId;
   
-    const [version] = await client.addSecretVersion({
+    const [version] = await this.client.addSecretVersion({
       parent: parent,
       payload: {
         data: payload,
@@ -128,42 +132,42 @@ if(!found){
    accessSecretVersion= async (entityId,identifier) =>{
     let payload;
       if(identifier==="key"){
-        const name = "projects/halogen-eon-383017/secrets/"+entityId+"/versions/1";
-        const [version] = await client.accessSecretVersion({
+        const name = "projects/halogen-eon-383017/secrets/"+entityId.toLowerCase()+"/versions/1";
+        const [version] = await this.client.accessSecretVersion({
           name: name,
         });
       
         // Extract the payload as a string.
-         payload = version.payload.data.toString('hex');
+         payload = version.payload.data;
       }else if(identifier==="iv"){
-        const name = "projects/halogen-eon-383017/secrets/"+entityId+"/versions/2";
-        const [version] = await client.accessSecretVersion({
+        const name = "projects/halogen-eon-383017/secrets/"+entityId.toLowerCase()+"/versions/2";
+        const [version] = await this.client.accessSecretVersion({
           name: name,
         });
       
         // Extract the payload as a string.
-        payload = version.payload.data.toString('hex');
+        payload = version.payload.data;
       }
     return payload;
     }
 
 
 
-
+    getIV = async (entityId) =>{
+      const iv = await this.accessSecretVersion(entityId.toLowerCase(),"iv");
+      console.log("printing within getIV() ", iv);
+      return iv;
+      }
 
 
 
   getKey = async (entityId) => {
-    const key = await accessSecretVersion(entityId,"key");
+    const key = await this.accessSecretVersion(entityId.toLowerCase(),"key");
     console.log("printing within getKey() ", key);
     return key;
   };
 };
- getIV = async (entityId) =>{
-  const iv = await accessSecretVersion(entityId,"iv");
-  console.log("printing within getIV() ", iv);
-  return iv;
-  }
+
 
 
 module.exports = {
