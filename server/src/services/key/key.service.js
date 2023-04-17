@@ -5,6 +5,29 @@ const crypto = require('crypto');
 class KeyService {
   
 
+
+
+/*
+logic behind class.
+
+on login and or group creation call  SecretCheck(entityId) with the id for the group or user
+this will check to see if a secret is created with that id.
+
+first call on addSecretVersion(entityId,payload) will be to create the key storage, passing in key
+second call on addSecretVersion(entityId,payload) will be to create the IV storage, passing in iv
+
+accessSecretVersion(entityId,identifier) is used within the getKey(entityId) and the getIV(entityId) functions to access the proper data storage to be returned
+
+
+deleteSecret(entityId) used to delete a secret, will crash if passing in id of secret that doesnt exist.
+should only be used on group deletion.
+
+*/
+
+
+
+
+
  client = new SecretManagerServiceClient();
 
 
