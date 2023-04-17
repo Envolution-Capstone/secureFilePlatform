@@ -12,7 +12,7 @@ class Encryption {
 
   encrypt = async (entityId, fileContent) => {
     const key = await this.#keyService.getKey(entityId);
-
+console.log("TESTING FROM NEW CODE " ,key)
     if (!key) {
       return null;
     }

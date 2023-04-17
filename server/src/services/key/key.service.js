@@ -13,8 +13,6 @@ logic behind class.
 on login and or group creation call  SecretCheck(entityId) with the id for the group or user
 this will check to see if a secret is created with that id.
 
-first call on addSecretVersion(entityId,payload) will be to create the key storage, passing in key
-second call on addSecretVersion(entityId,payload) will be to create the IV storage, passing in iv
 
 accessSecretVersion(entityId,identifier) is used within the getKey(entityId) and the getIV(entityId) functions to access the proper data storage to be returned
 
@@ -92,8 +90,20 @@ return temp.includes(String(entityId))
   if(found){
     console.log("Secret already exists");
   }else{
-    createSecret(entityId)
+    await createSecret(entityId);
   }
+ 
+if(!found){
+  let key=crypto.randomBytes(32);
+  let payload = Buffer.from(key, 'utf8');
+  addSecretVersion(entityId,payload);
+  let iv=crypto.randomBytes(16);
+   payload = Buffer.from(iv, 'utf8');
+  addSecretVersion(entityId,payload);
+}
+
+
+
 }
 
 
