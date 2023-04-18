@@ -100,10 +100,10 @@ return temp.includes(String(entityId))
 if(!found){
   let key=crypto.randomBytes(32);
   let payload = Buffer.from(key, 'utf8');
-  this.addSecretVersion(entityId.toLowerCase(),payload);
+  await this.addSecretVersion(entityId.toLowerCase(),payload);
   let iv=crypto.randomBytes(16);
    payload = Buffer.from(iv, 'utf8');
-   this.addSecretVersion(entityId.toLowerCase(),payload);
+   await this.addSecretVersion(entityId.toLowerCase(),payload);
 }
 
 
@@ -139,6 +139,7 @@ if(!found){
       
         // Extract the payload as a string.
          payload = version.payload.data;
+         
       }else if(identifier==="iv"){
         const name = "projects/halogen-eon-383017/secrets/"+entityId.toLowerCase()+"/versions/2";
         const [version] = await this.client.accessSecretVersion({
@@ -147,6 +148,7 @@ if(!found){
       
         // Extract the payload as a string.
         payload = version.payload.data;
+        
       }
     return payload;
     }
@@ -155,7 +157,7 @@ if(!found){
 
     getIV = async (entityId) =>{
       const iv = await this.accessSecretVersion(entityId.toLowerCase(),"iv");
-      console.log("printing within getIV() ", iv);
+      
       return iv;
       }
 
@@ -163,7 +165,7 @@ if(!found){
 
   getKey = async (entityId) => {
     const key = await this.accessSecretVersion(entityId.toLowerCase(),"key");
-    console.log("printing within getKey() ", key);
+    
     return key;
   };
 };
