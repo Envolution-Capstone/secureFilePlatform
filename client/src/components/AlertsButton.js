@@ -82,7 +82,7 @@ const AlertsButton = () => {
           {invites.map((invite) => (
             <ListItem key={invite.groupid}>
             <div style={{ maxWidth: '220px', paddingRight: '33px' }}>
-            <ListItemText primary={`${invite.senderName} has invited you to ${invite.groupName}`} primaryTypographyProps={{ style: { wordWrap: 'break-word', fontSize: '0.875rem' } }} />
+            <ListItemText primary={`You Have Been Invited To: ${invite.groupName}`} primaryTypographyProps={{ style: { wordWrap: 'break-word', fontSize: '0.875rem' } }} />
             </div>
             <ListItemSecondaryAction>
             <IconButton onClick={() => acceptInvite(invite.groupid)} edge="end" aria-label="accept">
