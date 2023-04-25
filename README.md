@@ -225,7 +225,8 @@ Group info can be viewed through the `View Groups` button on the left sidebar.
 </details>
 
 
-# Frequently Asked Questions
+# Database
+This project utilizes a cloud-hosted NoSQL database through Google's Firebase.
 
 # Troubleshooting
 
