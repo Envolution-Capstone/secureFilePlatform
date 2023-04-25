@@ -15,7 +15,7 @@ practical and secure solution for sharing documents between multiple users. The 
 users to upload and share files into a secure environment, with the ability to see files in
 groups/clusters based on individual user permissions.
 
-Project Submission Structure
+Project Structure Overview
 ============================
 
 <details><summary><b>Client-Side</b></summary>
@@ -66,6 +66,49 @@ Project Submission Structure
 
 </details>
 <details><summary><b>Server-Side</b></summary>
+
+    .
+    ├── src   
+    │   ├── configuration
+    │   │   └── setup.js
+    │   ├── firebase 
+    │   │   └── firebase.js
+    │   ├── logging 
+    │   │   └── firebase.js
+    │   ├── middleware/authentication 
+    │   │   └── checkAuth.js
+    │   ├── repos 
+    │   │   ├── file
+    │   │   │   └── file.repo.js
+    │   │   ├── group
+    │   │   │   └── group.repo.js
+    │   │   └── user
+    │   │       └── user.repo.js
+    │   ├── routes
+    │   │   ├── file.routes.js
+    │   │   ├── group.routes.js
+    │   │   └── user.routes.js
+    │   ├── services 
+    │   │   ├── encryption
+    │   │   │   └── encryption.service.js
+    │   │   ├── file
+    │   │   │   └── file.service.js
+    │   │   ├── group
+    │   │   │   └── group.service.js
+    │   │   ├── key
+    │   │   │   └── key.service.js
+    │   │   └── user
+    │   │       └── user.service.js
+    │   ├── util 
+    │   │   ├── file_upload.js
+    │   │   └── responses.js
+    │   └── app.js
+    ├── .env
+    ├── README.md
+    ├── package-lock.json
+    ├── package.json
+    └── service-accountt-credentials.json  
+    
 </details>
 
 
