@@ -40,7 +40,7 @@ groups/clusters based on individual user permissions.
 Project Structure Overview
 ============================
 
-<details><summary><b>Client-Side</b></summary>
+### Client-Side
 
     .
     ├── public                
@@ -49,45 +49,45 @@ Project Structure Overview
     │   │      └── # image/asset files
     │   ├── components
     │   │   ├── Documents
-    │   │   │   ├── DocumentTable.js
-    │   │   │   └── DocumentUploadModal.js
+    │   │   │   ├── DocumentTable.js         # Table for displaying files and fetching files from backend
+    │   │   │   └── DocumentUploadModal.js   # Modal window allowing the user to select file for upload and initiate upload process
     │   │   ├── Groups
-    │   │   │   ├── GroupInfo.js
-    │   │   │   ├── GroupInvites
-    │   │   │   ├── GroupModal.js
-    │   │   │   ├── GroupSelector.js
-    │   │   │   ├── GroupsListModal.js
-    │   │   │   └── InviteUserModal.js
-    │   │   ├── AlertsButton.js
-    │   │   ├── Header.js
-    │   │   ├── MuiStyle.js
-    │   │   └── Sidebar.js 
+    │   │   │   ├── GroupInfo.js             # Displays information about a group, its members, and allows admins to remove a member from the group
+    │   │   │   ├── GroupInvites             # Renders a lit of group invites fetched from backened API, provides buttons for accepting/declining invite
+    │   │   │   ├── GroupModal.js            # Renders modal that allows users to create a group and invite others to it.
+    │   │   │   ├── GroupSelector.js         # Renders a dropdown menu populated with the names of the user's groups
+    │   │   │   ├── GroupsListModal.js       # Modal for displaying a list of the user's groups and the members of a selected group
+    │   │   │   └── InviteUserModal.js       # Renders a modal for inviting a user to a group
+    │   │   ├── AlertsButton.js        # Displays notification containing list of group invites with options to accept or decline them
+    │   │   ├── Header.js              # Component for header that includes logo, search bar, and user profile
+    │   │   ├── MuiStyle.js            # Style object 
+    │   │   └── Sidebar.js             # Renders sidebar with options for uploading file, creating/managing groups, and navigating to different views within the app
     │   ├── firebase
-    │   │   └── firebase.js
+    │   │   └── firebase.js            # Firebase configuration
     │   ├── pages
-    │   │   ├── MyDrive.js
-    │   │   └── ShareWithMe.js
+    │   │   ├── MyDrive.js             # Renders the header and the document table 
+    │   │   └── ShareWithMe.js         # Fetches and displays all the files shared with the user and allows the user to interact with them
     │   ├── requests
-    │   │   └── client.js
+    │   │   └── client.js              # Sends HTTP requests to a local backend server and returns the response.
     │   ├── styles
     │   │   └── # JavaScript styled-components files
     │   ├── util
     │   │   ├── files
-    │   │   │   ├── fileUpload.js
-    │   │   │   └── files.js
+    │   │   │   ├── fileUpload.js      # Functionality for uploading a file to server using backend requests
+    │   │   │   └── files.js           # Makes a GET request to the specified route for getting files and returns the response data
     │   │   ├── groups
-    │   │   │   └── groups.js
+    │   │   │   └── groups.js          # Requests to backend API to get information about user groups including their files
     │   │   └── user
-    │   │       └── login.js
-    │   ├── App.js 
-    │   ├── GlobalStyles.js
-    │   ├── index.css
-    │   └── index.js   
+    │   │       └── login.js           # Enables sign-in/sign-out functionality and sends user information to the backend
+    │   ├── App.js                     # Handles user authentication and displays different pages based on the user's login status     
+    │   ├── GlobalStyles.js            # Global styles
+    │   ├── index.css                  # Styling for the index.js file
+    │   └── index.js                   # Renders the application
     ├── package-lock.json                  
     └── package.json                
 
-</details>
-<details><summary><b>Server-Side</b></summary>
+
+### Server-Side
 
     .
     ├── src   
@@ -131,7 +131,7 @@ Project Structure Overview
     ├── package.json
     └── service-accountt-credentials.json  
     
-</details>
+
 
 # Project Setup
 
