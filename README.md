@@ -2,14 +2,34 @@
 <img src="client/src/assets/12dww.png">
 </p>
 
+Table of contents
+=================
+<!--ts-->
+* [Authors](https://github.com/Envolution-Capstone/secureFilePlatform#authors)
+* [Project Description](https://github.com/Envolution-Capstone/secureFilePlatform#project-description)
+* [Project Structure Overview](https://github.com/Envolution-Capstone/secureFilePlatform#project-structure-overview)
+* [Project Setup](https://github.com/Envolution-Capstone/secureFilePlatform#project-setup)
+    * [Requirements](https://github.com/Envolution-Capstone/secureFilePlatform#requirements)
+    * [With Make](https://github.com/Envolution-Capstone/secureFilePlatform#with-make)
+    * [Without Make](https://github.com/Envolution-Capstone/secureFilePlatform#without-make)
+* [Running](https://github.com/Envolution-Capstone/secureFilePlatform#running)
+    * [With Make](https://github.com/Envolution-Capstone/secureFilePlatform#with-make-1)
+    * [Without Make](https://github.com/Envolution-Capstone/secureFilePlatform#without-make-1)
+ * [Product Features](https://github.com/Envolution-Capstone/secureFilePlatform#product-features)
+    * [Personal File Storage](https://github.com/Envolution-Capstone/secureFilePlatform#personal-file-storage)
+    * [Shared File Storage](https://github.com/Envolution-Capstone/secureFilePlatform#shared-file-storage)
+    * [File Upload](https://github.com/Envolution-Capstone/secureFilePlatform#file-upload)
+    * [Groups](https://github.com/Envolution-Capstone/secureFilePlatform#groups)
+ * [Database](https://github.com/Envolution-Capstone/secureFilePlatform#database)
+ * [Troubleshooting](https://github.com/Envolution-Capstone/secureFilePlatform#troubleshooting)
+<!--te-->
+
 # Authors
 
 - [Rolland Goodenough](https://github.com/GoodenoughR) - Computer Science
 - [Donald Tran](https://github.com/DonaldTran11)       - Cyber Security
 - [Tyler Huckeba](https://github.com/tuscontyler)      - Software Design & Development
 - [Spencer Wirth](https://github.com/snw30)            - Cyber Security
-
-[test](https://github.com/Envolution-Capstone/secureFilePlatform#running)
 
 # Project Description
 For teams, organizations, and businesses alike, Envolution’s Secure Document Sharer is a
