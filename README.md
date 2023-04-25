@@ -227,35 +227,28 @@ Group info can be viewed through the `View Groups` button on the left sidebar.
 
 # Frequently Asked Questions
 
+# Troubleshooting
+
+<details><summary><b>Ensure that there are no missing npm modules</b></summary>
+If the software doesn't run, try installing all of the required NPM modules:
+
+    In `/server/`:
+    run `npm install -y --force --silent`
+
+    In `/client/`:
+    run `npm install -y --force --silent`
+</details>
 
 
-
-# 5. Troubleshooting
-
-## 5.1 Common Issues
-
-### 5.1.1. Missing NPM modules
-
-If the software doesn't run, try installing all of the required NPM modules.
-
-In `/server/`:
-run `npm install -y --force --silent`
-
-In `/client/`:
-run `npm install -y --force --silent`
-
-### 5.1.2. Incorrect Node JS version
-
+<details><summary><b>Ensure that the correct NodeJS version is being used</b></summary>
 Having an out-of-date versiona of Node JS can cause issues.
-
 Follow https://nodejs.org/en/download/current for getting the newest version.
+</details>
 
-### 5.1.3. Missing .env or Service Credentials
+<details><summary><b>Ensure that you are not missing the .env and Service Credential files</b></summary>
 
 The server requires `.env` and `service-account-credentials.json` files to be in the `/server/` directory.
-
 These files should be on the repo *(though if this were a real product they would not be)*
-
 If the files are missing, copy and paste the following in to the respective file in `/server/`.
 ```
 // .env
@@ -281,4 +274,5 @@ APPID="1:68930784514:web:65d2623bfbc3da3f27c61b"
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-bjgpc%40file-storage-e6537.iam.gserviceaccount.com"
 }
 ```
----
+</details>
+
