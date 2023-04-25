@@ -111,131 +111,118 @@ Project Structure Overview
     
 </details>
 
+# Project Setup
 
+### Requirements
 
-
-
-
-
-
-
-
-
-
-# 1. Setup
-
-## 1.1 Requirements
 This software requires the following programs:
-1. `NodeJS`
-2. `npm` (comes with `NodeJS`)
 
-## 1.1.1 With `Make`:
+    1. NodeJS
+    2. npm (comes with `NodeJS`)
 
-If you have `Make` installed, setup is easy.
+### With Make:
 
-1. run the command `make setup` in the base directory
+If you have `Make` installed, setup is easy:
 
-<details><summary><b>test</b></summary>
-  hi
-</details>
+    1. run the command `make setup` in the base directory
 
-## 1.1.2 Without `Make`:
+### Without Make:
 
 If you do not have `Make` installed:
 
-1. enter the `server/` directory and run `npm install -y --force --silent`
-2. enter the `client/` directory and run `npm install -y --force --silent`
+    1. enter the `server/` directory and run `npm install -y --force --silent`
+    2. enter the `client/` directory and run `npm install -y --force --silent`
 
----
-# 2 Running
 
-## 2.1 With `Make`:
+# Running
 
-1. run the command `make run` in the base directory
+### With Make:
 
-## 2.2 Without `Make`:
+    1. run the command `make run` in the base directory
 
-1. enter the `server/` directory and run `npm start`
-2. enter the `client/` directory and run `npm start`
+### Without Make:
 
----
-# 3. Features
+    1. enter the `server/` directory and run `npm start`
+    2. enter the `client/` directory and run `npm start`
 
-## 3.1 My Files
 
-My Files is the page that allows users to view/download their personal files.
+# Product Features
+> Product features are split into separate sections with their respective functionalities
 
-### 3.1.1 Downloading Files
+###     1. Personal File Storage:
+> 'MyDrive' is the page that allows users to view,download, and delete their personal files.
 
+<details><summary><b>Downloading Files</b></summary>
 Personal files can be downloaded by clicking on the row a file is on.
+</details>
 
-### 3.1.2 Deleting Files
-
+<details><summary><b>Deleting Files</b></summary>
 Personal files can be deleted by right clicking on the files row and clicking `delete` on the context menu that pops up.
+</details>
 
-## 3.2 Shared With Me
+###     2. Shared File Storage:
+> 'SharedWithMe' is the page that allows users to view/download files that are shared with the groups they are in.
 
-Shared with me is the page that allows users to view/download files that are shared with the groups they are in.
-
-### 3.2.1 Downloading Files
-
+<details><summary><b>Downloading Files</b></summary>
 Group files can be downloaded by clicking on the row a file is on.
-
-### 3.2.2 Deleting Files
-
+</details>
+    
+<details><summary><b>Deleting Files</b></summary>
 Only group admins can delete group files.
-
 Group files can be deleted by right clicking on the files row and clicking `delete` on the context menu that pops up.
+</details>
 
+###     3. File Upload
 
-## 3.3 File Upload
-
-### 3.3.1 Personal File Upload
+<details><summary><b>Personal File Upload</b></summary>
 
 Personal Files are uploaded through the `Upload New File` button.
-
 On the file upload screen:
-1. Select the file to upload
-2. click the `submit` button
+    
+    1. Select the file to upload
+    2. click the `submit` button
 
-### 3.3.2 Group File Upload
+ </details>
+ 
+<details><summary><b>Group File Upload</b></summary>
 
 Group Files are uploaded through the `Upload New File` button.
-
 The important distinction between personal files and shared files is selecting the group to share with. 
 
 On the file upload screen:
-1. Select the file to upload
-2. Select a group to share the file with from the drop down
-3. click the `submit` button
+    1. Select the file to upload
+    2. Select a group to share the file with from the drop down
+    3. click the `submit` button
+    
+</details>
 
-## 3.4 Groups
+###     4. Groups
 
-Users can create groups and invite other users to groups they are admins in.
-
-### 3.4.1 Creating a Group
+<details><summary><b>Creating a Group</b></summary>
 
 Creating a group is done through the `Create Group` button on the left sidebar.
 
 On the Create Group screen:
-1. input the group name
-2. add any users you want to invite
-3. click `create group`
+    1. input the group name
+    2. add any users you want to invite
+    3. click `create group`
+ </details>
 
-### 3.4.2 Inviting Users
+<details><summary><b>Inviting Users</b></summary>
 
 Inviting users is done through the `Invite User` button on the left sidebar.
-
 Only group admins can invite users to groups.
 
 On the Invite User Screen
-1. Select the group to invite a user to
-2. enter the users email
-3. click `invite user`
+    1. Select the group to invite a user to
+    2. enter the users email
+    3. click `invite user`
+ </details>
 
-### 3.4.3 Viewing Group Info
+<details><summary><b>Viewing Group Info</b></summary>
 
 Group info can be viewed through the `View Groups` button on the left sidebar.
+</details>
 
 ---
 # 4. Frequently Asked Questions
