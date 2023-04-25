@@ -18,10 +18,11 @@ groups/clusters based on individual user permissions.
 Project Submission Structure
 ============================
 
-### Client-Side
+<details><summary><b>Client-Side</b></summary>
+
     .
-    ├── public                # public 
-    ├── src                   # Source files
+    ├── public                
+    ├── src                   
     │   ├── assets
     │   │      └── # image/asset files
     │   ├── components
@@ -40,20 +41,32 @@ Project Submission Structure
     │   │   ├── MuiStyle.js
     │   │   └── Sidebar.js 
     │   ├── firebase
+    │   │   └── firebase.js
     │   ├── pages
+    │   │   ├── MyDrive.js
+    │   │   └── ShareWithMe.js
     │   ├── requests
+    │   │   └── client.js
     │   ├── styles
+    │   │   └── # JavaScript styled-components files
     │   ├── util
+    │   │   ├── files
+    │   │   │   ├── fileUpload.js
+    │   │   │   └── files.js
+    │   │   ├── groups
+    │   │   │   └── groups.js
+    │   │   └── user
+    │   │       └── login.js
     │   ├── App.js 
     │   ├── GlobalStyles.js
     │   ├── index.css
     │   └── index.js   
-    ├── package-lock.json     # package-lock              
-    ├── package.json          # package         
+    ├── package-lock.json                  
+    └── package.json                
 
-
-
-
+</details>
+<details><summary><b>Server-Side</b></summary>
+</details>
 
 
 
