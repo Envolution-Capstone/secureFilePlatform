@@ -226,7 +226,23 @@ Group info can be viewed through the `View Groups` button on the left sidebar.
 
 
 # Database
-This project utilizes a cloud-hosted NoSQL database through Google's Firebase.
+> NOTE: For the security of our web application, we would NEVER expose our Firebase configuration nor include the .env file in a real-world application. However, since this project is purely for demonstration purposes and is privated, we have included the .env file for the Firebase database configuration already for ease of use. 
+
+This project utilizes a cloud-hosted NoSQL database through Google's Firebase, therefore, it is not neccessary to setup the database through SQL commands. This project is currently set up using our group's own Firebase project configuration, therefore, the database connection is established by utilizing our Firebase configuration object containing keys and identifiers for our app:
+
+```
+  apiKey: "AIzaSyA7ROErICF1bCa4earw2UoglBq_POrwBrA",
+  authDomain: "file-storage-e6537.firebaseapp.com",
+  projectId: "file-storage-e6537",
+  storageBucket: "file-storage-e6537.appspot.com",
+  messagingSenderId: "68930784514",
+  appId: "1:68930784514:web:65d2623bfbc3da3f27c61b"
+```
+The Firebase configuration is to be utilized within a .env file in the /server/ directory.
+
+If you want to set up and utilize your own Firebase database, follow the official [Firebase documentation](https://firebase.google.com/docs/web/setup) for adding Firebase to a web application. 
+
+Once your Firebase project is created and the application is registered, navigate to your project settings through your Firebase console on your web browser, scroll down to SDK setup and configuration, select 'Config' and copy and paste your Firebase configuration into a .env file on the /sever/ directory.
 
 # Troubleshooting
 
