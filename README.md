@@ -1,10 +1,13 @@
-# Envolution Secure File Sharing
+<p align="center">
+<img src="client/src/assets/12dww.png">
+</p>
 
-1. Setup
-2. Running the Software
-3. Features
-4. Frequently Asked Questions
-5. Troubleshooting
+# Authors
+
+- [Rolland Goodenough](https://github.com/GoodenoughR) - Computer Science
+- [Donald Tran](https://github.com/DonaldTran11)       - Cyber Security
+- [Tyler Huckeba](https://github.com/tuscontyler)      - Software Design & Development
+- [Spencer Wirth](https://github.com/snw30)            - Cyber Security
 
 # 1. Setup
 
