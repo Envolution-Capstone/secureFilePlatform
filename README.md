@@ -9,6 +9,48 @@
 - [Tyler Huckeba](https://github.com/tuscontyler)      - Software Design & Development
 - [Spencer Wirth](https://github.com/snw30)            - Cyber Security
 
+# Project Description
+For teams, organizations, and businesses alike, Envolution’s Secure Document Sharer is a
+practical and secure solution for sharing documents between multiple users. The purpose of this product is to provide a way to share files with a group in a secure manner. The product allows
+users to upload and share files into a secure environment, with the ability to see files in
+groups/clusters based on individual user permissions.
+
+Project Submission Structure
+============================
+
+### Client-Side
+    .
+    ├── public                # public 
+    ├── src                   # Source files
+    │   ├── assets
+    │   ├── components         
+    │   ├── firebase
+    │   ├── pages
+    │   ├── requests
+    │   ├── styles
+    │   ├── util
+    │   ├── App.js 
+    │   ├── GlobalStyles.js
+    │   ├── index.css
+    │   └── index.js   
+    ├── package-lock.json     # package-lock              
+    ├── package.json          # package         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 1. Setup
 
 ## 1.1 Requirements
