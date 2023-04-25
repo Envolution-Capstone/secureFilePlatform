@@ -9,7 +9,7 @@
 - [Tyler Huckeba](https://github.com/tuscontyler)      - Software Design & Development
 - [Spencer Wirth](https://github.com/snw30)            - Cyber Security
 
-[test](https://github.com/Envolution-Capstone/secureFilePlatform/edit/main/README.md#project-setup)
+[test](https://github.com/Envolution-Capstone/secureFilePlatform#running)
 
 # Project Description
 For teams, organizations, and businesses alike, Envolution’s Secure Document Sharer is a
