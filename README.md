@@ -92,40 +92,40 @@ Project Structure Overview
     .
     ├── src   
     │   ├── configuration
-    │   │   └── setup.js
+    │   │   └── setup.js                  # Initializes instances of different services for user, file, group, encryption, and key
     │   ├── firebase 
-    │   │   └── firebase.js
+    │   │   └── firebase.js               # Firebase configuration
     │   ├── logging 
-    │   │   └── firebase.js
+    │   │   └── logging.js                # Styling for debugging and logging errors
     │   ├── middleware/authentication 
-    │   │   └── checkAuth.js
+    │   │   └── checkAuth.js              # Checks for valid auth token in request header and verifies it using Firebase Auth Admin SDK
     │   ├── repos 
     │   │   ├── file
-    │   │   │   └── file.repo.js
+    │   │   │   └── file.repo.js          # Methods for interacting with Firebase database and performs CRUD operations for files
     │   │   ├── group
-    │   │   │   └── group.repo.js
+    │   │   │   └── group.repo.js         # Methods for handling CRUD operations for groups, members, and group files
     │   │   └── user
-    │   │       └── user.repo.js
+    │   │       └── user.repo.js          # CRUD operations specifically for users, such as deletion of user information and group invitations
     │   ├── routes
-    │   │   ├── file.routes.js
-    │   │   ├── group.routes.js
-    │   │   └── user.routes.js
+    │   │   ├── file.routes.js            # Creates file routes along with other helper functions and middleware for handling file operations
+    │   │   ├── group.routes.js           # Creates routes for group CRUD operations
+    │   │   └── user.routes.js            # Creates routes for user related requests, which utilizes middleware and authentication
     │   ├── services 
     │   │   ├── encryption
-    │   │   │   └── encryption.service.js
+    │   │   │   └── encryption.service.js    # Encryption and decryption using the AES-256 algorithm with initialization vector and key service for encryption keys
     │   │   ├── file
-    │   │   │   └── file.service.js
+    │   │   │   └── file.service.js          # Methods for getting, creating, and deleting files
     │   │   ├── group
-    │   │   │   └── group.service.js
+    │   │   │   └── group.service.js         # Methods for creating, updating, and deleting groups, group files, and group members
     │   │   ├── key
-    │   │   │   └── key.service.js
+    │   │   │   └── key.service.js           # Methods for create, delete, and access secrets using Google Cloud Secret Manager API
     │   │   └── user
-    │   │       └── user.service.js
+    │   │       └── user.service.js          # Handles user-related operations
     │   ├── util 
-    │   │   ├── file_upload.js
-    │   │   └── responses.js
+    │   │   ├── file_upload.js               # Handles file upload
+    │   │   └── responses.js                 # Handles error responses
     │   └── app.js
-    ├── .env
+    ├── .env                                 # contains Firebase configuration and port number
     ├── README.md
     ├── package-lock.json
     ├── package.json
