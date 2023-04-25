@@ -9,6 +9,8 @@
 - [Tyler Huckeba](https://github.com/tuscontyler)      - Software Design & Development
 - [Spencer Wirth](https://github.com/snw30)            - Cyber Security
 
+[test](https://github.com/Envolution-Capstone/secureFilePlatform/edit/main/README.md#project-setup)
+
 # Project Description
 For teams, organizations, and businesses alike, Envolution’s Secure Document Sharer is a
 practical and secure solution for sharing documents between multiple users. The purpose of this product is to provide a way to share files with a group in a secure manner. The product allows
@@ -149,32 +151,30 @@ If you do not have `Make` installed:
 # Product Features
 > Product features are split into separate sections with their respective functionalities
 
-###     1. Personal File Storage:
-> 'MyDrive' is the page that allows users to view,download, and delete their personal files.
+### Personal File Storage:
 
-<details><summary><b>Downloading Files</b></summary>
+<details><summary>Downloading Files</summary>
 Personal files can be downloaded by clicking on the row a file is on.
 </details>
 
-<details><summary><b>Deleting Files</b></summary>
+<details><summary>Deleting Files</summary>
 Personal files can be deleted by right clicking on the files row and clicking `delete` on the context menu that pops up.
 </details>
 
-###     2. Shared File Storage:
-> 'SharedWithMe' is the page that allows users to view/download files that are shared with the groups they are in.
+### Shared File Storage:
 
-<details><summary><b>Downloading Files</b></summary>
+<details><summary>Downloading Files</summary>
 Group files can be downloaded by clicking on the row a file is on.
 </details>
     
-<details><summary><b>Deleting Files</b></summary>
+<details><summary>Deleting Files</summary>
 Only group admins can delete group files.
 Group files can be deleted by right clicking on the files row and clicking `delete` on the context menu that pops up.
 </details>
 
-###     3. File Upload
+### File Upload
 
-<details><summary><b>Personal File Upload</b></summary>
+<details><summary>Personal File Upload</summary>
 
 Personal Files are uploaded through the `Upload New File` button.
 On the file upload screen:
@@ -184,7 +184,7 @@ On the file upload screen:
 
  </details>
  
-<details><summary><b>Group File Upload</b></summary>
+<details><summary>Group File Upload</summary>
 
 Group Files are uploaded through the `Upload New File` button.
 The important distinction between personal files and shared files is selecting the group to share with. 
@@ -196,9 +196,9 @@ On the file upload screen:
     
 </details>
 
-###     4. Groups
+### Groups
 
-<details><summary><b>Creating a Group</b></summary>
+<details><summary>Creating a Group</summary>
 
 Creating a group is done through the `Create Group` button on the left sidebar.
 
@@ -208,7 +208,7 @@ On the Create Group screen:
     3. click `create group`
  </details>
 
-<details><summary><b>Inviting Users</b></summary>
+<details><summary>Inviting Users</summary>
 
 Inviting users is done through the `Invite User` button on the left sidebar.
 Only group admins can invite users to groups.
@@ -219,17 +219,17 @@ On the Invite User Screen
     3. click `invite user`
  </details>
 
-<details><summary><b>Viewing Group Info</b></summary>
+<details><summary>Viewing Group Info</summary>
 
 Group info can be viewed through the `View Groups` button on the left sidebar.
 </details>
 
----
-# 4. Frequently Asked Questions
+
+# Frequently Asked Questions
 
 
 
----
+
 # 5. Troubleshooting
 
 ## 5.1 Common Issues
