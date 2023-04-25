@@ -23,7 +23,22 @@ Project Submission Structure
     ├── public                # public 
     ├── src                   # Source files
     │   ├── assets
-    │   ├── components         
+    │   │      └── # image/asset files
+    │   ├── components
+    │   │   ├── Documents
+    │   │   │   ├── DocumentTable.js
+    │   │   │   └── DocumentUploadModal.js
+    │   │   ├── Groups
+    │   │   │   ├── GroupInfo.js
+    │   │   │   ├── GroupInvites
+    │   │   │   ├── GroupModal.js
+    │   │   │   ├── GroupSelector.js
+    │   │   │   ├── GroupsListModal.js
+    │   │   │   └── InviteUserModal.js
+    │   │   ├── AlertsButton.js
+    │   │   ├── Header.js
+    │   │   ├── MuiStyle.js
+    │   │   └── Sidebar.js 
     │   ├── firebase
     │   ├── pages
     │   ├── requests
