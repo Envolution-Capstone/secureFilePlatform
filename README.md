@@ -1,5 +1,5 @@
 <p align="center">
-<img src="client/src/assets/12dww.png">
+<img src="client/src/assets/12dww_1_70.png">
 </p>
 
 Table of contents
