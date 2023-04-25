@@ -19,6 +19,10 @@ If you have `Make` installed, setup is easy.
 
 1. run the command `make setup` in the base directory
 
+<details><summary><b>test</b></summary>
+  hi
+</details>
+
 ## 1.1.2 Without `Make`:
 
 If you do not have `Make` installed:
