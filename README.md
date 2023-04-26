@@ -141,6 +141,7 @@ This software requires the following programs:
 
     1. NodeJS
     2. npm (comes with `NodeJS`)
+    3. gcloud CLI
 
 ### With Make:
 
