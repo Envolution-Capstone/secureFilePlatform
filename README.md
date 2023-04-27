@@ -12,6 +12,7 @@ Table of contents
     * [Requirements](https://github.com/Envolution-Capstone/secureFilePlatform#requirements)
     * [With Make](https://github.com/Envolution-Capstone/secureFilePlatform#with-make)
     * [Without Make](https://github.com/Envolution-Capstone/secureFilePlatform#without-make)
+    * [Install gcloud CLI](https://github.com/Envolution-Capstone/secureFilePlatform#install-gcloud-cli)
 * [Running](https://github.com/Envolution-Capstone/secureFilePlatform#running)
     * [With Make](https://github.com/Envolution-Capstone/secureFilePlatform#with-make-1)
     * [Without Make](https://github.com/Envolution-Capstone/secureFilePlatform#without-make-1)
