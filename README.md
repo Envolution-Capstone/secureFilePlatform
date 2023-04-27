@@ -135,6 +135,10 @@ Project Structure Overview
 
 # Project Setup
 
+Clone the repository into your IDE. The recommended IDE to use is Visual Studio Code, as the software was developed with Visual Studio Code and this entire installation tutorial will be based off of Visual Studio Code.
+
+Before Running the application there are several set-up steps that must be followed, starting with ensuring that all project dependencies and requirements are present and working. 
+
 ### Requirements
 
 This software requires the following programs:
@@ -142,6 +146,11 @@ This software requires the following programs:
     1. NodeJS
     2. npm (comes with `NodeJS`)
     3. gcloud CLI
+
+To install NodeJS, the most convenient way is to install via a package manager at the following link. Simply follow the instructions on the package manager and you will have NodeJS installed, along with npm:
+[Download Node.js (nodejs.dev)](https://nodejs.dev/en/download/)
+
+Now with NodeJS installed, you can install the project dependencies.
 
 ### With Make:
 
@@ -156,8 +165,17 @@ If you do not have `Make` installed:
     1. enter the `server/` directory and run `npm install -y --force --silent`
     2. enter the `client/` directory and run `npm install -y --force --silent`
 
+### Install gcloud CLI:
+
+To install gcloud CLI, all you have to do is to install the Google Cloud CLI, and then initialize the glcoud CLI. The instructions to install gcloud CLI can be found through the gcloud CLI documentation link:
+https://cloud.google.com/sdk/docs/install#deb
+
+Select the correct operating system you utilize and follow the installation instructions. Once you have installed gcloud CLI, the last thing you need to do is initialize gcloud CLI by running the following command through your terminal or command prompt:
+
+   gcloud init
 
 # Running
+Once you have finished installing all necessary requirements as well as setting up the database (it is already preset for you), you can run the program through two methods:
 
 ### With Make:
 
@@ -173,78 +191,99 @@ If you do not have `Make` installed:
 > Product features are split into separate sections with their respective functionalities
 
 ### Personal File Storage:
-
-<details><summary>Downloading Files</summary>
-Personal files can be downloaded by clicking on the row a file is on.
-</details>
-
-<details><summary>Deleting Files</summary>
-Personal files can be deleted by right clicking on the files row and clicking `delete` on the context menu that pops up.
-</details>
-
-### Shared File Storage:
-
-<details><summary>Downloading Files</summary>
-Group files can be downloaded by clicking on the row a file is on.
-</details>
-    
-<details><summary>Deleting Files</summary>
-Only group admins can delete group files.
-Group files can be deleted by right clicking on the files row and clicking `delete` on the context menu that pops up.
-</details>
-
-### File Upload
+Users can upload files from their local machine to their personal file storage on the web-application. Furthermore, the user may download the file uploaded as well as delete the file from their drives.
 
 <details><summary>Personal File Upload</summary>
 
-Personal Files are uploaded through the `Upload New File` button.
-On the file upload screen:
-    
-    1. Select the file to upload
-    2. click the `submit` button
+```
+   1.	The user navigates to the “My Drive” view of the web application through the navigation button on the web-application       sidebar.
+   2.	The user clicks on the “Upload New File” button from the web-application sidebar.
+   3.	The user clicks “Choose File” to choose a file from their local machine.
+   4.	The user clicks “Submit” to upload to file to their personal drive.
+```
+</details>
+<details><summary>Personal File Download</summary>
 
- </details>
- 
-<details><summary>Group File Upload</summary>
+```
+   1.	To download files from their personal drive, the user clicks on the respective file in their My Drive document table       view.
+```
+</details>
+<details><summary>Personal File Deletion</summary>
+   
+```
+   1.	To delete files from their personal drive, the user right clicks on the file to bring up the “Delete” menu option and       then click “Delete” to delete the file.
+```
+</details>
 
-Group Files are uploaded through the `Upload New File` button.
-The important distinction between personal files and shared files is selecting the group to share with. 
+### Shared File Storage:
+Users can upload files from their local machine to their shared file storage on the web-application. Furthermore, the user may download the file uploaded. 
 
-On the file upload screen:
-    1. Select the file to upload
-    2. Select a group to share the file with from the drop down
-    3. click the `submit` button
-    
+<details><summary>Shared File Upload</summary>
+   
+```  
+   1.	The user navigates to the “Shared With Me” view of the web application through the navigation button on the web-           application sidebar.
+   2.	The user clicks on the “Upload New File” button from the web-application sidebar.
+   3.	The user clicks “Choose File” to choose a file from their local machine.
+   4.	The user selects a group to share to the file to from the “Select A Group To Share With” drop down menu.
+   5.	The user clicks “Submit” to upload to file to the selected group drive.
+```
+</details>
+<details><summary>Shared File Download</summary>
+   
+```
+   1.	To download files from their group drive, the user clicks on the respective file in their Shared With Me document           table view.
+```
 </details>
 
 ### Groups
+By clicking on the “Create Group” button, users are able to create groups. When groups are created, other users can be invited to the group and the user who created the group becomes the group admin and can administer the group. Users can also view all of the groups they belong to.
 
 <details><summary>Creating a Group</summary>
 
-Creating a group is done through the `Create Group` button on the left sidebar.
-
-On the Create Group screen:
-    1. input the group name
-    2. add any users you want to invite
-    3. click `create group`
+```
+   1.	The User clicks on the "Create Group" button.
+   2.	The User enters in the name of the group.
+   3.	The User may enter in the email addresses of users they would like to initially invite to the group when it is             created.
+   4.	The User clicks “Create Group” button to create the group.
+```
  </details>
-
 <details><summary>Inviting Users</summary>
 
 Inviting users is done through the `Invite User` button on the left sidebar.
 Only group admins can invite users to groups.
 
-On the Invite User Screen
+On the Invite User Screen:
+   
     1. Select the group to invite a user to
     2. enter the users email
     3. click `invite user`
  </details>
+ <details><summary>Group and Group Member Viewing</summary>
 
-<details><summary>Viewing Group Info</summary>
-
-Group info can be viewed through the `View Groups` button on the left sidebar.
+```
+   1.	The User clicks on the “View Group” button.
+   2.	The User clicks on the “eye” icon next to the respective group they would like to view the group members of.
+```
 </details>
 
+### Admin Priviledges
+Admins of groups has extra privileges within their respective groups. Group admins have the ability to kick other members from the group as well as delete files from the group drive.
+
+<details><summary>Shared File Deletion</summary>
+
+```
+   1.	To delete files from their shared group drive, the user must be the admin to group in which the file was shared to.         If so, the user right clicks on the file to bring up the “Delete” menu option and then click “Delete” to delete the         file.
+```
+ </details>
+ 
+<details><summary>Kick Member</summary>
+
+```
+   1.	The admin clicks on the ‘View Groups” button on the sidebar to view all of the groups they belong to.
+   2.	The admin chooses the group that they are the admin to by clicking on the “eye” icon next to it.
+   3.	The admin clicks on the “X” button next to the name of the user within the group that they would like to kick.
+```
+</details>
 
 # Database
 > NOTE: For the security of our web application, we would NEVER expose our Firebase configuration nor include the .env file in a real-world application. However, since this project is purely for demonstration purposes and is privated, we have included the .env file for the Firebase database configuration already for ease of use. 
